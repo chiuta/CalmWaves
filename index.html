@@ -1,0 +1,1742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0a0b0f">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="mobile-web-app-capable" content="yes">
+<title>Calm Waves — a personalizable generative ambient composition</title>
+<style>
+:root{
+  --bg:#0a0b0f;
+  --panel:#12141b;
+  --text:#e8e4d8;
+  --text-dim:#8f8d87;
+  --wave1:#5fb3a3;
+  --wave2:#8a7dc4;
+  --border:rgba(232,228,216,0.09);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Cormorant Garamond',Garamond,Georgia,serif;
+  min-height:100vh;
+  min-height:100dvh;
+  display:flex;align-items:center;justify-content:center;
+  align-items:safe center;
+  padding:2rem 1.25rem;
+  padding:max(2rem, env(safe-area-inset-top)) max(1.25rem, env(safe-area-inset-right)) max(2rem, env(safe-area-inset-bottom)) max(1.25rem, env(safe-area-inset-left));
+  position:relative;
+  overflow-x:hidden;
+}
+#viz{position:fixed;inset:0;width:100%;height:100%;z-index:0;}
+@media (prefers-reduced-motion: reduce){ #viz{display:none;} }
+
+.panel{
+  position:relative;z-index:1;
+  width:100%;max-width:480px;
+  background:rgba(18,20,27,0.72);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:2.6rem 2rem 2.1rem;
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  text-align:center;
+  box-shadow:0 30px 80px rgba(0,0,0,0.45);
+}
+.top-row{display:flex;justify-content:flex-end;margin-bottom:0.5rem;}
+#langSelect{
+  background:var(--panel);border:1px solid var(--border);border-radius:8px;
+  color:var(--text-dim);cursor:pointer;font-size:0.72rem;padding:0.4rem 0.5rem;
+  font-family:'JetBrains Mono','Courier New',monospace;letter-spacing:0.03em;
+  min-height:32px;
+}
+#langSelect:hover{border-color:var(--wave1);color:var(--wave1);}
+#langSelect:focus{outline:2px solid var(--wave1);outline-offset:2px;}
+.simple-mode .advanced-only{display:none !important;}
+.mode-switch{
+  display:inline-flex;gap:0.3rem;background:var(--panel);border:1px solid var(--border);
+  border-radius:9px;padding:0.2rem;margin-bottom:1rem;
+}
+.mode-btn{
+  background:none;border:none;color:var(--text-dim);cursor:pointer;
+  font-family:'Cormorant Garamond',Garamond,serif;font-size:0.8rem;
+  padding:0.3rem 0.8rem;border-radius:7px;
+}
+.mode-btn.active{background:linear-gradient(155deg,var(--wave1),var(--wave2));color:#0a0b0f;}
+.presets-row{margin-bottom:1.2rem;text-align:left;}
+.presets-label{font-size:0.78rem;color:var(--text-dim);display:block;margin-bottom:0.5rem;}
+.presets-buttons{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;}
+.preset-btn{
+  background:var(--panel);border:1px solid var(--border);border-radius:8px;
+  color:var(--text);cursor:pointer;font-size:0.8rem;padding:0.5rem 0.4rem;
+  font-family:'Cormorant Garamond',Garamond,serif;
+}
+.preset-btn:hover{border-color:var(--wave1);color:var(--wave1);}
+h1{
+  font-weight:500;
+  font-size:clamp(1.8rem,5vw,2.5rem);
+  letter-spacing:0.045em;
+  margin-bottom:0.35rem;
+}
+.subtitle{
+  font-style:italic;
+  color:var(--text-dim);
+  font-size:0.95rem;
+  margin-bottom:1.5rem;
+  letter-spacing:0.02em;
+}
+.now-playing{
+  font-size:0.78rem;color:var(--text-dim);
+  margin-bottom:1.1rem;letter-spacing:0.02em;min-height:1.1em;
+}
+.now-playing strong{color:var(--text);font-weight:600;}
+.transport{
+  display:flex;align-items:center;justify-content:center;gap:1.1rem;
+  margin-bottom:0.5rem;
+}
+#playBtn{
+  width:64px;height:64px;border-radius:50%;flex-shrink:0;
+  border:1px solid var(--border);
+  background:linear-gradient(155deg,var(--wave1),var(--wave2));
+  color:#0a0b0f;font-size:1.35rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow:0 0 26px rgba(95,179,163,0.28);
+  padding:0;
+}
+#playBtn:hover{transform:scale(1.05);}
+#playBtn:active{transform:scale(0.96);}
+.time-display{
+  font-family:'JetBrains Mono','Courier New',monospace;
+  font-size:0.95rem;color:var(--text-dim);letter-spacing:0.03em;
+}
+#resetBtn{
+  background:none;border:none;color:var(--text-dim);
+  font-family:'Cormorant Garamond',Garamond,serif;font-size:0.82rem;
+  cursor:pointer;text-decoration:underline;text-underline-offset:2px;
+  padding:0.3rem;
+}
+#resetBtn:hover{color:var(--wave1);}
+.kbd-hint{
+  font-size:0.72rem;color:var(--text-dim);opacity:0.65;
+  margin-bottom:1.1rem;letter-spacing:0.02em;
+}
+.progress-track{
+  height:3px;background:var(--border);border-radius:2px;
+  margin-bottom:0.9rem;overflow:hidden;
+}
+.progress-fill{
+  height:100%;width:0%;
+  background:linear-gradient(90deg,var(--wave1),var(--wave2));
+}
+.controls{
+  margin-bottom:1.3rem;font-size:0.9rem;color:var(--text-dim);
+  text-align:left;
+}
+.select-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0.7rem 0.9rem;
+  margin-bottom:1rem;
+}
+.controls .select-grid label{
+  display:flex;flex-direction:column;align-items:flex-start;gap:0.35rem;
+}
+.controls .select-grid label span{font-size:0.78rem;}
+.controls select{
+  width:100%;
+  background:var(--panel);
+  color:var(--text);
+  border:1px solid var(--border);
+  border-radius:8px;
+  padding:0.4rem 0.5rem;
+  font-family:'Cormorant Garamond',Garamond,serif;
+  font-size:0.9rem;
+  cursor:pointer;
+}
+.controls select:focus{outline:2px solid var(--wave1);outline-offset:2px;}
+.controls label{display:flex;align-items:center;gap:0.8rem;}
+.row-between{justify-content:space-between;margin-bottom:0.85rem;}
+.row-start{justify-content:flex-start;margin-bottom:0.85rem;}
+.controls input[type="range"]{flex:1;accent-color:var(--wave1);}
+.controls input[type="checkbox"]{accent-color:var(--wave1);width:16px;height:16px;flex-shrink:0;}
+
+.variant-code-section{margin-bottom:0.7rem;}
+.code-with-buttons{display:flex;gap:0.35rem;flex:1;}
+#variantCodeDisplay{
+  flex:1;min-width:0;
+  background:var(--panel);color:var(--text-dim);
+  border:1px solid var(--border);border-radius:8px;
+  padding:0.35rem 0.5rem;font-family:'JetBrains Mono','Courier New',monospace;
+  font-size:0.7rem;
+}
+.icon-btn{
+  background:var(--panel);border:1px solid var(--border);border-radius:8px;
+  color:var(--text);cursor:pointer;font-size:0.9rem;padding:0.3rem 0.5rem;
+  flex-shrink:0;
+}
+.icon-btn:hover{border-color:var(--wave1);}
+.load-code-row{display:flex;gap:0.4rem;margin-top:0.6rem;}
+#variantCodeInput{
+  flex:1;min-width:0;
+  background:var(--panel);color:var(--text);
+  border:1px solid var(--border);border-radius:8px;
+  padding:0.35rem 0.5rem;font-family:'JetBrains Mono','Courier New',monospace;
+  font-size:0.72rem;
+}
+#loadVariantBtn{
+  background:transparent;border:1px solid var(--border);border-radius:8px;
+  color:var(--text);cursor:pointer;font-size:0.78rem;padding:0.35rem 0.7rem;
+  font-family:'Cormorant Garamond',Garamond,serif;flex-shrink:0;
+}
+#loadVariantBtn:hover{border-color:var(--wave1);color:var(--wave1);}
+#codeStatus{font-size:0.72rem;color:var(--text-dim);min-height:1.1em;margin-top:0.4rem;}
+
+.history-section{margin-bottom:1.2rem;text-align:left;}
+.history-label{font-size:0.78rem;color:var(--text-dim);display:block;margin-bottom:0.4rem;}
+#historyList{list-style:none;display:flex;flex-direction:column;gap:0.3rem;}
+.history-item{
+  background:var(--panel);border:1px solid var(--border);border-radius:6px;
+  color:var(--text-dim);cursor:pointer;font-size:0.68rem;padding:0.3rem 0.5rem;
+  font-family:'JetBrains Mono','Courier New',monospace;text-align:left;width:100%;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.history-item:hover{border-color:var(--wave1);color:var(--text);}
+.history-empty{font-size:0.72rem;color:var(--text-dim);opacity:0.6;font-style:italic;list-style:none;}
+
+.advanced-section{
+  text-align:left;margin-bottom:1.1rem;border:1px solid var(--border);
+  border-radius:10px;padding:0.15rem 0.9rem;
+}
+.advanced-section summary{cursor:pointer;font-size:0.85rem;color:var(--text-dim);padding:0.65rem 0;list-style:none;}
+.advanced-section summary::-webkit-details-marker{display:none;}
+.advanced-section summary::before{content:'+ ';color:var(--wave1);}
+.advanced-section[open] summary::before{content:'– ';}
+.advanced-body{padding-bottom:0.8rem;}
+.advanced-body label{display:flex;align-items:center;gap:0.8rem;justify-content:space-between;margin-bottom:0.7rem;font-size:0.82rem;}
+.advanced-body input[type="range"]{flex:1;max-width:60%;accent-color:var(--wave1);}
+
+#exportBtn{
+  background:transparent;border:1px solid var(--border);
+  color:var(--text);padding:0.6rem 1.3rem;border-radius:10px;
+  font-family:'Cormorant Garamond',Garamond,serif;font-size:0.95rem;cursor:pointer;
+  transition:border-color 0.2s ease, color 0.2s ease;
+  margin-bottom:0.6rem;
+}
+#exportBtn:hover{border-color:var(--wave1);color:var(--wave1);}
+#exportBtn:disabled{opacity:0.5;cursor:default;}
+#exportStatus{
+  font-size:0.8rem;color:var(--text-dim);min-height:1.2em;margin-bottom:1.3rem;
+}
+.note{
+  font-size:0.82rem;line-height:1.55;color:var(--text-dim);
+  font-style:italic;margin-bottom:1.5rem;
+}
+.research-note{
+  text-align:left;
+  margin-bottom:1.1rem;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:0.15rem 0.9rem;
+}
+.research-note summary{
+  cursor:pointer;
+  font-size:0.85rem;
+  color:var(--text-dim);
+  padding:0.65rem 0;
+  list-style:none;
+}
+.research-note summary::-webkit-details-marker{display:none;}
+.research-note summary::before{content:'+ ';color:var(--wave1);}
+.research-note[open] summary::before{content:'– ';}
+.research-note-body p{
+  font-size:0.78rem;line-height:1.55;color:var(--text-dim);
+  margin-bottom:0.75rem;
+}
+.research-note-body p:last-child{margin-bottom:0.7rem;}
+.research-note-body strong{color:var(--text);font-weight:600;}
+.combo-counter{font-size:0.72rem;color:var(--text-dim);opacity:0.65;margin-bottom:0.9rem;}
+footer{
+  font-family:'JetBrains Mono','Courier New',monospace;
+  font-size:0.68rem;color:var(--text-dim);
+  letter-spacing:0.05em;opacity:0.6;
+}
+
+/* Touch-target sizing: targets actual touch/coarse-pointer devices, not just narrow viewports,
+   so a touch laptop or a wide tablet also gets comfortable targets. */
+@media (hover:none) and (pointer:coarse){
+  .icon-btn{min-width:42px;min-height:42px;font-size:1rem;}
+  .preset-btn{min-height:44px;padding:0.6rem 0.5rem;}
+  .mode-btn{padding:0.55rem 0.9rem;}
+  #shuffleBtn,#copyBtn{padding:0.4rem 0.6rem;}
+  .controls input[type="checkbox"]{width:20px;height:20px;}
+  .controls label.row-start,.controls label.row-between{padding:0.2rem 0;}
+  #langSelect{min-height:38px;padding:0.5rem 0.75rem;}
+  #resetBtn{padding:0.5rem;}
+}
+
+/* Narrow phones: single-column controls, tighter frame. */
+@media (max-width: 420px){
+  body{padding:1.2rem 0.75rem;}
+  .panel{padding:2rem 1.25rem 1.5rem;border-radius:14px;}
+  h1{font-size:1.55rem;}
+  .select-grid{grid-template-columns:1fr;}
+  .presets-buttons{grid-template-columns:1fr;}
+  .code-with-buttons{flex-wrap:wrap;}
+  #variantCodeDisplay{font-size:0.66rem;min-width:100%;order:1;}
+  .advanced-body label{flex-wrap:wrap;gap:0.4rem;}
+  .advanced-body input[type="range"]{max-width:100%;flex-basis:100%;}
+}
+
+/* Wide desktop: a touch more breathing room, a 3-column grid for the full control set. */
+@media (min-width: 700px){
+  .panel{max-width:560px;}
+  .select-grid{grid-template-columns:1fr 1fr 1fr;}
+}
+
+/* Short/landscape mobile: prioritize fitting the transport controls without excess scroll. */
+@media (max-height: 500px) and (orientation: landscape){
+  body{padding:1rem 1.25rem;align-items:flex-start;}
+  .panel{padding:1.4rem 1.5rem 1.2rem;}
+  .subtitle,.now-playing,.kbd-hint{margin-bottom:0.6rem;}
+  .presets-row,.controls{margin-bottom:0.8rem;}
+  .top-row{margin-bottom:0.3rem;}
+}
+</style>
+</head>
+<body>
+<canvas id="viz"></canvas>
+<main class="panel">
+  <div class="top-row">
+    <select id="langSelect" data-i18n-aria="langToggleAria" aria-label="Alege limba">
+      <option value="en">English</option>
+      <option value="ro">Română</option>
+      <option value="fr">Français</option>
+      <option value="it">Italiano</option>
+      <option value="es">Español</option>
+      <option value="pt">Português</option>
+      <option value="de">Deutsch</option>
+    </select>
+  </div>
+  <h1 data-i18n="h1Title">Calm Waves</h1>
+  <p class="subtitle" data-i18n="subtitle">o compoziție ambientală generativă · personalizabilă</p>
+  <div class="mode-switch">
+    <button type="button" id="modeSimpleBtn" class="mode-btn active" data-i18n="modeSimple">Simplu</button>
+    <button type="button" id="modeCompletBtn" class="mode-btn" data-i18n="modeComplet">Complet</button>
+  </div>
+  <p class="now-playing" id="nowPlaying"></p>
+
+  <div class="transport">
+    <button id="playBtn" aria-label="Ascultă">▶</button>
+    <div class="time-display"><span id="elapsed">00:00</span> / <span id="totalTime">10:00</span></div>
+  </div>
+  <div style="margin-bottom:0.7rem;"><button id="resetBtn" data-i18n="resetBtnText" hidden>↺ resetează</button></div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <p class="kbd-hint" data-i18n="kbdHint">Spațiu = redare / pauză · ↑ ↓ = volum</p>
+
+  <div class="presets-row">
+    <span class="presets-label" data-i18n="presetsLabel">Presetări rapide</span>
+    <div class="presets-buttons">
+      <button type="button" class="preset-btn" data-preset="0" data-i18n="preset_relaxare">Relaxare clasică</button>
+      <button type="button" class="preset-btn" data-preset="1" data-i18n="preset_somn">Somn adânc</button>
+      <button type="button" class="preset-btn" data-preset="2" data-i18n="preset_focus">Focus rapid</button>
+      <button type="button" class="preset-btn" data-preset="3" data-i18n="preset_meditatie">Meditație serală</button>
+    </div>
+  </div>
+
+  <div class="controls">
+    <div class="select-grid">
+      <label><span data-i18n="labelIntentie">Intenție</span>
+        <select id="purposeSelect">
+          <option value="relaxare" selected data-i18n="opt_purpose_relaxare">Relaxare profundă</option>
+          <option value="somn" data-i18n="opt_purpose_somn">Somn</option>
+          <option value="concentrare" data-i18n="opt_purpose_concentrare">Concentrare calmă</option>
+          <option value="meditatie" data-i18n="opt_purpose_meditatie">Meditație</option>
+        </select>
+      </label>
+      <label class="advanced-only"><span data-i18n="labelPaleta">Paletă tonală</span>
+        <select id="scaleSelect">
+          <option value="calda" selected data-i18n="opt_scale_calda">Caldă</option>
+          <option value="nocturna" data-i18n="opt_scale_nocturna">Nocturnă</option>
+          <option value="eterica" data-i18n="opt_scale_eterica">Eterică</option>
+          <option value="adanca" data-i18n="opt_scale_adanca">Adâncă</option>
+        </select>
+      </label>
+      <label class="advanced-only"><span data-i18n="labelDensitate">Densitate</span>
+        <select id="densitySelect">
+          <option value="minimal" data-i18n="opt_density_minimal">Minimală</option>
+          <option value="echilibrat" selected data-i18n="opt_density_echilibrat">Echilibrată</option>
+          <option value="bogat" data-i18n="opt_density_bogat">Bogată</option>
+        </select>
+      </label>
+      <label><span data-i18n="labelDurata">Durată</span>
+        <select id="durationSelect">
+          <option value="300" data-i18n="opt_duration_300">5 min</option>
+          <option value="600" selected data-i18n="opt_duration_600">10 min</option>
+          <option value="900" data-i18n="opt_duration_900">15 min</option>
+          <option value="1200" data-i18n="opt_duration_1200">20 min</option>
+        </select>
+      </label>
+      <label class="advanced-only"><span data-i18n="labelTextura">Textură de fond</span>
+        <select id="textureSelect">
+          <option value="neutru" selected data-i18n="opt_texture_neutru">Neutră</option>
+          <option value="ploaie" data-i18n="opt_texture_ploaie">Ploaie</option>
+          <option value="ocean" data-i18n="opt_texture_ocean">Ocean</option>
+          <option value="vant" data-i18n="opt_texture_vant">Vânt</option>
+        </select>
+      </label>
+      <label class="advanced-only"><span data-i18n="labelRitm">Ritm generativ</span>
+        <select id="tempoSelect">
+          <option value="lent" data-i18n="opt_tempo_lent">Lent</option>
+          <option value="natural" selected data-i18n="opt_tempo_natural">Natural</option>
+          <option value="activ" data-i18n="opt_tempo_activ">Activ</option>
+        </select>
+      </label>
+    </div>
+    <label class="row-between"><span data-i18n="labelVolum">Volum</span><input type="range" id="volume" min="0" max="100" value="70"></label>
+    <label class="row-start"><input type="checkbox" id="binauralToggle" checked><span data-i18n="labelBinaural">Unde binaurale (necesită căști)</span></label>
+    <label class="row-start advanced-only"><input type="checkbox" id="loopToggle"><span data-i18n="labelLoop">Redare continuă (variante noi, la nesfârșit)</span></label>
+    <label class="row-between advanced-only"><span data-i18n="labelSleep">Oprire automată</span>
+      <select id="sleepTimerSelect">
+        <option value="0" selected data-i18n="opt_sleep_0">Dezactivată</option>
+        <option value="15" data-i18n="opt_sleep_15">15 min</option>
+        <option value="30" data-i18n="opt_sleep_30">30 min</option>
+        <option value="45" data-i18n="opt_sleep_45">45 min</option>
+        <option value="60" data-i18n="opt_sleep_60">60 min</option>
+        <option value="90" data-i18n="opt_sleep_90">90 min</option>
+      </select>
+    </label>
+  </div>
+
+  <div class="variant-code-section advanced-only">
+    <label class="row-between"><span data-i18n="labelVariantCode">Cod variantă</span>
+      <span class="code-with-buttons">
+        <input type="text" id="variantCodeDisplay" readonly aria-label="Codul variantei curente">
+        <button type="button" id="copyBtn" class="icon-btn" data-i18n-aria="copyAria" title="Copiază codul" aria-label="Copiază codul">📋</button>
+        <button type="button" id="shuffleBtn" class="icon-btn" data-i18n-aria="shuffleAria" title="Variantă nouă" aria-label="Variantă nouă">🔀</button>
+      </span>
+    </label>
+    <div class="load-code-row">
+      <input type="text" id="variantCodeInput" data-i18n-placeholder="loadPlaceholder" placeholder="lipește un cod aici" aria-label="Încarcă un cod de variantă">
+      <button type="button" id="loadVariantBtn" data-i18n="loadButtonText">Încarcă</button>
+    </div>
+    <div id="codeStatus"></div>
+  </div>
+
+  <div class="history-section advanced-only">
+    <span class="history-label" data-i18n="labelHistory">Variante recente</span>
+    <ul id="historyList"></ul>
+  </div>
+
+  <details class="advanced-section advanced-only">
+    <summary data-i18n="labelEq">Egalizator &amp; lățime</summary>
+    <div class="advanced-body">
+      <label><span data-i18n="labelEqLow">Grav</span><input type="range" id="eqLowSlider" min="-12" max="12" value="0"></label>
+      <label><span data-i18n="labelEqMid">Mediu</span><input type="range" id="eqMidSlider" min="-12" max="12" value="0"></label>
+      <label><span data-i18n="labelEqHigh">Înalt</span><input type="range" id="eqHighSlider" min="-12" max="12" value="0"></label>
+      <label><span data-i18n="labelWidth">Lățime stereo</span><input type="range" id="widthSlider" min="0" max="150" value="100"></label>
+    </div>
+  </details>
+
+  <button id="exportBtn" data-i18n="exportButtonText">Exportă ca WAV</button>
+  <div id="exportStatus"></div>
+
+  <p class="note" id="dynamicNote"></p>
+
+  <details class="research-note advanced-only">
+    <summary data-i18n="howItWorksSummary">Cum funcționează, tehnic</summary>
+    <div class="research-note-body">
+      <p data-i18n="howItWorksBody">Fiecare piesă e generată algoritmic.</p>
+    </div>
+  </details>
+
+  <details class="research-note advanced-only">
+    <summary data-i18n="researchSummary">Ce spune cercetarea, de fapt (verificare adversarială)</summary>
+    <div class="research-note-body">
+      <p data-i18n-html="researchOameni"><strong>Oameni:</strong> …</p>
+      <p data-i18n-html="researchFlora"><strong>Floră:</strong> …</p>
+      <p data-i18n-html="researchFauna"><strong>Faună:</strong> …</p>
+      <p data-i18n-html="researchInsecte"><strong>Insecte / dăunători:</strong> …</p>
+    </div>
+  </details>
+
+  <p class="combo-counter advanced-only" data-i18n="comboCounter">peste 2.304 combinații posibile din meniuri, plus variații infinite de sămânță</p>
+
+  <footer data-i18n="footerText">CC0 · fără drepturi de autor · 100% offline · fără telemetrie</footer>
+</main>
+
+<script>
+(function(){
+'use strict';
+
+var SCALES = {
+  calda:    {root:146.8324, steps:[0,2,4,7,9]},
+  nocturna: {root:110.0000, steps:[0,3,5,7,10]},
+  eterica:  {root:164.8138, steps:[0,2,3,7,9]},
+  adanca:   {root:97.9989,  steps:[0,2,5,7,10]}
+};
+
+var PURPOSES = {
+  relaxare:    {carrier:128, beatStart:10,   beatMid:5.5, beatEnd:7,   padBrightness:1.00, bellGain:1.00, bellGapMult:1.00, padGainMult:1.00},
+  somn:        {carrier:105, beatStart:8,    beatMid:4,   beatEnd:3.2, padBrightness:0.65, bellGain:0.65, bellGapMult:1.50, padGainMult:1.05},
+  concentrare: {carrier:145, beatStart:11.5, beatMid:9.5, beatEnd:10,  padBrightness:1.20, bellGain:1.15, bellGapMult:0.80, padGainMult:0.95},
+  meditatie:   {carrier:120, beatStart:9,    beatMid:4.5, beatEnd:6,   padBrightness:0.90, bellGain:0.90, bellGapMult:1.10, padGainMult:1.00}
+};
+
+var PAD_LAYER_DEFS = [
+  {minDur:50,maxDur:80,octMin:-1,octMax:-1,gainScale:1.15,overlap:0.6},
+  {minDur:35,maxDur:60,octMin:-1,octMax:0, gainScale:1.00,overlap:0.5},
+  {minDur:22,maxDur:40,octMin:0, octMax:1, gainScale:0.75,overlap:0.55},
+  {minDur:14,maxDur:26,octMin:1, octMax:2, gainScale:0.50,overlap:0.5}
+];
+
+var DENSITIES = {
+  minimal:    {layerCount:2, bellGapMult:1.50, gainMult:0.85},
+  echilibrat: {layerCount:3, bellGapMult:1.00, gainMult:1.00},
+  bogat:      {layerCount:4, bellGapMult:0.65, gainMult:1.15}
+};
+
+var TEXTURES = {
+  neutru: {color:'brown', filterType:'bandpass', freq:400, Q:0.5, ampLFORate:0,    ampLFODepth:0,    freqLFORate:0.030, freqLFODepth:250, droplets:false},
+  ploaie: {color:'white', filterType:'highpass', freq:1600,Q:0.3, ampLFORate:0.09, ampLFODepth:0.18, freqLFORate:0.020, freqLFODepth:250, droplets:true},
+  ocean:  {color:'brown', filterType:'lowpass',  freq:650, Q:0.4, ampLFORate:0.07, ampLFODepth:0.55, freqLFORate:0.012, freqLFODepth:150, droplets:false},
+  vant:   {color:'brown', filterType:'bandpass', freq:280, Q:1.3, ampLFORate:0.045,ampLFODepth:0.30, freqLFORate:0.020, freqLFODepth:380, droplets:false}
+};
+
+var TEMPOS = {
+  lent:    {durMult:1.35, gapMult:1.30},
+  natural: {durMult:1.00, gapMult:1.00},
+  activ:   {durMult:0.68, gapMult:0.62}
+};
+
+var STRINGS = {
+  ro: {
+    pageTitle:"Unde liniștite — compoziție ambientală generativă personalizabilă",
+    h1Title:"Unde liniștite", subtitle:"o compoziție ambientală generativă · personalizabilă",
+    ariaAsculta:"Ascultă", ariaPauza:"Pauză", ariaReda:"Redă",
+    resetBtnText:"↺ resetează", kbdHint:"Spațiu = redare / pauză · ↑ ↓ = volum",
+    labelIntentie:"Intenție", labelPaleta:"Paletă tonală", labelDensitate:"Densitate",
+    labelDurata:"Durată", labelTextura:"Textură de fond", labelRitm:"Ritm generativ",
+    modeSimple:"Simplu", modeComplet:"Complet",
+    presetsLabel:"Presetări rapide", preset_relaxare:"Relaxare clasică", preset_somn:"Somn adânc",
+    preset_focus:"Focus rapid", preset_meditatie:"Meditație serală", sessionDone:"Sesiune încheiată:",
+    opt_purpose_relaxare:"Relaxare profundă", opt_purpose_somn:"Somn",
+    opt_purpose_concentrare:"Concentrare calmă", opt_purpose_meditatie:"Meditație",
+    opt_scale_calda:"Caldă", opt_scale_nocturna:"Nocturnă", opt_scale_eterica:"Eterică", opt_scale_adanca:"Adâncă",
+    opt_density_minimal:"Minimală", opt_density_echilibrat:"Echilibrată", opt_density_bogat:"Bogată",
+    opt_duration_300:"5 min", opt_duration_600:"10 min", opt_duration_900:"15 min", opt_duration_1200:"20 min",
+    opt_texture_neutru:"Neutră", opt_texture_ploaie:"Ploaie", opt_texture_ocean:"Ocean", opt_texture_vant:"Vânt",
+    opt_tempo_lent:"Lent", opt_tempo_natural:"Natural", opt_tempo_activ:"Activ",
+    labelVolum:"Volum", labelBinaural:"Unde binaurale (necesită căști)",
+    labelLoop:"Redare continuă (variante noi, la nesfârșit)", labelSleep:"Oprire automată",
+    opt_sleep_0:"Dezactivată", opt_sleep_15:"15 min", opt_sleep_30:"30 min",
+    opt_sleep_45:"45 min", opt_sleep_60:"60 min", opt_sleep_90:"90 min",
+    labelEq:"Egalizator &amp; lățime", labelEqLow:"Grav", labelEqMid:"Mediu", labelEqHigh:"Înalt", labelWidth:"Lățime stereo",
+    labelVariantCode:"Cod variantă", shuffleAria:"Variantă nouă", copyAria:"Copiază codul",
+    copyStatusCopied:"Copiat.", copyStatusFallback:"Selectează manual și copiază (Ctrl/Cmd+C).",
+    loadPlaceholder:"lipește un cod aici", loadButtonText:"Încarcă",
+    loadStatusValid:"Variantă încărcată.", loadStatusInvalid:"Cod invalid.",
+    nowPlayingIdle:"— (apasă Ascultă)", labelHistory:"Variante recente", historyEmpty:"nicio variantă redată încă",
+    labelNowPlaying:"Acum cântă",
+    exportButtonText:"Exportă ca WAV",
+    exportStatusRendering:"Se randează piesa… poate dura 10-60 secunde, în funcție de durată.",
+    exportStatusDone:"Fișier WAV gata — descărcare pornită.", exportStatusErrorPrefix:"Eroare la randare: ",
+    noteSuffix:" Efectul complet necesită căști; nu este un tratament medical.",
+    note_relaxare:"Stratul binaural pornește în jurul a 10 Hz și coboară lin spre ~5,5 Hz — frecvențe asociate uzual cu relaxare profundă — revenind ușor spre final.",
+    note_somn:"Stratul binaural pornește în jurul a 8 Hz și coboară spre ~3–4 Hz — frecvențe asociate uzual cu tranziția spre somn — rămânând jos până la capăt, fără revenire.",
+    note_concentrare:"Stratul binaural rămâne în jurul a 9,5–11,5 Hz — frecvențe asociate uzual cu o stare de veghe relaxată și concentrare calmă.",
+    note_meditatie:"Stratul binaural pornește în jurul a 9 Hz și coboară spre ~4,5 Hz — frecvențe asociate uzual cu stări meditative — revenind ușor spre final.",
+    howItWorksSummary:"Cum funcționează, tehnic",
+    howItWorksBody:"Fiecare piesă e generată algoritmic, nu redată dintr-un fișier: un generator pseudo-aleator cu sămânță fixă alege note dintr-o gamă pentatonică (mereu consonantă la suprapunere, indiferent de combinație) și le programează în mai multe straturi cu durate diferite care se suprapun neregulat — tehnica buclelor lui Brian Eno din „Music for Airports\u201d (1978). Reverberația e un impuls sintetizat algoritmic, nu un fișier audio extern. Aceeași sămânță + aceleași setări produc, de fiecare dată, exact aceeași piesă — de-aia funcționează codul de variantă de mai sus.",
+    researchSummary:"Ce spune cercetarea, de fapt (verificare adversarială)",
+    researchOameni:"<strong>Oameni:</strong> meta-analize din 2024–2026 arată reduceri reale ale anxietății peri-operatorii și dentare cu unde binaurale (efect moderat–mare, peste 1000 de pacienți în total). Rezultatul depinde puternic de frecvență, ton purtător și durată — un strat binaural generic nu produce automat același efect ca protocolul exact testat în studii.",
+    researchFlora:"<strong>Floră:</strong> dovezi amestecate și nereplicate la scară. Câteva studii punctuale (lintiță, mung, viță-de-vie) raportează creștere mai bună; consensul majoritar din horticultură spune că plantele nu au sistem nervos sau urechi, iar variabilele (lumină, apă, sol) rareori sunt controlate riguros. Nu confirm acest beneficiu — rămâne o întrebare deschisă, nu un fapt.",
+    researchFauna:"<strong>Faună:</strong> dovezi solide pentru câini în adăposturi și clinici — muzica lentă/clasică reduce cortizolul și lătratul (Kogan 2012, Wells 2002 ș.a.); ceva mai puține pentru pisici, porci, vaci. Dar efectele documentate apar cu muzică adaptată speciei, în context de stres captiv — nu garantez transfer 1:1 la o piesă gândită pentru auzul uman.",
+    researchInsecte:"<strong>Insecte / dăunători:</strong> nu alungă nimic, și nu am adăugat nicio pretenție în acest sens. Difuzoarele ultrasonice „anti-dăunători\u201d sunt exact categoria de dispozitiv pe care FTC a avertizat-o public din 2001 (scrisori către peste 60 de producători, procese ulterioare) și pe care studiile independente (o revizie din 2007 în Journal of Economic Entomology; un studiu din 2021 pe căpușe, sub 19,5% eficacitate) le-au găsit ineficiente. În plus, frecvențele înalte pot deranja câinii și pisicile din casă, care aud mult peste pragul uman — deci ar merge exact împotriva obiectivului de „benefic pentru faună\u201d.",
+    comboCounter:"peste 2.304 combinații posibile din meniuri, plus variații infinite de sămânță",
+    footerText:"CC0 · fără drepturi de autor · 100% offline · fără telemetrie",
+    langToggleAria:"Schimbă limba"
+  },
+  en: {
+    pageTitle:"Calm Waves — a personalizable generative ambient composition",
+    h1Title:"Calm Waves", subtitle:"a generative ambient composition · personalizable",
+    ariaAsculta:"Play", ariaPauza:"Pause", ariaReda:"Resume",
+    resetBtnText:"↺ reset", kbdHint:"Space = play / pause · ↑ ↓ = volume",
+    labelIntentie:"Intent", labelPaleta:"Tonal palette", labelDensitate:"Density",
+    labelDurata:"Duration", labelTextura:"Background texture", labelRitm:"Generative pace",
+    modeSimple:"Simple", modeComplet:"Full",
+    presetsLabel:"Quick presets", preset_relaxare:"Classic relaxation", preset_somn:"Deep sleep",
+    preset_focus:"Quick focus", preset_meditatie:"Evening meditation", sessionDone:"Session complete:",
+    opt_purpose_relaxare:"Deep relaxation", opt_purpose_somn:"Sleep",
+    opt_purpose_concentrare:"Calm focus", opt_purpose_meditatie:"Meditation",
+    opt_scale_calda:"Warm", opt_scale_nocturna:"Nocturnal", opt_scale_eterica:"Ethereal", opt_scale_adanca:"Deep",
+    opt_density_minimal:"Minimal", opt_density_echilibrat:"Balanced", opt_density_bogat:"Rich",
+    opt_duration_300:"5 min", opt_duration_600:"10 min", opt_duration_900:"15 min", opt_duration_1200:"20 min",
+    opt_texture_neutru:"Neutral", opt_texture_ploaie:"Rain", opt_texture_ocean:"Ocean", opt_texture_vant:"Wind",
+    opt_tempo_lent:"Slow", opt_tempo_natural:"Natural", opt_tempo_activ:"Active",
+    labelVolum:"Volume", labelBinaural:"Binaural tones (needs headphones)",
+    labelLoop:"Continuous playback (new variants, endlessly)", labelSleep:"Auto-stop",
+    opt_sleep_0:"Off", opt_sleep_15:"15 min", opt_sleep_30:"30 min",
+    opt_sleep_45:"45 min", opt_sleep_60:"60 min", opt_sleep_90:"90 min",
+    labelEq:"Equalizer &amp; width", labelEqLow:"Bass", labelEqMid:"Mid", labelEqHigh:"Treble", labelWidth:"Stereo width",
+    labelVariantCode:"Variant code", shuffleAria:"New variant", copyAria:"Copy code",
+    copyStatusCopied:"Copied.", copyStatusFallback:"Select manually and copy (Ctrl/Cmd+C).",
+    loadPlaceholder:"paste a code here", loadButtonText:"Load",
+    loadStatusValid:"Variant loaded.", loadStatusInvalid:"Invalid code.",
+    nowPlayingIdle:"— (press Play)", labelHistory:"Recent variants", historyEmpty:"nothing played yet",
+    labelNowPlaying:"Now playing",
+    exportButtonText:"Export as WAV",
+    exportStatusRendering:"Rendering the piece… may take 10-60 seconds, depending on length.",
+    exportStatusDone:"WAV file ready — download started.", exportStatusErrorPrefix:"Rendering error: ",
+    noteSuffix:" Full effect requires headphones; this is not a medical treatment.",
+    note_relaxare:"The binaural layer starts around 10 Hz and glides down to ~5.5 Hz — frequencies usually associated with deep relaxation — easing back up near the end.",
+    note_somn:"The binaural layer starts around 8 Hz and descends to ~3–4 Hz — frequencies usually associated with the transition into sleep — staying low through to the end, with no return.",
+    note_concentrare:"The binaural layer stays around 9.5–11.5 Hz — frequencies usually associated with relaxed wakefulness and calm focus.",
+    note_meditatie:"The binaural layer starts around 9 Hz and descends to ~4.5 Hz — frequencies usually associated with meditative states — easing back up near the end.",
+    howItWorksSummary:"How it works, technically",
+    howItWorksBody:"Each piece is generated algorithmically, not played back from a file: a pseudo-random generator with a fixed seed picks notes from a pentatonic scale (always consonant when overlapping, regardless of combination) and schedules them across several layers of different lengths that overlap irregularly — Brian Eno's tape-loop technique from 'Music for Airports' (1978). The reverb is an algorithmically synthesized impulse, not an external audio file. The same seed plus the same settings produce, every time, exactly the same piece — that's why the variant code above works.",
+    researchSummary:"What the research actually says (adversarial check)",
+    researchOameni:"<strong>Humans:</strong> 2024–2026 meta-analyses show real reductions in perioperative and dental anxiety from binaural tones (moderate-to-large effect, over 1,000 patients total). The result depends heavily on frequency, carrier tone, and duration — a generic binaural layer does not automatically reproduce the exact protocol tested in studies.",
+    researchFlora:"<strong>Plants:</strong> mixed evidence, not replicated at scale. A few individual studies (duckweed, mung bean, grapevine) report better growth; the horticultural mainstream holds that plants have no nervous system or ears, and the variables (light, water, soil) are rarely controlled rigorously. This benefit is not confirmed here — it remains an open question, not a fact.",
+    researchFauna:"<strong>Animals:</strong> solid evidence for dogs in shelters and clinics — slow/classical music lowers cortisol and barking (Kogan 2012, Wells 2002, etc.); somewhat less for cats, pigs, cows. But the documented effects come from species-tuned music in captive-stress contexts — a 1:1 transfer to a piece designed for human hearing is not guaranteed.",
+    researchInsecte:"<strong>Insects / pests:</strong> repels nothing, and no claim to that effect has been added. 'Anti-pest' ultrasonic speakers are exactly the device category the FTC has publicly warned about since 2001 (letters to 60+ manufacturers, later lawsuits), and which independent studies (a 2007 review in the Journal of Economic Entomology; a 2021 tick study, under 19.5% efficacy) have found ineffective. High frequencies could also disturb the dogs and cats in the house, who hear well above the human threshold — working directly against the goal of being good for animals.",
+    comboCounter:"over 2,304 possible menu combinations, plus infinite seed variations",
+    footerText:"CC0 · public domain · 100% offline · no telemetry",
+    langToggleAria:"Choose language"
+  },
+  fr: {
+    pageTitle:"Ondes Calmes — une composition ambiante générative personnalisable",
+    h1Title:"Ondes Calmes", subtitle:"une composition ambiante générative · personnalisable",
+    ariaAsculta:"Lecture", ariaPauza:"Pause", ariaReda:"Reprendre",
+    resetBtnText:"↺ réinitialiser", kbdHint:"Espace = lecture / pause · ↑ ↓ = volume",
+    labelIntentie:"Intention", labelPaleta:"Palette tonale", labelDensitate:"Densité",
+    labelDurata:"Durée", labelTextura:"Texture de fond", labelRitm:"Rythme génératif",
+    modeSimple:"Simple", modeComplet:"Complet",
+    presetsLabel:"Préréglages rapides", preset_relaxare:"Relaxation classique", preset_somn:"Sommeil profond",
+    preset_focus:"Concentration rapide", preset_meditatie:"Méditation du soir", sessionDone:"Séance terminée :",
+    opt_purpose_relaxare:"Relaxation profonde", opt_purpose_somn:"Sommeil",
+    opt_purpose_concentrare:"Concentration calme", opt_purpose_meditatie:"Méditation",
+    opt_scale_calda:"Chaude", opt_scale_nocturna:"Nocturne", opt_scale_eterica:"Éthérée", opt_scale_adanca:"Profonde",
+    opt_density_minimal:"Minimale", opt_density_echilibrat:"Équilibrée", opt_density_bogat:"Riche",
+    opt_duration_300:"5 min", opt_duration_600:"10 min", opt_duration_900:"15 min", opt_duration_1200:"20 min",
+    opt_texture_neutru:"Neutre", opt_texture_ploaie:"Pluie", opt_texture_ocean:"Océan", opt_texture_vant:"Vent",
+    opt_tempo_lent:"Lent", opt_tempo_natural:"Naturel", opt_tempo_activ:"Actif",
+    labelVolum:"Volume", labelBinaural:"Sons binauraux (casque nécessaire)",
+    labelLoop:"Lecture continue (nouvelles variantes, à l'infini)", labelSleep:"Arrêt automatique",
+    opt_sleep_0:"Désactivé", opt_sleep_15:"15 min", opt_sleep_30:"30 min",
+    opt_sleep_45:"45 min", opt_sleep_60:"60 min", opt_sleep_90:"90 min",
+    labelEq:"Égaliseur &amp; largeur", labelEqLow:"Graves", labelEqMid:"Médiums", labelEqHigh:"Aigus", labelWidth:"Largeur stéréo",
+    labelVariantCode:"Code de variante", shuffleAria:"Nouvelle variante", copyAria:"Copier le code",
+    copyStatusCopied:"Copié.", copyStatusFallback:"Sélectionnez manuellement et copiez (Ctrl/Cmd+C).",
+    loadPlaceholder:"collez un code ici", loadButtonText:"Charger",
+    loadStatusValid:"Variante chargée.", loadStatusInvalid:"Code invalide.",
+    nowPlayingIdle:"— (appuyez sur Lecture)", labelHistory:"Variantes récentes", historyEmpty:"aucune variante jouée pour l'instant",
+    labelNowPlaying:"En cours de lecture",
+    exportButtonText:"Exporter en WAV",
+    exportStatusRendering:"Rendu de la piste en cours… peut prendre 10 à 60 secondes selon la durée.",
+    exportStatusDone:"Fichier WAV prêt — téléchargement lancé.", exportStatusErrorPrefix:"Erreur de rendu : ",
+    noteSuffix:" L'effet complet nécessite un casque ; ceci n'est pas un traitement médical.",
+    note_relaxare:"La couche binaurale démarre autour de 10 Hz et descend doucement vers ~5,5 Hz — des fréquences habituellement associées à une relaxation profonde — avant de remonter légèrement vers la fin.",
+    note_somn:"La couche binaurale démarre autour de 8 Hz et descend vers ~3–4 Hz — des fréquences habituellement associées à la transition vers le sommeil — restant basse jusqu'à la fin, sans remontée.",
+    note_concentrare:"La couche binaurale reste autour de 9,5–11,5 Hz — des fréquences habituellement associées à un état d'éveil détendu et à une concentration calme.",
+    note_meditatie:"La couche binaurale démarre autour de 9 Hz et descend vers ~4,5 Hz — des fréquences habituellement associées aux états méditatifs — avant de remonter légèrement vers la fin.",
+    howItWorksSummary:"Comment ça marche, techniquement",
+    howItWorksBody:"Chaque piste est générée algorithmiquement, non lue depuis un fichier : un générateur pseudo-aléatoire à graine fixe choisit des notes dans une gamme pentatonique (toujours consonante en superposition, quelle que soit la combinaison) et les programme sur plusieurs couches de durées différentes qui se chevauchent irrégulièrement — la technique des boucles à bande de Brian Eno tirée de « Music for Airports » (1978). La réverbération est une impulsion synthétisée algorithmiquement, pas un fichier audio externe. La même graine associée aux mêmes réglages produit, à chaque fois, exactement la même piste — c'est pourquoi le code de variante ci-dessus fonctionne.",
+    researchSummary:"Ce que dit vraiment la recherche (vérification contradictoire)",
+    researchOameni:"<strong>Humains :</strong> des méta-analyses de 2024–2026 montrent de réelles réductions de l'anxiété péri-opératoire et dentaire grâce aux sons binauraux (effet moyen à important, plus de 1000 patients au total). Le résultat dépend fortement de la fréquence, du ton porteur et de la durée — une couche binaurale générique ne reproduit pas automatiquement le protocole exact testé dans les études.",
+    researchFlora:"<strong>Plantes :</strong> preuves mitigées et non reproduites à grande échelle. Quelques études isolées (lentille d'eau, haricot mungo, vigne) rapportent une meilleure croissance ; le consensus majoritaire en horticulture affirme que les plantes n'ont ni système nerveux ni oreilles, et que les variables (lumière, eau, sol) sont rarement contrôlées rigoureusement. Ce bénéfice n'est pas confirmé ici — cela reste une question ouverte, pas un fait.",
+    researchFauna:"<strong>Animaux :</strong> preuves solides pour les chiens en refuge et en clinique — la musique lente/classique réduit le cortisol et les aboiements (Kogan 2012, Wells 2002, etc.) ; un peu moins pour les chats, porcs, vaches. Mais les effets documentés proviennent de musique adaptée à l'espèce, en contexte de stress en captivité — un transfert 1:1 vers une piste conçue pour l'ouïe humaine n'est pas garanti.",
+    researchInsecte:"<strong>Insectes / nuisibles :</strong> ne repousse rien, et aucune prétention en ce sens n'a été ajoutée. Les haut-parleurs ultrasoniques « anti-nuisibles » sont exactement la catégorie d'appareil que la FTC met publiquement en garde depuis 2001 (lettres à plus de 60 fabricants, procès ultérieurs), et que des études indépendantes (une revue de 2007 dans le Journal of Economic Entomology ; une étude de 2021 sur les tiques, sous 19,5 % d'efficacité) ont jugée inefficace. De plus, les hautes fréquences pourraient déranger les chiens et chats de la maison, qui entendent bien au-delà du seuil humain — allant directement à l'encontre de l'objectif d'être bénéfique pour les animaux.",
+    comboCounter:"plus de 2 304 combinaisons de menus possibles, plus des variations de graine infinies",
+    footerText:"CC0 · domaine public · 100 % hors ligne · aucune télémétrie",
+    langToggleAria:"Choisir la langue"
+  },
+  it: {
+    pageTitle:"Onde Calme — una composizione ambient generativa personalizzabile",
+    h1Title:"Onde Calme", subtitle:"una composizione ambient generativa · personalizzabile",
+    ariaAsculta:"Riproduci", ariaPauza:"Pausa", ariaReda:"Riprendi",
+    resetBtnText:"↺ ripristina", kbdHint:"Spazio = riproduci / pausa · ↑ ↓ = volume",
+    labelIntentie:"Intento", labelPaleta:"Palette tonale", labelDensitate:"Densità",
+    labelDurata:"Durata", labelTextura:"Texture di sottofondo", labelRitm:"Ritmo generativo",
+    modeSimple:"Semplice", modeComplet:"Completo",
+    presetsLabel:"Preimpostazioni rapide", preset_relaxare:"Relax classico", preset_somn:"Sonno profondo",
+    preset_focus:"Focus rapido", preset_meditatie:"Meditazione serale", sessionDone:"Sessione conclusa:",
+    opt_purpose_relaxare:"Relax profondo", opt_purpose_somn:"Sonno",
+    opt_purpose_concentrare:"Concentrazione calma", opt_purpose_meditatie:"Meditazione",
+    opt_scale_calda:"Calda", opt_scale_nocturna:"Notturna", opt_scale_eterica:"Eterea", opt_scale_adanca:"Profonda",
+    opt_density_minimal:"Minimale", opt_density_echilibrat:"Equilibrata", opt_density_bogat:"Ricca",
+    opt_duration_300:"5 min", opt_duration_600:"10 min", opt_duration_900:"15 min", opt_duration_1200:"20 min",
+    opt_texture_neutru:"Neutra", opt_texture_ploaie:"Pioggia", opt_texture_ocean:"Oceano", opt_texture_vant:"Vento",
+    opt_tempo_lent:"Lento", opt_tempo_natural:"Naturale", opt_tempo_activ:"Attivo",
+    labelVolum:"Volume", labelBinaural:"Toni binaurali (richiede cuffie)",
+    labelLoop:"Riproduzione continua (nuove varianti, all'infinito)", labelSleep:"Arresto automatico",
+    opt_sleep_0:"Disattivato", opt_sleep_15:"15 min", opt_sleep_30:"30 min",
+    opt_sleep_45:"45 min", opt_sleep_60:"60 min", opt_sleep_90:"90 min",
+    labelEq:"Equalizzatore &amp; ampiezza", labelEqLow:"Bassi", labelEqMid:"Medi", labelEqHigh:"Alti", labelWidth:"Ampiezza stereo",
+    labelVariantCode:"Codice variante", shuffleAria:"Nuova variante", copyAria:"Copia il codice",
+    copyStatusCopied:"Copiato.", copyStatusFallback:"Seleziona manualmente e copia (Ctrl/Cmd+C).",
+    loadPlaceholder:"incolla un codice qui", loadButtonText:"Carica",
+    loadStatusValid:"Variante caricata.", loadStatusInvalid:"Codice non valido.",
+    nowPlayingIdle:"— (premi Riproduci)", labelHistory:"Varianti recenti", historyEmpty:"nessuna variante riprodotta finora",
+    labelNowPlaying:"In riproduzione",
+    exportButtonText:"Esporta come WAV",
+    exportStatusRendering:"Rendering del brano in corso… può richiedere 10-60 secondi, a seconda della durata.",
+    exportStatusDone:"File WAV pronto — download avviato.", exportStatusErrorPrefix:"Errore di rendering: ",
+    noteSuffix:" L'effetto completo richiede le cuffie; non è un trattamento medico.",
+    note_relaxare:"Lo strato binaurale parte da circa 10 Hz e scende dolcemente verso ~5,5 Hz — frequenze solitamente associate a un rilassamento profondo — risalendo leggermente verso la fine.",
+    note_somn:"Lo strato binaurale parte da circa 8 Hz e scende verso ~3–4 Hz — frequenze solitamente associate alla transizione verso il sonno — restando basso fino alla fine, senza risalita.",
+    note_concentrare:"Lo strato binaurale rimane intorno a 9,5–11,5 Hz — frequenze solitamente associate a uno stato di veglia rilassata e concentrazione calma.",
+    note_meditatie:"Lo strato binaurale parte da circa 9 Hz e scende verso ~4,5 Hz — frequenze solitamente associate a stati meditativi — risalendo leggermente verso la fine.",
+    howItWorksSummary:"Come funziona, tecnicamente",
+    howItWorksBody:"Ogni brano è generato algoritmicamente, non riprodotto da un file: un generatore pseudo-casuale con seme fisso sceglie note da una scala pentatonica (sempre consonante quando sovrapposta, indipendentemente dalla combinazione) e le programma su più livelli di durate diverse che si sovrappongono in modo irregolare — la tecnica dei loop su nastro di Brian Eno tratta da «Music for Airports» (1978). Il riverbero è un impulso sintetizzato algoritmicamente, non un file audio esterno. Lo stesso seme più le stesse impostazioni producono, ogni volta, esattamente lo stesso brano — per questo il codice variante qui sopra funziona.",
+    researchSummary:"Cosa dice davvero la ricerca (verifica avversariale)",
+    researchOameni:"<strong>Persone:</strong> meta-analisi del 2024–2026 mostrano reali riduzioni dell'ansia perioperatoria e odontoiatrica con i toni binaurali (effetto da moderato a grande, oltre 1000 pazienti in totale). Il risultato dipende fortemente da frequenza, tono portante e durata — uno strato binaurale generico non riproduce automaticamente il protocollo esatto testato negli studi.",
+    researchFlora:"<strong>Piante:</strong> prove contrastanti e non replicate su larga scala. Alcuni studi isolati (lenticchia d'acqua, fagiolo mung, vite) riportano una crescita migliore; il consenso prevalente in orticoltura sostiene che le piante non hanno sistema nervoso né orecchie, e che le variabili (luce, acqua, terreno) sono raramente controllate con rigore. Questo beneficio non è confermato qui — resta una domanda aperta, non un fatto.",
+    researchFauna:"<strong>Animali:</strong> prove solide per i cani in canili e cliniche — la musica lenta/classica riduce il cortisolo e l'abbaiare (Kogan 2012, Wells 2002, ecc.); un po' meno per gatti, maiali, mucche. Ma gli effetti documentati derivano da musica calibrata sulla specie, in contesti di stress da cattività — un trasferimento 1:1 a un brano pensato per l'udito umano non è garantito.",
+    researchInsecte:"<strong>Insetti / parassiti:</strong> non allontana nulla, e non è stata aggiunta alcuna pretesa in tal senso. Gli altoparlanti ultrasonici «anti-parassiti» sono esattamente la categoria di dispositivo contro cui la FTC mette pubblicamente in guardia dal 2001 (lettere a oltre 60 produttori, cause legali successive), e che studi indipendenti (una revisione del 2007 sul Journal of Economic Entomology; uno studio del 2021 sulle zecche, sotto il 19,5% di efficacia) hanno giudicato inefficaci. Inoltre, le alte frequenze potrebbero disturbare cani e gatti di casa, che sentono ben oltre la soglia umana — andando direttamente contro l'obiettivo di essere utili agli animali.",
+    comboCounter:"oltre 2.304 combinazioni possibili dai menu, più infinite variazioni di seme",
+    footerText:"CC0 · dominio pubblico · 100% offline · nessuna telemetria",
+    langToggleAria:"Scegli la lingua"
+  },
+  es: {
+    pageTitle:"Ondas Tranquilas — una composición ambiental generativa personalizable",
+    h1Title:"Ondas Tranquilas", subtitle:"una composición ambiental generativa · personalizable",
+    ariaAsculta:"Reproducir", ariaPauza:"Pausa", ariaReda:"Reanudar",
+    resetBtnText:"↺ reiniciar", kbdHint:"Espacio = reproducir / pausar · ↑ ↓ = volumen",
+    labelIntentie:"Intención", labelPaleta:"Paleta tonal", labelDensitate:"Densidad",
+    labelDurata:"Duración", labelTextura:"Textura de fondo", labelRitm:"Ritmo generativo",
+    modeSimple:"Simple", modeComplet:"Completo",
+    presetsLabel:"Preajustes rápidos", preset_relaxare:"Relajación clásica", preset_somn:"Sueño profundo",
+    preset_focus:"Enfoque rápido", preset_meditatie:"Meditación vespertina", sessionDone:"Sesión terminada:",
+    opt_purpose_relaxare:"Relajación profunda", opt_purpose_somn:"Sueño",
+    opt_purpose_concentrare:"Concentración calmada", opt_purpose_meditatie:"Meditación",
+    opt_scale_calda:"Cálida", opt_scale_nocturna:"Nocturna", opt_scale_eterica:"Etérea", opt_scale_adanca:"Profunda",
+    opt_density_minimal:"Mínima", opt_density_echilibrat:"Equilibrada", opt_density_bogat:"Rica",
+    opt_duration_300:"5 min", opt_duration_600:"10 min", opt_duration_900:"15 min", opt_duration_1200:"20 min",
+    opt_texture_neutru:"Neutra", opt_texture_ploaie:"Lluvia", opt_texture_ocean:"Océano", opt_texture_vant:"Viento",
+    opt_tempo_lent:"Lento", opt_tempo_natural:"Natural", opt_tempo_activ:"Activo",
+    labelVolum:"Volumen", labelBinaural:"Tonos binaurales (requiere auriculares)",
+    labelLoop:"Reproducción continua (variantes nuevas, sin fin)", labelSleep:"Apagado automático",
+    opt_sleep_0:"Desactivado", opt_sleep_15:"15 min", opt_sleep_30:"30 min",
+    opt_sleep_45:"45 min", opt_sleep_60:"60 min", opt_sleep_90:"90 min",
+    labelEq:"Ecualizador &amp; amplitud", labelEqLow:"Graves", labelEqMid:"Medios", labelEqHigh:"Agudos", labelWidth:"Amplitud estéreo",
+    labelVariantCode:"Código de variante", shuffleAria:"Nueva variante", copyAria:"Copiar código",
+    copyStatusCopied:"Copiado.", copyStatusFallback:"Selecciona manualmente y copia (Ctrl/Cmd+C).",
+    loadPlaceholder:"pega un código aquí", loadButtonText:"Cargar",
+    loadStatusValid:"Variante cargada.", loadStatusInvalid:"Código no válido.",
+    nowPlayingIdle:"— (pulsa Reproducir)", labelHistory:"Variantes recientes", historyEmpty:"aún no se ha reproducido ninguna variante",
+    labelNowPlaying:"Reproduciendo ahora",
+    exportButtonText:"Exportar como WAV",
+    exportStatusRendering:"Renderizando la pieza… puede tardar entre 10 y 60 segundos, según la duración.",
+    exportStatusDone:"Archivo WAV listo — descarga iniciada.", exportStatusErrorPrefix:"Error de renderizado: ",
+    noteSuffix:" El efecto completo requiere auriculares; esto no es un tratamiento médico.",
+    note_relaxare:"La capa binaural empieza alrededor de 10 Hz y desciende suavemente hasta ~5,5 Hz — frecuencias asociadas habitualmente con una relajación profunda — subiendo ligeramente hacia el final.",
+    note_somn:"La capa binaural empieza alrededor de 8 Hz y desciende hasta ~3–4 Hz — frecuencias asociadas habitualmente con la transición hacia el sueño — manteniéndose baja hasta el final, sin retorno.",
+    note_concentrare:"La capa binaural se mantiene alrededor de 9,5–11,5 Hz — frecuencias asociadas habitualmente con un estado de vigilia relajada y concentración calmada.",
+    note_meditatie:"La capa binaural empieza alrededor de 9 Hz y desciende hasta ~4,5 Hz — frecuencias asociadas habitualmente con estados meditativos — subiendo ligeramente hacia el final.",
+    howItWorksSummary:"Cómo funciona, técnicamente",
+    howItWorksBody:"Cada pieza se genera algorítmicamente, no se reproduce desde un archivo: un generador pseudoaleatorio con una semilla fija elige notas de una escala pentatónica (siempre consonante al superponerse, sea cual sea la combinación) y las programa en varias capas de duraciones distintas que se superponen de forma irregular — la técnica de bucles de cinta de Brian Eno de «Music for Airports» (1978). La reverberación es un impulso sintetizado algorítmicamente, no un archivo de audio externo. La misma semilla más los mismos ajustes producen, cada vez, exactamente la misma pieza — por eso funciona el código de variante de arriba.",
+    researchSummary:"Lo que realmente dice la investigación (verificación adversarial)",
+    researchOameni:"<strong>Personas:</strong> los metaanálisis de 2024–2026 muestran reducciones reales de la ansiedad perioperatoria y dental con tonos binaurales (efecto de moderado a grande, más de 1000 pacientes en total). El resultado depende mucho de la frecuencia, el tono portador y la duración — una capa binaural genérica no reproduce automáticamente el protocolo exacto probado en los estudios.",
+    researchFlora:"<strong>Plantas:</strong> evidencia mixta y no replicada a gran escala. Algunos estudios puntuales (lenteja de agua, frijol mungo, vid) reportan mejor crecimiento; el consenso mayoritario en horticultura sostiene que las plantas no tienen sistema nervioso ni oídos, y que las variables (luz, agua, suelo) rara vez se controlan con rigor. Este beneficio no se confirma aquí — sigue siendo una pregunta abierta, no un hecho.",
+    researchFauna:"<strong>Animales:</strong> evidencia sólida en perros de refugios y clínicas — la música lenta/clásica reduce el cortisol y los ladridos (Kogan 2012, Wells 2002, etc.); algo menos en gatos, cerdos, vacas. Pero los efectos documentados provienen de música ajustada a la especie, en contextos de estrés en cautiverio — no se garantiza una transferencia 1:1 a una pieza pensada para el oído humano.",
+    researchInsecte:"<strong>Insectos / plagas:</strong> no repele nada, y no se ha añadido ninguna afirmación en ese sentido. Los altavoces ultrasónicos «antiplagas» son exactamente la categoría de dispositivo sobre la que la FTC advierte públicamente desde 2001 (cartas a más de 60 fabricantes, demandas posteriores), y que estudios independientes (una revisión de 2007 en el Journal of Economic Entomology; un estudio de 2021 sobre garrapatas, con menos del 19,5% de eficacia) han encontrado ineficaces. Además, las frecuencias altas podrían molestar a los perros y gatos de casa, que oyen muy por encima del umbral humano — yendo directamente en contra del objetivo de ser beneficioso para los animales.",
+    comboCounter:"más de 2.304 combinaciones posibles de menú, más variaciones infinitas de semilla",
+    footerText:"CC0 · dominio público · 100% sin conexión · sin telemetría",
+    langToggleAria:"Elegir idioma"
+  },
+  pt: {
+    pageTitle:"Ondas Tranquilas — uma composição ambiente generativa personalizável",
+    h1Title:"Ondas Tranquilas", subtitle:"uma composição ambiente generativa · personalizável",
+    ariaAsculta:"Reproduzir", ariaPauza:"Pausar", ariaReda:"Retomar",
+    resetBtnText:"↺ reiniciar", kbdHint:"Espaço = reproduzir / pausar · ↑ ↓ = volume",
+    labelIntentie:"Intenção", labelPaleta:"Paleta tonal", labelDensitate:"Densidade",
+    labelDurata:"Duração", labelTextura:"Textura de fundo", labelRitm:"Ritmo gerativo",
+    modeSimple:"Simples", modeComplet:"Completo",
+    presetsLabel:"Predefinições rápidas", preset_relaxare:"Relaxamento clássico", preset_somn:"Sono profundo",
+    preset_focus:"Foco rápido", preset_meditatie:"Meditação noturna", sessionDone:"Sessão concluída:",
+    opt_purpose_relaxare:"Relaxamento profundo", opt_purpose_somn:"Sono",
+    opt_purpose_concentrare:"Foco calmo", opt_purpose_meditatie:"Meditação",
+    opt_scale_calda:"Quente", opt_scale_nocturna:"Noturna", opt_scale_eterica:"Etérea", opt_scale_adanca:"Profunda",
+    opt_density_minimal:"Mínima", opt_density_echilibrat:"Equilibrada", opt_density_bogat:"Rica",
+    opt_duration_300:"5 min", opt_duration_600:"10 min", opt_duration_900:"15 min", opt_duration_1200:"20 min",
+    opt_texture_neutru:"Neutra", opt_texture_ploaie:"Chuva", opt_texture_ocean:"Oceano", opt_texture_vant:"Vento",
+    opt_tempo_lent:"Lento", opt_tempo_natural:"Natural", opt_tempo_activ:"Ativo",
+    labelVolum:"Volume", labelBinaural:"Tons binaurais (requer fones de ouvido)",
+    labelLoop:"Reprodução contínua (novas variantes, sem fim)", labelSleep:"Desligamento automático",
+    opt_sleep_0:"Desativado", opt_sleep_15:"15 min", opt_sleep_30:"30 min",
+    opt_sleep_45:"45 min", opt_sleep_60:"60 min", opt_sleep_90:"90 min",
+    labelEq:"Equalizador &amp; amplitude", labelEqLow:"Graves", labelEqMid:"Médios", labelEqHigh:"Agudos", labelWidth:"Amplitude estéreo",
+    labelVariantCode:"Código da variante", shuffleAria:"Nova variante", copyAria:"Copiar código",
+    copyStatusCopied:"Copiado.", copyStatusFallback:"Selecione manualmente e copie (Ctrl/Cmd+C).",
+    loadPlaceholder:"cole um código aqui", loadButtonText:"Carregar",
+    loadStatusValid:"Variante carregada.", loadStatusInvalid:"Código inválido.",
+    nowPlayingIdle:"— (toque em Reproduzir)", labelHistory:"Variantes recentes", historyEmpty:"nenhuma variante reproduzida ainda",
+    labelNowPlaying:"A reproduzir agora",
+    exportButtonText:"Exportar como WAV",
+    exportStatusRendering:"A renderizar a peça… pode demorar 10-60 segundos, dependendo da duração.",
+    exportStatusDone:"Arquivo WAV pronto — download iniciado.", exportStatusErrorPrefix:"Erro ao renderizar: ",
+    noteSuffix:" O efeito completo requer fones de ouvido; isto não é um tratamento médico.",
+    note_relaxare:"A camada binaural começa por volta de 10 Hz e desce suavemente até ~5,5 Hz — frequências normalmente associadas a relaxamento profundo — subindo ligeiramente perto do final.",
+    note_somn:"A camada binaural começa por volta de 8 Hz e desce até ~3–4 Hz — frequências normalmente associadas à transição para o sono — permanecendo baixa até o final, sem retorno.",
+    note_concentrare:"A camada binaural permanece por volta de 9,5–11,5 Hz — frequências normalmente associadas a um estado de vigília relaxada e foco calmo.",
+    note_meditatie:"A camada binaural começa por volta de 9 Hz e desce até ~4,5 Hz — frequências normalmente associadas a estados meditativos — subindo ligeiramente perto do final.",
+    howItWorksSummary:"Como funciona, tecnicamente",
+    howItWorksBody:"Cada peça é gerada algoritmicamente, não reproduzida a partir de um arquivo: um gerador pseudoaleatório com semente fixa escolhe notas de uma escala pentatônica (sempre consonante ao se sobrepor, seja qual for a combinação) e as programa em várias camadas de durações diferentes que se sobrepõem de forma irregular — a técnica de loops de fita de Brian Eno em «Music for Airports» (1978). A reverberação é um impulso sintetizado algoritmicamente, não um arquivo de áudio externo. A mesma semente mais as mesmas configurações produzem, sempre, exatamente a mesma peça — por isso o código de variante acima funciona.",
+    researchSummary:"O que a pesquisa realmente diz (verificação adversarial)",
+    researchOameni:"<strong>Pessoas:</strong> meta-análises de 2024–2026 mostram reduções reais da ansiedade perioperatória e odontológica com tons binaurais (efeito de moderado a grande, mais de 1000 pacientes no total). O resultado depende fortemente da frequência, do tom portador e da duração — uma camada binaural genérica não reproduz automaticamente o protocolo exato testado nos estudos.",
+    researchFlora:"<strong>Plantas:</strong> evidências mistas e não replicadas em larga escala. Alguns estudos pontuais (lentilha-d'água, feijão mungo, videira) relatam melhor crescimento; o consenso predominante na horticultura afirma que as plantas não têm sistema nervoso nem ouvidos, e que as variáveis (luz, água, solo) raramente são controladas com rigor. Este benefício não é confirmado aqui — continua sendo uma questão em aberto, não um fato.",
+    researchFauna:"<strong>Animais:</strong> evidências sólidas para cães em abrigos e clínicas — música lenta/clássica reduz o cortisol e os latidos (Kogan 2012, Wells 2002, etc.); um pouco menos para gatos, porcos, vacas. Mas os efeitos documentados vêm de música ajustada à espécie, em contextos de estresse em cativeiro — uma transferência 1:1 para uma peça pensada para a audição humana não é garantida.",
+    researchInsecte:"<strong>Insetos / pragas:</strong> não afasta nada, e nenhuma alegação nesse sentido foi adicionada. Os alto-falantes ultrassônicos «antipragas» são exatamente a categoria de dispositivo contra a qual a FTC alerta publicamente desde 2001 (cartas a mais de 60 fabricantes, processos judiciais posteriores), e que estudos independentes (uma revisão de 2007 no Journal of Economic Entomology; um estudo de 2021 sobre carrapatos, com menos de 19,5% de eficácia) consideraram ineficazes. Além disso, frequências altas poderiam incomodar os cães e gatos da casa, que ouvem bem acima do limiar humano — indo diretamente contra o objetivo de ser benéfico para os animais.",
+    comboCounter:"mais de 2.304 combinações possíveis de menu, além de variações infinitas de semente",
+    footerText:"CC0 · domínio público · 100% offline · sem telemetria",
+    langToggleAria:"Escolher idioma"
+  },
+  de: {
+    pageTitle:"Ruhe-Wellen — eine anpassbare generative Ambient-Komposition",
+    h1Title:"Ruhe-Wellen", subtitle:"eine generative Ambient-Komposition · anpassbar",
+    ariaAsculta:"Abspielen", ariaPauza:"Pause", ariaReda:"Fortsetzen",
+    resetBtnText:"↺ zurücksetzen", kbdHint:"Leertaste = Abspielen / Pause · ↑ ↓ = Lautstärke",
+    labelIntentie:"Absicht", labelPaleta:"Klangpalette", labelDensitate:"Dichte",
+    labelDurata:"Dauer", labelTextura:"Hintergrundtextur", labelRitm:"Generatives Tempo",
+    modeSimple:"Einfach", modeComplet:"Vollständig",
+    presetsLabel:"Schnellauswahl", preset_relaxare:"Klassische Entspannung", preset_somn:"Tiefschlaf",
+    preset_focus:"Schnelle Konzentration", preset_meditatie:"Abendmeditation", sessionDone:"Sitzung beendet:",
+    opt_purpose_relaxare:"Tiefe Entspannung", opt_purpose_somn:"Schlaf",
+    opt_purpose_concentrare:"Ruhige Konzentration", opt_purpose_meditatie:"Meditation",
+    opt_scale_calda:"Warm", opt_scale_nocturna:"Nächtlich", opt_scale_eterica:"Ätherisch", opt_scale_adanca:"Tief",
+    opt_density_minimal:"Minimal", opt_density_echilibrat:"Ausgewogen", opt_density_bogat:"Reich",
+    opt_duration_300:"5 Min", opt_duration_600:"10 Min", opt_duration_900:"15 Min", opt_duration_1200:"20 Min",
+    opt_texture_neutru:"Neutral", opt_texture_ploaie:"Regen", opt_texture_ocean:"Ozean", opt_texture_vant:"Wind",
+    opt_tempo_lent:"Langsam", opt_tempo_natural:"Natürlich", opt_tempo_activ:"Aktiv",
+    labelVolum:"Lautstärke", labelBinaural:"Binaurale Töne (Kopfhörer erforderlich)",
+    labelLoop:"Endlose Wiedergabe (immer neue Varianten)", labelSleep:"Automatischer Stopp",
+    opt_sleep_0:"Deaktiviert", opt_sleep_15:"15 Min", opt_sleep_30:"30 Min",
+    opt_sleep_45:"45 Min", opt_sleep_60:"60 Min", opt_sleep_90:"90 Min",
+    labelEq:"Equalizer &amp; Breite", labelEqLow:"Bässe", labelEqMid:"Mitten", labelEqHigh:"Höhen", labelWidth:"Stereobreite",
+    labelVariantCode:"Variantencode", shuffleAria:"Neue Variante", copyAria:"Code kopieren",
+    copyStatusCopied:"Kopiert.", copyStatusFallback:"Manuell markieren und kopieren (Strg/Cmd+C).",
+    loadPlaceholder:"Code hier einfügen", loadButtonText:"Laden",
+    loadStatusValid:"Variante geladen.", loadStatusInvalid:"Ungültiger Code.",
+    nowPlayingIdle:"— (Abspielen drücken)", labelHistory:"Letzte Varianten", historyEmpty:"noch keine Variante abgespielt",
+    labelNowPlaying:"Läuft gerade",
+    exportButtonText:"Als WAV exportieren",
+    exportStatusRendering:"Stück wird gerendert… kann je nach Dauer 10-60 Sekunden dauern.",
+    exportStatusDone:"WAV-Datei bereit — Download gestartet.", exportStatusErrorPrefix:"Fehler beim Rendern: ",
+    noteSuffix:" Der volle Effekt erfordert Kopfhörer; dies ist keine medizinische Behandlung.",
+    note_relaxare:"Die binaurale Schicht beginnt bei etwa 10 Hz und sinkt sanft auf ~5,5 Hz — Frequenzen, die üblicherweise mit tiefer Entspannung assoziiert werden — und steigt gegen Ende leicht wieder an.",
+    note_somn:"Die binaurale Schicht beginnt bei etwa 8 Hz und sinkt auf ~3–4 Hz — Frequenzen, die üblicherweise mit dem Übergang in den Schlaf assoziiert werden — und bleibt bis zum Ende niedrig, ohne Anstieg.",
+    note_concentrare:"Die binaurale Schicht bleibt bei etwa 9,5–11,5 Hz — Frequenzen, die üblicherweise mit entspannter Wachheit und ruhiger Konzentration assoziiert werden.",
+    note_meditatie:"Die binaurale Schicht beginnt bei etwa 9 Hz und sinkt auf ~4,5 Hz — Frequenzen, die üblicherweise mit meditativen Zuständen assoziiert werden — und steigt gegen Ende leicht wieder an.",
+    howItWorksSummary:"Wie es technisch funktioniert",
+    howItWorksBody:"Jedes Stück wird algorithmisch generiert, nicht aus einer Datei abgespielt: ein Pseudozufallsgenerator mit festem Seed wählt Töne aus einer pentatonischen Skala (bei Überlagerung immer konsonant, unabhängig von der Kombination) und ordnet sie auf mehreren Ebenen unterschiedlicher Länge an, die sich unregelmäßig überlappen — Brian Enos Tonband-Loop-Technik aus „Music for Airports\u201c (1978). Der Hall ist ein algorithmisch synthetisierter Impuls, keine externe Audiodatei. Derselbe Seed plus dieselben Einstellungen erzeugen jedes Mal exakt dasselbe Stück — deshalb funktioniert der Variantencode oben.",
+    researchSummary:"Was die Forschung tatsächlich sagt (gegnerische Prüfung)",
+    researchOameni:"<strong>Menschen:</strong> Metaanalysen von 2024–2026 zeigen reale Reduktionen der perioperativen und zahnärztlichen Angst durch binaurale Töne (mittlerer bis großer Effekt, insgesamt über 1000 Patienten). Das Ergebnis hängt stark von Frequenz, Trägerton und Dauer ab — eine generische binaurale Schicht reproduziert nicht automatisch das exakte in Studien getestete Protokoll.",
+    researchFlora:"<strong>Pflanzen:</strong> gemischte Belege, nicht im großen Maßstab repliziert. Einige einzelne Studien (Wasserlinse, Mungbohne, Weinrebe) berichten von besserem Wachstum; der gartenbauliche Mainstream vertritt die Ansicht, dass Pflanzen weder Nervensystem noch Ohren haben und die Variablen (Licht, Wasser, Boden) selten rigoros kontrolliert werden. Dieser Nutzen wird hier nicht bestätigt — er bleibt eine offene Frage, keine Tatsache.",
+    researchFauna:"<strong>Tiere:</strong> solide Belege für Hunde in Tierheimen und Kliniken — langsame/klassische Musik senkt Cortisol und Bellen (Kogan 2012, Wells 2002 u. a.); etwas weniger bei Katzen, Schweinen, Kühen. Doch die dokumentierten Effekte stammen von artspezifisch abgestimmter Musik in Gefangenschafts-Stresskontexten — eine 1:1-Übertragung auf ein für das menschliche Gehör konzipiertes Stück ist nicht garantiert.",
+    researchInsecte:"<strong>Insekten / Schädlinge:</strong> vertreibt nichts, und es wurde keine entsprechende Behauptung hinzugefügt. „Schädlingsabwehr\u201c-Ultraschalllautsprecher sind genau die Gerätekategorie, vor der die FTC seit 2001 öffentlich warnt (Schreiben an über 60 Hersteller, spätere Klagen), und die unabhängige Studien (eine Übersichtsarbeit von 2007 im Journal of Economic Entomology; eine Zeckenstudie von 2021 mit unter 19,5 % Wirksamkeit) als wirkungslos eingestuft haben. Zudem könnten hohe Frequenzen Hunde und Katzen im Haus stören, die weit über die menschliche Hörschwelle hinaus hören — was dem Ziel, gut für Tiere zu sein, direkt entgegenwirkt.",
+    comboCounter:"über 2.304 mögliche Menü-Kombinationen, plus unendliche Seed-Variationen",
+    footerText:"CC0 · gemeinfrei · 100 % offline · keine Telemetrie",
+    langToggleAria:"Sprache wählen"
+  }
+};
+var LANG = 'en';
+
+function scaleFreq(scaleObj, octave, degree){
+  var steps = scaleObj.steps;
+  var len = steps.length;
+  var idx = ((degree % len) + len) % len;
+  var extraOct = Math.floor(degree/len);
+  var semitones = steps[idx] + 12*(octave+extraOct);
+  return scaleObj.root * Math.pow(2, semitones/12);
+}
+
+function mulberry32(seed){
+  return function(){
+    seed |= 0; seed = (seed + 0x6D2B79F5) | 0;
+    var t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function intensityEnvelope(t, duration){
+  var x = Math.max(0, Math.min(1, t/duration));
+  return 0.25 + 0.75*Math.sin(Math.PI*x);
+}
+
+function createReverbImpulse(ctx){
+  var duration = 4.5, decay = 3;
+  var rate = ctx.sampleRate;
+  var length = Math.floor(rate*duration);
+  var impulse = ctx.createBuffer(2, length, rate);
+  for (var ch=0; ch<2; ch++){
+    var data = impulse.getChannelData(ch);
+    for (var i=0;i<length;i++){
+      data[i] = (Math.random()*2-1) * Math.pow(1-i/length, decay);
+    }
+  }
+  return impulse;
+}
+
+function createNoiseBuffer(ctx, seconds, color){
+  var rate = ctx.sampleRate;
+  var length = Math.floor(rate*seconds);
+  var buffer = ctx.createBuffer(2, length, rate);
+  for (var ch=0; ch<2; ch++){
+    var data = buffer.getChannelData(ch);
+    if (color === 'white'){
+      for (var i=0;i<length;i++){ data[i] = (Math.random()*2-1)*0.6; }
+    } else {
+      var last = 0;
+      for (var j=0;j<length;j++){
+        var white = Math.random()*2-1;
+        last = (last + 0.02*white)/1.02;
+        data[j] = last*3.2;
+      }
+    }
+  }
+  return buffer;
+}
+
+function audioBufferToWav(buffer){
+  var numCh = buffer.numberOfChannels;
+  var sr = buffer.sampleRate;
+  var numFrames = buffer.length;
+  var blockAlign = numCh*2;
+  var dataSize = numFrames*blockAlign;
+  var ab = new ArrayBuffer(44+dataSize);
+  var view = new DataView(ab);
+  function ws(offset,str){ for(var i=0;i<str.length;i++) view.setUint8(offset+i,str.charCodeAt(i)); }
+  ws(0,'RIFF'); view.setUint32(4,36+dataSize,true); ws(8,'WAVE');
+  ws(12,'fmt '); view.setUint32(16,16,true); view.setUint16(20,1,true);
+  view.setUint16(22,numCh,true); view.setUint32(24,sr,true);
+  view.setUint32(28,sr*blockAlign,true); view.setUint16(32,blockAlign,true);
+  view.setUint16(34,16,true); ws(36,'data'); view.setUint32(40,dataSize,true);
+  var chans=[]; for(var ch=0;ch<numCh;ch++) chans.push(buffer.getChannelData(ch));
+  var offset=44;
+  for (var i=0;i<numFrames;i++){
+    for (var ch2=0; ch2<numCh; ch2++){
+      var s = Math.max(-1,Math.min(1,chans[ch2][i]));
+      s = s<0 ? s*0x8000 : s*0x7FFF;
+      view.setInt16(offset,s,true); offset+=2;
+    }
+  }
+  return new Blob([ab], {type:'audio/wav'});
+}
+
+function buildComposition(ctx, config){
+  var seed = config.seed;
+  var DURATION = config.duration;
+  var scale = config.scale;
+  var purpose = config.purpose;
+  var density = config.density;
+  var texture = config.texture;
+  var tempo = config.tempo;
+  var binauralEnabled = config.binauralEnabled;
+
+  var rng = mulberry32(seed);
+  var t0 = ctx.currentTime;
+  var allSources = [];
+
+  var master = ctx.createGain();
+  master.gain.value = 0.85;
+
+  var reverbSend = ctx.createGain();
+  reverbSend.gain.value = 1.0;
+  var convolver = ctx.createConvolver();
+  convolver.buffer = createReverbImpulse(ctx);
+  var reverbReturn = ctx.createGain();
+  reverbReturn.gain.value = 0.5;
+  reverbSend.connect(convolver);
+  convolver.connect(reverbReturn);
+  reverbReturn.connect(master);
+
+  var dryBus = ctx.createGain();
+  dryBus.gain.value = 1.0;
+  dryBus.connect(master);
+
+  function schedulePad(startTime, dur, freq, gainScale){
+    var clippedDur = Math.min(dur, DURATION - startTime - 1);
+    if (clippedDur < 8) return;
+    var intensity = intensityEnvelope(startTime, DURATION);
+
+    var osc1 = ctx.createOscillator();
+    osc1.type = 'sine';
+    osc1.frequency.setValueAtTime(freq, t0+startTime);
+    var osc2 = ctx.createOscillator();
+    osc2.type = 'triangle';
+    osc2.frequency.setValueAtTime(freq*1.0035, t0+startTime);
+
+    var filter = ctx.createBiquadFilter();
+    filter.type = 'lowpass';
+    filter.frequency.setValueAtTime((450+intensity*1700)*purpose.padBrightness, t0+startTime);
+    filter.Q.value = 0.7;
+
+    var gain = ctx.createGain();
+    var peak = 0.085*gainScale*(0.55+0.45*intensity)*purpose.padGainMult*density.gainMult;
+    var attack = clippedDur*0.3;
+    var release = clippedDur*0.35;
+    gain.gain.setValueAtTime(0.0001, t0+startTime);
+    gain.gain.linearRampToValueAtTime(peak, t0+startTime+attack);
+    gain.gain.setValueAtTime(peak, t0+startTime+clippedDur-release);
+    gain.gain.linearRampToValueAtTime(0.0001, t0+startTime+clippedDur);
+
+    var panner = ctx.createStereoPanner();
+    panner.pan.value = (rng()*2-1)*0.6;
+
+    var send = ctx.createGain();
+    send.gain.value = 0.35;
+
+    osc1.connect(filter); osc2.connect(filter);
+    filter.connect(gain);
+    gain.connect(panner);
+    panner.connect(dryBus);
+    panner.connect(send);
+    send.connect(reverbSend);
+
+    osc1.start(t0+startTime); osc1.stop(t0+startTime+clippedDur+0.2);
+    osc2.start(t0+startTime); osc2.stop(t0+startTime+clippedDur+0.2);
+    allSources.push(osc1,osc2);
+  }
+
+  PAD_LAYER_DEFS.slice(0, density.layerCount).forEach(function(cfg){
+    var t = rng()*10;
+    while (t < DURATION - 10){
+      var dur = (cfg.minDur + rng()*(cfg.maxDur-cfg.minDur)) * tempo.durMult;
+      var oct = cfg.octMin + Math.floor(rng()*(cfg.octMax-cfg.octMin+1));
+      var degree = Math.floor(rng()*5);
+      var freq = scaleFreq(scale, oct, degree);
+      schedulePad(t, dur, freq, cfg.gainScale);
+      t += dur*cfg.overlap + rng()*8*tempo.durMult;
+    }
+  });
+
+  function scheduleBell(startTime){
+    var octave = 1+Math.floor(rng()*2);
+    var degree = Math.floor(rng()*5);
+    var freq = scaleFreq(scale, octave, degree);
+    var dur = 2.5+rng()*3;
+    if (startTime+dur > DURATION-1) return;
+
+    var osc = ctx.createOscillator();
+    osc.type='sine';
+    osc.frequency.setValueAtTime(freq, t0+startTime);
+    var osc2 = ctx.createOscillator();
+    osc2.type='sine';
+    osc2.frequency.setValueAtTime(freq*2.005, t0+startTime);
+
+    var gain2 = ctx.createGain();
+    gain2.gain.value = 0.15;
+
+    var gain = ctx.createGain();
+    var peak = (0.045+rng()*0.03)*purpose.bellGain*density.gainMult;
+    gain.gain.setValueAtTime(0.0001, t0+startTime);
+    gain.gain.linearRampToValueAtTime(peak, t0+startTime+0.05);
+    gain.gain.exponentialRampToValueAtTime(0.0001, t0+startTime+dur);
+
+    var panner = ctx.createStereoPanner();
+    panner.pan.value = (rng()*2-1)*0.8;
+
+    var send = ctx.createGain();
+    send.gain.value = 0.6;
+
+    osc.connect(gain);
+    osc2.connect(gain2); gain2.connect(gain);
+    gain.connect(panner);
+    panner.connect(dryBus);
+    panner.connect(send);
+    send.connect(reverbSend);
+
+    osc.start(t0+startTime); osc.stop(t0+startTime+dur+0.5);
+    osc2.start(t0+startTime); osc2.stop(t0+startTime+dur+0.5);
+    allSources.push(osc,osc2);
+  }
+
+  (function(){
+    var t = 8+rng()*5;
+    while (t < DURATION-5){
+      scheduleBell(t);
+      var intensity = intensityEnvelope(t, DURATION);
+      var gap = (6+rng()*16-intensity*4) * purpose.bellGapMult * density.bellGapMult * tempo.gapMult;
+      t += Math.max(4,gap);
+    }
+  })();
+
+  (function(){
+    var noiseBuf = createNoiseBuffer(ctx, 20, texture.color);
+    var src = ctx.createBufferSource();
+    src.buffer = noiseBuf; src.loop = true;
+    var filter = ctx.createBiquadFilter();
+    filter.type = texture.filterType;
+    filter.frequency.setValueAtTime(texture.freq, t0);
+    filter.Q.value = texture.Q;
+
+    var freqLfo = ctx.createOscillator();
+    freqLfo.frequency.value = texture.freqLFORate;
+    var freqLfoGain = ctx.createGain();
+    freqLfoGain.gain.value = texture.freqLFODepth;
+    freqLfo.connect(freqLfoGain); freqLfoGain.connect(filter.frequency);
+
+    var gain = ctx.createGain();
+    gain.gain.setValueAtTime(0.0001, t0);
+    gain.gain.linearRampToValueAtTime(0.055, t0+15);
+    gain.gain.setValueAtTime(0.055, t0+DURATION-20);
+    gain.gain.linearRampToValueAtTime(0.0001, t0+DURATION-3);
+
+    src.connect(filter); filter.connect(gain); gain.connect(dryBus);
+    var send = ctx.createGain(); send.gain.value=0.3;
+    gain.connect(send); send.connect(reverbSend);
+
+    if (texture.ampLFORate > 0){
+      var ampLfo = ctx.createOscillator();
+      ampLfo.frequency.value = texture.ampLFORate;
+      var ampLfoGain = ctx.createGain();
+      ampLfoGain.gain.value = 0.055 * texture.ampLFODepth;
+      ampLfo.connect(ampLfoGain); ampLfoGain.connect(gain.gain);
+      ampLfo.start(t0); ampLfo.stop(t0+DURATION);
+      allSources.push(ampLfo);
+    }
+
+    src.start(t0); src.stop(t0+DURATION);
+    freqLfo.start(t0); freqLfo.stop(t0+DURATION);
+    allSources.push(src, freqLfo);
+
+    if (texture.droplets){
+      var dt = 1.2+rng()*3;
+      while (dt < DURATION-2){
+        (function(startTime){
+          var freq = 1800+rng()*2400;
+          var dOsc = ctx.createOscillator();
+          dOsc.type='sine';
+          dOsc.frequency.setValueAtTime(freq, t0+startTime);
+          dOsc.frequency.exponentialRampToValueAtTime(Math.max(200,freq*0.4), t0+startTime+0.12);
+          var dGain = ctx.createGain();
+          var peak = 0.018+rng()*0.02;
+          dGain.gain.setValueAtTime(0.0001, t0+startTime);
+          dGain.gain.linearRampToValueAtTime(peak, t0+startTime+0.005);
+          dGain.gain.exponentialRampToValueAtTime(0.0001, t0+startTime+0.15);
+          var dPan = ctx.createStereoPanner();
+          dPan.pan.value = (rng()*2-1);
+          dOsc.connect(dGain); dGain.connect(dPan); dPan.connect(dryBus);
+          var dSend = ctx.createGain(); dSend.gain.value=0.25;
+          dPan.connect(dSend); dSend.connect(reverbSend);
+          dOsc.start(t0+startTime); dOsc.stop(t0+startTime+0.2);
+          allSources.push(dOsc);
+        })(dt);
+        dt += 1.2+rng()*3.2;
+      }
+    }
+  })();
+
+  // Stereo width stage (mid/side), applied only to the music bus (pads/bells/texture/reverb).
+  var splitter = ctx.createChannelSplitter(2);
+  var widthMerger = ctx.createChannelMerger(2);
+  var gLL = ctx.createGain(), gLR = ctx.createGain(), gRL = ctx.createGain(), gRR = ctx.createGain();
+  function applyWidthCoeffs(w, atTime, smooth){
+    var a=(1+w)/2, b=(1-w)/2;
+    if (smooth){
+      gLL.gain.setTargetAtTime(a, atTime, 0.05); gRR.gain.setTargetAtTime(a, atTime, 0.05);
+      gLR.gain.setTargetAtTime(b, atTime, 0.05); gRL.gain.setTargetAtTime(b, atTime, 0.05);
+    } else {
+      gLL.gain.setValueAtTime(a, atTime); gRR.gain.setValueAtTime(a, atTime);
+      gLR.gain.setValueAtTime(b, atTime); gRL.gain.setValueAtTime(b, atTime);
+    }
+  }
+  applyWidthCoeffs(1.0, t0, false);
+  master.connect(splitter);
+  splitter.connect(gLL, 0); splitter.connect(gLR, 0);
+  splitter.connect(gRL, 1); splitter.connect(gRR, 1);
+  gLL.connect(widthMerger,0,0); gRL.connect(widthMerger,0,0);
+  gLR.connect(widthMerger,0,1); gRR.connect(widthMerger,0,1);
+
+  var finalMix = ctx.createGain();
+  finalMix.gain.value = 1.0;
+  widthMerger.connect(finalMix);
+
+  if (binauralEnabled){
+    var merger = ctx.createChannelMerger(2);
+    var oscL = ctx.createOscillator();
+    oscL.type='sine'; oscL.frequency.setValueAtTime(purpose.carrier, t0);
+    var oscR = ctx.createOscillator();
+    oscR.type='sine';
+    oscR.frequency.setValueAtTime(purpose.carrier+purpose.beatStart, t0);
+    oscR.frequency.linearRampToValueAtTime(purpose.carrier+purpose.beatMid, t0+DURATION*0.5);
+    oscR.frequency.linearRampToValueAtTime(purpose.carrier+purpose.beatEnd, t0+DURATION-10);
+
+    var gainL = ctx.createGain();
+    var gainR = ctx.createGain();
+    [gainL,gainR].forEach(function(g){
+      g.gain.setValueAtTime(0.0001, t0);
+      g.gain.linearRampToValueAtTime(0.05, t0+20);
+      g.gain.setValueAtTime(0.05, t0+DURATION-25);
+      g.gain.linearRampToValueAtTime(0.0001, t0+DURATION-5);
+    });
+
+    oscL.connect(gainL); gainL.connect(merger,0,0);
+    oscR.connect(gainR); gainR.connect(merger,0,1);
+    merger.connect(finalMix); // bypasses the width stage entirely: preserves the exact L/R separation the beat depends on
+
+    oscL.start(t0); oscL.stop(t0+DURATION);
+    oscR.start(t0); oscR.stop(t0+DURATION);
+    allSources.push(oscL,oscR);
+  }
+
+  var compressor = ctx.createDynamicsCompressor();
+  compressor.threshold.setValueAtTime(-18, t0);
+  compressor.knee.setValueAtTime(24, t0);
+  compressor.ratio.setValueAtTime(4, t0);
+  compressor.attack.setValueAtTime(0.02, t0);
+  compressor.release.setValueAtTime(0.3, t0);
+  finalMix.connect(compressor);
+
+  var eqLow = ctx.createBiquadFilter(); eqLow.type='lowshelf'; eqLow.frequency.value=200; eqLow.gain.value=0;
+  var eqMid = ctx.createBiquadFilter(); eqMid.type='peaking'; eqMid.frequency.value=1000; eqMid.Q.value=0.8; eqMid.gain.value=0;
+  var eqHigh = ctx.createBiquadFilter(); eqHigh.type='highshelf'; eqHigh.frequency.value=4000; eqHigh.gain.value=0;
+  compressor.connect(eqLow); eqLow.connect(eqMid); eqMid.connect(eqHigh);
+
+  var volumeGain = ctx.createGain();
+  volumeGain.gain.value = 1.0;
+  eqHigh.connect(volumeGain);
+
+  var analyser = ctx.createAnalyser();
+  analyser.fftSize = 256;
+  volumeGain.connect(analyser);
+  analyser.connect(ctx.destination);
+
+  return {
+    allSources: allSources, master: master, volumeGain: volumeGain, analyser: analyser,
+    eqLow: eqLow, eqMid: eqMid, eqHigh: eqHigh,
+    setWidth: function(w){ applyWidthCoeffs(w, ctx.currentTime, true); }
+  };
+}
+
+// ==== UI wiring ====
+var ctx = null;
+var compositionHandle = null;
+var sessionActive = false;
+var isPaused = false;
+var startWallTime = 0;
+var currentSeed = Math.floor(Math.random()*1e9);
+var currentDuration = 600;
+var vizPurpose = PURPOSES.relaxare;
+var sleepTimerTimeoutId = null;
+var wakeLockSentinel = null;
+var activeKeys = null;
+var recentVariants = [];
+var vizRunning = true;
+
+var playBtn = document.getElementById('playBtn');
+var resetBtn = document.getElementById('resetBtn');
+var elapsedEl = document.getElementById('elapsed');
+var totalTimeEl = document.getElementById('totalTime');
+var progressFill = document.getElementById('progressFill');
+var volumeSlider = document.getElementById('volume');
+var binauralToggle = document.getElementById('binauralToggle');
+var loopToggle = document.getElementById('loopToggle');
+var sleepTimerSelect = document.getElementById('sleepTimerSelect');
+var exportBtn = document.getElementById('exportBtn');
+var exportStatus = document.getElementById('exportStatus');
+var canvas = document.getElementById('viz');
+var vctx = canvas.getContext('2d');
+var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+var purposeSelect = document.getElementById('purposeSelect');
+var scaleSelect = document.getElementById('scaleSelect');
+var densitySelect = document.getElementById('densitySelect');
+var durationSelect = document.getElementById('durationSelect');
+var textureSelect = document.getElementById('textureSelect');
+var tempoSelect = document.getElementById('tempoSelect');
+var noteEl = document.getElementById('dynamicNote');
+var variantCodeDisplay = document.getElementById('variantCodeDisplay');
+var shuffleBtn = document.getElementById('shuffleBtn');
+var copyBtn = document.getElementById('copyBtn');
+var variantCodeInput = document.getElementById('variantCodeInput');
+var loadVariantBtn = document.getElementById('loadVariantBtn');
+var codeStatus = document.getElementById('codeStatus');
+var nowPlayingEl = document.getElementById('nowPlaying');
+var historyListEl = document.getElementById('historyList');
+var langSelect = document.getElementById('langSelect');
+var eqLowSlider = document.getElementById('eqLowSlider');
+var eqMidSlider = document.getElementById('eqMidSlider');
+var eqHighSlider = document.getElementById('eqHighSlider');
+var widthSlider = document.getElementById('widthSlider');
+var modeSimpleBtn = document.getElementById('modeSimpleBtn');
+var modeCompletBtn = document.getElementById('modeCompletBtn');
+
+function resizeCanvas(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+function formatTime(s){
+  var m = Math.floor(s/60);
+  var sec = Math.floor(s%60);
+  return (m<10?'0':'')+m+':'+(sec<10?'0':'')+sec;
+}
+
+function applyTranslations(){
+  var dict = STRINGS[LANG];
+  var plain = document.querySelectorAll('[data-i18n]');
+  for (var i=0;i<plain.length;i++){
+    var key = plain[i].getAttribute('data-i18n');
+    if (dict[key] !== undefined) plain[i].textContent = dict[key];
+  }
+  var htmlEls = document.querySelectorAll('[data-i18n-html]');
+  for (var j=0;j<htmlEls.length;j++){
+    var key2 = htmlEls[j].getAttribute('data-i18n-html');
+    if (dict[key2] !== undefined) htmlEls[j].innerHTML = dict[key2];
+  }
+  var ariaEls = document.querySelectorAll('[data-i18n-aria]');
+  for (var k=0;k<ariaEls.length;k++){
+    var key3 = ariaEls[k].getAttribute('data-i18n-aria');
+    if (dict[key3] !== undefined) ariaEls[k].setAttribute('aria-label', dict[key3]);
+  }
+  var placeholderEls = document.querySelectorAll('[data-i18n-placeholder]');
+  for (var m=0;m<placeholderEls.length;m++){
+    var key4 = placeholderEls[m].getAttribute('data-i18n-placeholder');
+    if (dict[key4] !== undefined) placeholderEls[m].placeholder = dict[key4];
+  }
+  document.title = dict.pageTitle;
+  if (!sessionActive){
+    playBtn.setAttribute('aria-label', dict.ariaAsculta);
+  } else if (isPaused){
+    playBtn.setAttribute('aria-label', dict.ariaReda);
+  } else {
+    playBtn.setAttribute('aria-label', dict.ariaPauza);
+  }
+  updateNote();
+  updateNowPlayingDisplay();
+  renderHistory();
+}
+langSelect.value = LANG;
+langSelect.addEventListener('change', function(){
+  LANG = langSelect.value;
+  applyTranslations();
+});
+
+function updateNote(){
+  var key = purposeSelect.value;
+  var dict = STRINGS[LANG];
+  noteEl.textContent = (dict['note_'+key] || dict.note_relaxare) + dict.noteSuffix;
+  vizPurpose = PURPOSES[key] || PURPOSES.relaxare;
+}
+function updateTotalTimeDisplay(){
+  var d = parseInt(durationSelect.value,10);
+  totalTimeEl.textContent = formatTime(d);
+}
+function updateNowPlayingDisplay(){
+  var dict = STRINGS[LANG];
+  if (!activeKeys){ nowPlayingEl.textContent = dict.nowPlayingIdle; return; }
+  var parts = [
+    dict['opt_purpose_'+activeKeys.purpose], dict['opt_scale_'+activeKeys.scale],
+    dict['opt_density_'+activeKeys.density], dict['opt_texture_'+activeKeys.texture],
+    dict['opt_tempo_'+activeKeys.tempo]
+  ];
+  nowPlayingEl.innerHTML = '<strong>' + (dict.labelNowPlaying||'') + ':</strong> ' + parts.join(' · ');
+}
+
+function showSessionComplete(keys){
+  if (!keys) return;
+  var dict = STRINGS[LANG];
+  var parts = [dict['opt_purpose_'+keys.purpose], dict['opt_scale_'+keys.scale]];
+  nowPlayingEl.innerHTML = '<strong>' + (dict.sessionDone||'') + '</strong> ' + parts.join(' · ');
+  setTimeout(function(){ if (!sessionActive) updateNowPlayingDisplay(); }, 6000);
+}
+
+function encodeVariantCode(){
+  return [purposeSelect.value, scaleSelect.value, densitySelect.value, textureSelect.value, tempoSelect.value, durationSelect.value, currentSeed].join('.');
+}
+function updateVariantCodeDisplay(){
+  variantCodeDisplay.value = encodeVariantCode();
+  try{
+    var url = new URL(window.location.href);
+    url.searchParams.set('v', encodeVariantCode());
+    window.history.replaceState(null, '', url.toString());
+  }catch(e){}
+}
+function applyVariantCode(code){
+  var parts = (code||'').trim().split('.');
+  if (parts.length !== 7) return false;
+  var p=parts[0], s=parts[1], d=parts[2], tex=parts[3], tmp=parts[4], dur=parts[5], seed=parts[6];
+  if (!PURPOSES[p] || !SCALES[s] || !DENSITIES[d] || !TEXTURES[tex] || !TEMPOS[tmp]) return false;
+  var durNum = parseInt(dur,10);
+  var validDurations = [300,600,900,1200];
+  if (validDurations.indexOf(durNum) === -1) return false;
+  var seedNum = parseInt(seed,10);
+  if (!isFinite(seedNum)) return false;
+  purposeSelect.value=p; scaleSelect.value=s; densitySelect.value=d;
+  textureSelect.value=tex; tempoSelect.value=tmp; durationSelect.value=String(durNum);
+  currentSeed = seedNum;
+  updateNote(); updateTotalTimeDisplay(); updateVariantCodeDisplay();
+  return true;
+}
+
+function renderHistory(){
+  historyListEl.innerHTML = '';
+  if (recentVariants.length===0){
+    var li = document.createElement('li');
+    li.className='history-empty';
+    li.textContent = STRINGS[LANG].historyEmpty;
+    historyListEl.appendChild(li);
+    return;
+  }
+  recentVariants.forEach(function(code){
+    var li = document.createElement('li');
+    var btn = document.createElement('button');
+    btn.type='button'; btn.className='history-item'; btn.textContent=code;
+    btn.addEventListener('click', function(){
+      var ok = applyVariantCode(code);
+      codeStatus.textContent = ok ? STRINGS[LANG].loadStatusValid : STRINGS[LANG].loadStatusInvalid;
+    });
+    li.appendChild(btn);
+    historyListEl.appendChild(li);
+  });
+}
+function pushHistory(code){
+  recentVariants = recentVariants.filter(function(c){ return c!==code; });
+  recentVariants.unshift(code);
+  if (recentVariants.length>5) recentVariants = recentVariants.slice(0,5);
+  renderHistory();
+}
+
+[purposeSelect, scaleSelect, densitySelect, durationSelect, textureSelect, tempoSelect].forEach(function(sel){
+  sel.addEventListener('change', function(){
+    if (sel===purposeSelect) updateNote();
+    if (sel===durationSelect) updateTotalTimeDisplay();
+    updateVariantCodeDisplay();
+  });
+});
+shuffleBtn.addEventListener('click', function(){
+  currentSeed = Math.floor(Math.random()*1e9);
+  updateVariantCodeDisplay();
+});
+copyBtn.addEventListener('click', function(){
+  var text = variantCodeDisplay.value;
+  function fallbackCopy(){
+    variantCodeDisplay.select();
+    var ok = false;
+    try{ ok = document.execCommand('copy'); }catch(e){}
+    codeStatus.textContent = ok ? STRINGS[LANG].copyStatusCopied : STRINGS[LANG].copyStatusFallback;
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){
+      codeStatus.textContent = STRINGS[LANG].copyStatusCopied;
+    }).catch(fallbackCopy);
+  } else {
+    fallbackCopy();
+  }
+});
+loadVariantBtn.addEventListener('click', function(){
+  var ok = applyVariantCode(variantCodeInput.value);
+  codeStatus.textContent = ok ? STRINGS[LANG].loadStatusValid : STRINGS[LANG].loadStatusInvalid;
+});
+sleepTimerSelect.addEventListener('change', function(){
+  if (sessionActive) armSleepTimer();
+});
+
+function setMode(simple){
+  document.body.classList.toggle('simple-mode', simple);
+  modeSimpleBtn.classList.toggle('active', simple);
+  modeCompletBtn.classList.toggle('active', !simple);
+}
+modeSimpleBtn.addEventListener('click', function(){ setMode(true); });
+modeCompletBtn.addEventListener('click', function(){ setMode(false); });
+setMode(true);
+
+var PRESETS = [
+  {purpose:'relaxare', scale:'calda', density:'echilibrat', texture:'ocean', tempo:'natural', duration:'600'},
+  {purpose:'somn', scale:'adanca', density:'minimal', texture:'ploaie', tempo:'lent', duration:'1200'},
+  {purpose:'concentrare', scale:'eterica', density:'minimal', texture:'neutru', tempo:'activ', duration:'300'},
+  {purpose:'meditatie', scale:'nocturna', density:'echilibrat', texture:'vant', tempo:'natural', duration:'900'}
+];
+var presetButtons = document.querySelectorAll('.preset-btn');
+for (var pbi=0; pbi<presetButtons.length; pbi++){
+  presetButtons[pbi].addEventListener('click', function(){
+    var idx = parseInt(this.getAttribute('data-preset'),10);
+    var p = PRESETS[idx];
+    if (!p) return;
+    hapticPulse(12);
+    purposeSelect.value=p.purpose; scaleSelect.value=p.scale; densitySelect.value=p.density;
+    textureSelect.value=p.texture; tempoSelect.value=p.tempo; durationSelect.value=p.duration;
+    currentSeed = Math.floor(Math.random()*1e9);
+    updateNote(); updateTotalTimeDisplay(); updateVariantCodeDisplay();
+  });
+}
+
+function drawViz(timestamp){
+  if (!vizRunning) return;
+  requestAnimationFrame(drawViz);
+  vctx.fillStyle='rgba(10,11,15,0.12)';
+  vctx.fillRect(0,0,canvas.width,canvas.height);
+
+  var level = 0;
+  if (compositionHandle && compositionHandle.analyser){
+    var data = new Uint8Array(compositionHandle.analyser.frequencyBinCount);
+    compositionHandle.analyser.getByteFrequencyData(data);
+    var sum=0; for(var i=0;i<data.length;i++) sum+=data[i];
+    level = sum/data.length/255;
+  }
+
+  var cx = canvas.width/2, cy = canvas.height*0.4;
+  var t = (timestamp||0)/1000;
+  var maxR = Math.min(canvas.width,canvas.height)*0.42;
+  var speedA = 0.045;
+  var ratio = 1 + Math.min(0.25, Math.max(0.03, vizPurpose.beatMid/vizPurpose.carrier));
+  var speedB = speedA*ratio;
+  var numRings = 5;
+
+  for (var r=0;r<numRings;r++){
+    var phaseA = (t*speedA + r/numRings) % 1;
+    var phaseB = (t*speedB + r/numRings) % 1;
+    var radA = phaseA*maxR;
+    var radB = phaseB*maxR;
+    var alphaA = (1-phaseA)*(0.22+level*0.5);
+    var alphaB = (1-phaseB)*(0.22+level*0.5);
+
+    vctx.beginPath(); vctx.arc(cx,cy,radA,0,Math.PI*2);
+    vctx.strokeStyle = 'rgba(95,179,163,'+alphaA.toFixed(3)+')';
+    vctx.lineWidth = 1.1;
+    vctx.stroke();
+
+    vctx.beginPath(); vctx.arc(cx,cy,radB,0,Math.PI*2);
+    vctx.strokeStyle = 'rgba(138,125,196,'+alphaB.toFixed(3)+')';
+    vctx.lineWidth = 1.1;
+    vctx.stroke();
+  }
+}
+if (!reduceMotion){ requestAnimationFrame(drawViz); }
+
+function requestWakeLock(){
+  if ('wakeLock' in navigator){
+    navigator.wakeLock.request('screen').then(function(sentinel){ wakeLockSentinel = sentinel; }).catch(function(){});
+  }
+}
+function hapticPulse(ms){
+  try{ if (navigator.vibrate) navigator.vibrate(ms); }catch(e){}
+}
+function releaseWakeLock(){
+  if (wakeLockSentinel){ try{ wakeLockSentinel.release(); }catch(e){} wakeLockSentinel=null; }
+}
+document.addEventListener('visibilitychange', function(){
+  if (document.visibilityState==='visible'){
+    if (sessionActive && !isPaused){ requestWakeLock(); }
+    if (!reduceMotion && !vizRunning){ vizRunning = true; requestAnimationFrame(drawViz); }
+  } else {
+    vizRunning = false;
+  }
+});
+
+function clearSleepTimer(){
+  if (sleepTimerTimeoutId){ clearTimeout(sleepTimerTimeoutId); sleepTimerTimeoutId=null; }
+}
+function armSleepTimer(){
+  clearSleepTimer();
+  var mins = parseInt(sleepTimerSelect.value,10);
+  if (mins > 0){
+    sleepTimerTimeoutId = setTimeout(function(){
+      loopToggle.checked = false;
+      stopPlayback();
+    }, mins*60000);
+  }
+}
+
+function currentConfig(){
+  return {
+    seed: currentSeed,
+    duration: parseInt(durationSelect.value,10),
+    binauralEnabled: binauralToggle.checked,
+    scale: SCALES[scaleSelect.value] || SCALES.calda,
+    purpose: PURPOSES[purposeSelect.value] || PURPOSES.relaxare,
+    density: DENSITIES[densitySelect.value] || DENSITIES.echilibrat,
+    texture: TEXTURES[textureSelect.value] || TEXTURES.neutru,
+    tempo: TEMPOS[tempoSelect.value] || TEMPOS.natural
+  };
+}
+
+function teardownAudio(){
+  var localCtx = ctx;
+  var localHandle = compositionHandle;
+  if (localCtx && localHandle){
+    var now = localCtx.currentTime;
+    try{
+      localHandle.master.gain.setValueAtTime(localHandle.master.gain.value, now);
+      localHandle.master.gain.linearRampToValueAtTime(0.0001, now+0.4);
+    }catch(e){}
+    setTimeout(function(){
+      localHandle.allSources.forEach(function(n){ try{ n.stop(); }catch(e){} });
+      try{ localCtx.close(); }catch(e){}
+    }, 500);
+  }
+}
+
+function syncLiveMixerControls(){
+  if (!compositionHandle || !ctx) return;
+  var now = ctx.currentTime;
+  compositionHandle.volumeGain.gain.value = Math.pow(volumeSlider.value/100, 1.4);
+  compositionHandle.eqLow.gain.setTargetAtTime(parseInt(eqLowSlider.value,10), now, 0.05);
+  compositionHandle.eqMid.gain.setTargetAtTime(parseInt(eqMidSlider.value,10), now, 0.05);
+  compositionHandle.eqHigh.gain.setTargetAtTime(parseInt(eqHighSlider.value,10), now, 0.05);
+  compositionHandle.setWidth(parseInt(widthSlider.value,10)/100);
+}
+
+function startPlayback(isLoopContinuation){
+  if (sessionActive && !isLoopContinuation) return;
+  ctx = new (window.AudioContext||window.webkitAudioContext)();
+  if (isLoopContinuation){ currentSeed = Math.floor(Math.random()*1e9); }
+  var config = currentConfig();
+  currentDuration = config.duration;
+  compositionHandle = buildComposition(ctx, config);
+  syncLiveMixerControls();
+  startWallTime = ctx.currentTime;
+  sessionActive = true;
+  isPaused = false;
+  activeKeys = {purpose:purposeSelect.value, scale:scaleSelect.value, density:densitySelect.value, texture:textureSelect.value, tempo:tempoSelect.value};
+  playBtn.textContent = '⏸';
+  playBtn.setAttribute('aria-label', STRINGS[LANG].ariaPauza);
+  resetBtn.hidden = false;
+  updateVariantCodeDisplay();
+  updateNowPlayingDisplay();
+  pushHistory(encodeVariantCode());
+  if (!isLoopContinuation){ armSleepTimer(); }
+  requestWakeLock();
+  requestAnimationFrame(updateProgress);
+}
+
+function stopPlayback(){
+  if (!sessionActive) return;
+  sessionActive = false;
+  isPaused = false;
+  activeKeys = null;
+  clearSleepTimer();
+  releaseWakeLock();
+  playBtn.textContent = '▶';
+  playBtn.setAttribute('aria-label', STRINGS[LANG].ariaAsculta);
+  resetBtn.hidden = true;
+  teardownAudio();
+  elapsedEl.textContent = '00:00';
+  progressFill.style.width = '0%';
+  ctx = null;
+  compositionHandle = null;
+  updateNowPlayingDisplay();
+}
+
+function togglePlayPause(){
+  if (!sessionActive){
+    hapticPulse(15);
+    startPlayback(false);
+    return;
+  }
+  if (isPaused){
+    ctx.resume().then(function(){
+      isPaused = false;
+      hapticPulse(10);
+      playBtn.textContent = '⏸';
+      playBtn.setAttribute('aria-label', STRINGS[LANG].ariaPauza);
+      requestWakeLock();
+      requestAnimationFrame(updateProgress);
+    });
+  } else {
+    ctx.suspend().then(function(){
+      isPaused = true;
+      hapticPulse(10);
+      playBtn.textContent = '▶';
+      playBtn.setAttribute('aria-label', STRINGS[LANG].ariaReda);
+    });
+  }
+}
+
+function updateProgress(){
+  if (!sessionActive || !ctx || isPaused) return;
+  var elapsed = ctx.currentTime - startWallTime;
+  if (elapsed >= currentDuration){
+    if (loopToggle.checked){
+      teardownAudio();
+      startPlayback(true);
+    } else {
+      var finishedKeys = activeKeys;
+      stopPlayback();
+      showSessionComplete(finishedKeys);
+    }
+    return;
+  }
+  elapsedEl.textContent = formatTime(elapsed);
+  progressFill.style.width = (elapsed/currentDuration*100)+'%';
+  requestAnimationFrame(updateProgress);
+}
+
+playBtn.addEventListener('click', togglePlayPause);
+resetBtn.addEventListener('click', function(){ stopPlayback(); });
+
+volumeSlider.addEventListener('input', function(){ syncLiveMixerControls(); });
+eqLowSlider.addEventListener('input', function(){ syncLiveMixerControls(); });
+eqMidSlider.addEventListener('input', function(){ syncLiveMixerControls(); });
+eqHighSlider.addEventListener('input', function(){ syncLiveMixerControls(); });
+widthSlider.addEventListener('input', function(){ syncLiveMixerControls(); });
+
+document.addEventListener('keydown', function(e){
+  var tag = document.activeElement ? document.activeElement.tagName : '';
+  if (tag==='INPUT'||tag==='SELECT'||tag==='TEXTAREA'||tag==='BUTTON'||tag==='SUMMARY') return;
+  if (e.code === 'Space'){
+    e.preventDefault();
+    togglePlayPause();
+  } else if (e.code === 'ArrowUp'){
+    e.preventDefault();
+    volumeSlider.value = Math.min(100, parseInt(volumeSlider.value,10)+5);
+    syncLiveMixerControls();
+  } else if (e.code === 'ArrowDown'){
+    e.preventDefault();
+    volumeSlider.value = Math.max(0, parseInt(volumeSlider.value,10)-5);
+    syncLiveMixerControls();
+  }
+});
+
+exportBtn.addEventListener('click', function(){
+  exportBtn.disabled = true;
+  exportStatus.textContent = STRINGS[LANG].exportStatusRendering;
+  try {
+    var config = currentConfig();
+    var OfflineCtor = window.OfflineAudioContext || window.webkitOfflineAudioContext;
+    var offlineCtx = new OfflineCtor(2, config.duration*44100, 44100);
+    buildComposition(offlineCtx, config);
+    offlineCtx.startRendering().then(function(rendered){
+      var wavBlob = audioBufferToWav(rendered);
+      var url = URL.createObjectURL(wavBlob);
+      var a = document.createElement('a');
+      a.href = url; a.download = 'unde-de-liniste-'+purposeSelect.value+'-'+scaleSelect.value+'.wav';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
+      exportStatus.textContent = STRINGS[LANG].exportStatusDone;
+      exportBtn.disabled = false;
+    }).catch(function(err){
+      exportStatus.textContent = STRINGS[LANG].exportStatusErrorPrefix+err.message;
+      exportBtn.disabled = false;
+    });
+  } catch(err){
+    exportStatus.textContent = STRINGS[LANG].exportStatusErrorPrefix+err.message;
+    exportBtn.disabled = false;
+  }
+});
+
+// Initial setup
+applyTranslations();
+updateTotalTimeDisplay();
+updateVariantCodeDisplay();
+(function(){
+  try{
+    var params = new URLSearchParams(window.location.search);
+    var v = params.get('v');
+    if (v){
+      var ok = applyVariantCode(v);
+      if (ok) codeStatus.textContent = STRINGS[LANG].loadStatusValid;
+    }
+  }catch(e){}
+})();
+
+})();
+</script>
+</body>
+</html>
