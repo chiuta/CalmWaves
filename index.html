@@ -68,6 +68,19 @@ body{
   padding:0.3rem 0.8rem;border-radius:7px;
 }
 .mode-btn.active{background:linear-gradient(155deg,var(--wave1),var(--wave2));color:#0a0b0f;}
+.viz-switch{margin-bottom:1.1rem;}
+.viz-switch-label{display:block;font-size:0.72rem;color:var(--text-dim);opacity:0.75;margin-bottom:0.35rem;letter-spacing:0.03em;}
+.viz-switch-buttons{
+  display:inline-flex;gap:0.3rem;background:var(--panel);border:1px solid var(--border);
+  border-radius:9px;padding:0.2rem;flex-wrap:wrap;justify-content:center;
+}
+.viz-btn{
+  background:none;border:none;color:var(--text-dim);cursor:pointer;
+  font-family:'Cormorant Garamond',Garamond,serif;font-size:0.8rem;
+  padding:0.3rem 0.85rem;border-radius:7px;
+}
+.viz-btn.active{background:linear-gradient(155deg,var(--wave2),var(--wave1));color:#0a0b0f;}
+.viz-fullscreen-btn{font-size:0.95rem;padding:0.3rem 0.6rem;}
 .presets-row{margin-bottom:1.2rem;text-align:left;}
 .presets-label{font-size:0.78rem;color:var(--text-dim);display:block;margin-bottom:0.5rem;}
 .presets-buttons{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;}
@@ -233,6 +246,21 @@ h1{
 #exportStatus{
   font-size:0.8rem;color:var(--text-dim);min-height:1.2em;margin-bottom:1.3rem;
 }
+.more-formats{text-align:left;margin-bottom:1.3rem;}
+.more-formats-row{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:0.5rem;}
+.more-formats-row button{
+  background:transparent;border:1px solid var(--border);border-radius:8px;
+  color:var(--text);padding:0.5rem 0.9rem;font-size:0.85rem;cursor:pointer;
+  font-family:'Cormorant Garamond',Garamond,serif;
+}
+.more-formats-row button:hover{border-color:var(--wave1);color:var(--wave1);}
+.more-formats-row button:disabled{opacity:0.5;cursor:default;}
+#compressedCancelBtn{border-color:rgba(232,228,216,0.2);}
+.compressed-progress-track{
+  height:3px;background:var(--border);border-radius:2px;margin-bottom:0.5rem;overflow:hidden;
+}
+.compressed-progress-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--wave1),var(--wave2));}
+#compressedExportStatus{font-size:0.78rem;color:var(--text-dim);min-height:1.1em;}
 .note{
   font-size:0.82rem;line-height:1.55;color:var(--text-dim);
   font-style:italic;margin-bottom:1.5rem;
@@ -266,6 +294,38 @@ footer{
   font-size:0.68rem;color:var(--text-dim);
   letter-spacing:0.05em;opacity:0.6;
 }
+footer a{color:var(--text-dim);text-decoration:underline;text-underline-offset:2px;}
+footer a:hover{color:var(--wave1);}
+
+.heart-btn{
+  position:fixed;right:1.1rem;bottom:1.1rem;z-index:10;
+  width:44px;height:44px;border-radius:50%;
+  background:rgba(18,20,27,0.85);border:1px solid var(--border);
+  color:#e0607a;font-size:1.15rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  box-shadow:0 8px 24px rgba(0,0,0,0.35);
+  transition:transform 0.2s ease;
+}
+.heart-btn:hover{transform:scale(1.08);}
+.support-popover{
+  position:fixed;right:1.1rem;bottom:4.2rem;z-index:10;
+  background:rgba(18,20,27,0.94);border:1px solid var(--border);border-radius:12px;
+  padding:0.9rem 1.1rem;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  box-shadow:0 12px 32px rgba(0,0,0,0.4);
+  display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;max-width:min(80vw,260px);
+  font-size:0.85rem;color:var(--text-dim);
+}
+.support-popover a{
+  color:var(--text);background:var(--panel);border:1px solid var(--border);
+  border-radius:7px;padding:0.3rem 0.65rem;text-decoration:none;font-size:0.82rem;
+}
+.support-popover a:hover{border-color:var(--wave1);color:var(--wave1);}
+.support-close{
+  position:absolute;top:0.3rem;right:0.4rem;background:none;border:none;
+  color:var(--text-dim);cursor:pointer;font-size:0.85rem;padding:0.3rem;
+}
+.support-close:hover{color:var(--wave1);}
 
 /* Touch-target sizing: targets actual touch/coarse-pointer devices, not just narrow viewports,
    so a touch laptop or a wide tablet also gets comfortable targets. */
@@ -278,6 +338,10 @@ footer{
   .controls label.row-start,.controls label.row-between{padding:0.2rem 0;}
   #langSelect{min-height:38px;padding:0.5rem 0.75rem;}
   #resetBtn{padding:0.5rem;}
+  .more-formats-row button{min-height:44px;padding:0.65rem 0.9rem;}
+  .heart-btn{width:48px;height:48px;}
+  .support-popover a{padding:0.45rem 0.8rem;}
+  .support-close{padding:0.5rem;}
 }
 
 /* Narrow phones: single-column controls, tighter frame. */
@@ -291,6 +355,10 @@ footer{
   #variantCodeDisplay{font-size:0.66rem;min-width:100%;order:1;}
   .advanced-body label{flex-wrap:wrap;gap:0.4rem;}
   .advanced-body input[type="range"]{max-width:100%;flex-basis:100%;}
+  .more-formats-row{flex-direction:column;}
+  .more-formats-row button{width:100%;}
+  .heart-btn{right:0.7rem;bottom:0.7rem;width:40px;height:40px;font-size:1rem;}
+  .support-popover{right:0.7rem;bottom:3.6rem;left:0.7rem;max-width:none;}
 }
 
 /* Wide desktop: a touch more breathing room, a 3-column grid for the full control set. */
@@ -328,6 +396,19 @@ footer{
   <div class="mode-switch">
     <button type="button" id="modeSimpleBtn" class="mode-btn active" data-i18n="modeSimple">Simplu</button>
     <button type="button" id="modeCompletBtn" class="mode-btn" data-i18n="modeComplet">Complet</button>
+  </div>
+  <div class="viz-switch">
+    <span class="viz-switch-label" data-i18n="labelVisualization">Vizualizare</span>
+    <div class="viz-switch-buttons">
+      <button type="button" id="vizElegantBtn" class="viz-btn active" data-i18n="opt_viz_elegant">Elegantă</button>
+      <button type="button" id="vizCartoonBtn" class="viz-btn" data-i18n="opt_viz_cartoon">Cartoon</button>
+      <button type="button" id="viz3dBtn" class="viz-btn" data-i18n="opt_viz_3d">3D</button>
+      <button type="button" id="vizWaveBtn" class="viz-btn" data-i18n="opt_viz_wave">Undă</button>
+      <button type="button" id="vizMandalaBtn" class="viz-btn" data-i18n="opt_viz_mandala">Mandala</button>
+      <button type="button" id="vizFullscreenBtn" class="viz-btn viz-fullscreen-btn" data-i18n-aria="fullscreenAria" aria-label="Ecran complet" title="Ecran complet">⛶</button>
+      <button type="button" id="vizResetBtn" class="viz-btn viz-fullscreen-btn" data-i18n-aria="resetViewAria" aria-label="Resetează vizualizarea" title="Resetează vizualizarea">⟲</button>
+    </div>
+    <p class="kbd-hint" data-i18n="vizPanZoomHint">Trage pentru a muta · scroll sau pensare pentru zoom · dublu-clic/atingere pentru resetare</p>
   </div>
   <p class="now-playing" id="nowPlaying"></p>
 
@@ -380,6 +461,9 @@ footer{
           <option value="600" selected data-i18n="opt_duration_600">10 min</option>
           <option value="900" data-i18n="opt_duration_900">15 min</option>
           <option value="1200" data-i18n="opt_duration_1200">20 min</option>
+          <option value="1800" data-i18n="opt_duration_1800">30 min</option>
+          <option value="2700" data-i18n="opt_duration_2700">45 min</option>
+          <option value="3600" data-i18n="opt_duration_3600">60 min</option>
         </select>
       </label>
       <label class="advanced-only"><span data-i18n="labelTextura">Textură de fond</span>
@@ -400,6 +484,28 @@ footer{
     </div>
     <label class="row-between"><span data-i18n="labelVolum">Volum</span><input type="range" id="volume" min="0" max="100" value="70"></label>
     <label class="row-start"><input type="checkbox" id="binauralToggle" checked><span data-i18n="labelBinaural">Unde binaurale (necesită căști)</span></label>
+    <label class="row-start"><input type="checkbox" id="voiceToggle" checked><span data-i18n="labelVoice">Voce & onomatopee</span></label>
+    <p class="kbd-hint" data-i18n="voiceNote" style="margin-top:-0.4rem;">Voci sintetizate prin filtre formant (oftaturi, fredonări, „om") — nu e voce umană reală sau înregistrată.</p>
+    <label class="row-between advanced-only"><span data-i18n="labelVoiceProfile">Profil voce</span>
+      <select id="voiceProfileSelect">
+        <option value="variat" selected data-i18n="opt_voice_variat">Variat</option>
+        <option value="femeie_tanara" data-i18n="opt_voice_femeie_tanara">Femeie tânără</option>
+        <option value="femeie_matura" data-i18n="opt_voice_femeie_matura">Femeie matură</option>
+        <option value="femeie_senior" data-i18n="opt_voice_femeie_senior">Femeie senior</option>
+        <option value="barbat_tanar" data-i18n="opt_voice_barbat_tanar">Bărbat tânăr</option>
+        <option value="barbat_matur" data-i18n="opt_voice_barbat_matur">Bărbat matur</option>
+        <option value="barbat_senior" data-i18n="opt_voice_barbat_senior">Bărbat senior</option>
+        <option value="copil" data-i18n="opt_voice_copil">Copil</option>
+        <option value="adolescent" data-i18n="opt_voice_adolescent">Adolescent</option>
+        <option value="robotica" data-i18n="opt_voice_robotica">Robotică</option>
+      </select>
+    </label>
+    <label class="row-start advanced-only"><input type="checkbox" id="gongAutoToggle"><span data-i18n="labelGongAuto">Gong la început</span></label>
+    <label class="row-start advanced-only"><input type="checkbox" id="conchAutoToggle"><span data-i18n="labelConchAuto">Scoică la final</span></label>
+    <div class="more-formats-row advanced-only">
+      <button type="button" id="gongManualBtn" data-i18n="gongManualBtn">🔔 Gong</button>
+      <button type="button" id="conchManualBtn" data-i18n="conchManualBtn">🐚 Scoică</button>
+    </div>
     <label class="row-start advanced-only"><input type="checkbox" id="loopToggle"><span data-i18n="labelLoop">Redare continuă (variante noi, la nesfârșit)</span></label>
     <label class="row-between advanced-only"><span data-i18n="labelSleep">Oprire automată</span>
       <select id="sleepTimerSelect">
@@ -434,7 +540,7 @@ footer{
   </div>
 
   <details class="advanced-section advanced-only">
-    <summary data-i18n="labelEq">Egalizator &amp; lățime</summary>
+    <summary data-i18n="labelEq">Egalizator & lățime</summary>
     <div class="advanced-body">
       <label><span data-i18n="labelEqLow">Grav</span><input type="range" id="eqLowSlider" min="-12" max="12" value="0"></label>
       <label><span data-i18n="labelEqMid">Mediu</span><input type="range" id="eqMidSlider" min="-12" max="12" value="0"></label>
@@ -445,6 +551,18 @@ footer{
 
   <button id="exportBtn" data-i18n="exportButtonText">Exportă ca WAV</button>
   <div id="exportStatus"></div>
+
+  <div class="more-formats advanced-only">
+    <span class="history-label" data-i18n="labelMoreFormats">Mai multe formate</span>
+    <div class="more-formats-row">
+      <button id="exportAiffBtn" type="button">AIFF</button>
+      <button id="compressedExportBtn" type="button" data-i18n="compressedExportBtn">Exportă comprimat</button>
+      <button id="compressedCancelBtn" type="button" data-i18n="compressedCancelBtn" hidden>Anulează</button>
+    </div>
+    <div class="compressed-progress-track" id="compressedProgressTrack" hidden><div class="compressed-progress-fill" id="compressedProgressFill"></div></div>
+    <p class="kbd-hint" data-i18n="compressedExportHint">Înregistrare în timp real prin motorul audio nativ al browserului (Opus/WebM sau AAC/MP4, în funcție de browser) — durează cât piesa, nu instant.</p>
+    <div id="compressedExportStatus"></div>
+  </div>
 
   <p class="note" id="dynamicNote"></p>
 
@@ -467,8 +585,16 @@ footer{
 
   <p class="combo-counter advanced-only" data-i18n="comboCounter">peste 2.304 combinații posibile din meniuri, plus variații infinite de sămânță</p>
 
-  <footer data-i18n="footerText">CC0 · fără drepturi de autor · 100% offline · fără telemetrie</footer>
+  <footer data-i18n-html="footerText">CC0 · fără drepturi de autor · 100% offline · fără telemetrie</footer>
 </main>
+
+<button id="heartBtn" class="heart-btn" data-i18n-aria="supportAria" aria-label="Sprijină" data-i18n-title="supportAria" title="Sprijină">♥</button>
+<div id="supportPopover" class="support-popover" hidden>
+  <button id="supportCloseBtn" class="support-close" data-i18n-aria="closeAria" aria-label="Închide">✕</button>
+  <span data-i18n="supportLabel">Sprijină:</span>
+  <a href="https://www.patreon.com/c/alexio_tf" target="_blank" rel="noopener">Patreon</a>
+  <a href="https://buymeacoffee.com/echo.of.the.strings" target="_blank" rel="noopener">Coffee</a>
+</div>
 
 <script>
 (function(){
@@ -482,11 +608,31 @@ var SCALES = {
 };
 
 var PURPOSES = {
-  relaxare:    {carrier:128, beatStart:10,   beatMid:5.5, beatEnd:7,   padBrightness:1.00, bellGain:1.00, bellGapMult:1.00, padGainMult:1.00},
-  somn:        {carrier:105, beatStart:8,    beatMid:4,   beatEnd:3.2, padBrightness:0.65, bellGain:0.65, bellGapMult:1.50, padGainMult:1.05},
-  concentrare: {carrier:145, beatStart:11.5, beatMid:9.5, beatEnd:10,  padBrightness:1.20, bellGain:1.15, bellGapMult:0.80, padGainMult:0.95},
-  meditatie:   {carrier:120, beatStart:9,    beatMid:4.5, beatEnd:6,   padBrightness:0.90, bellGain:0.90, bellGapMult:1.10, padGainMult:1.00}
+  relaxare:    {carrier:128, beatStart:10,   beatMid:5.5, beatEnd:7,   padBrightness:1.00, bellGain:1.00, bellGapMult:1.00, padGainMult:1.00, voiceTypes:['ahh','ohh'],      voiceGain:1.00, voiceGapMult:1.00},
+  somn:        {carrier:105, beatStart:8,    beatMid:4,   beatEnd:3.2, padBrightness:0.65, bellGain:0.65, bellGapMult:1.50, padGainMult:1.05, voiceTypes:['shh','mmm'],      voiceGain:0.75, voiceGapMult:1.40},
+  concentrare: {carrier:145, beatStart:11.5, beatMid:9.5, beatEnd:10,  padBrightness:1.20, bellGain:1.15, bellGapMult:0.80, padGainMult:0.95, voiceTypes:['mmm'],            voiceGain:0.55, voiceGapMult:1.80},
+  meditatie:   {carrier:120, beatStart:9,    beatMid:4.5, beatEnd:6,   padBrightness:0.90, bellGain:0.90, bellGapMult:1.10, padGainMult:1.00, voiceTypes:['om','ohh'],       voiceGain:0.90, voiceGapMult:1.15}
 };
+
+var VOWEL_FORMANTS = {
+  ahh: [{freq:700,q:9, gain:1.00},{freq:1150,q:11,gain:0.55},{freq:2500,q:13,gain:0.22}],
+  ohh: [{freq:540,q:9, gain:1.00},{freq:880, q:11,gain:0.50},{freq:2400,q:13,gain:0.18}],
+  ooh: [{freq:320,q:8, gain:1.00},{freq:800, q:10,gain:0.35},{freq:2300,q:12,gain:0.12}],
+  mmm: [{freq:260,q:13,gain:1.00},{freq:1100,q:9, gain:0.22},{freq:2200,q:9, gain:0.08}]
+};
+
+var VOICE_PROFILES = {
+  femeie_tanara: {pitchMult:1.45, formantMult:1.15, breathiness:0.07, robotic:false},
+  femeie_matura: {pitchMult:1.30, formantMult:1.10, breathiness:0.10, robotic:false},
+  femeie_senior: {pitchMult:1.20, formantMult:1.07, breathiness:0.24, robotic:false},
+  barbat_tanar:  {pitchMult:0.85, formantMult:0.95, breathiness:0.08, robotic:false},
+  barbat_matur:  {pitchMult:0.72, formantMult:0.90, breathiness:0.11, robotic:false},
+  barbat_senior: {pitchMult:0.65, formantMult:0.87, breathiness:0.26, robotic:false},
+  copil:         {pitchMult:1.85, formantMult:1.35, breathiness:0.05, robotic:false},
+  adolescent:    {pitchMult:1.05, formantMult:1.04, breathiness:0.07, robotic:false},
+  robotica:      {pitchMult:1.00, formantMult:1.00, breathiness:0.03, robotic:true}
+};
+var VOICE_PROFILE_POOL = ['femeie_tanara','femeie_matura','femeie_senior','barbat_tanar','barbat_matur','barbat_senior','copil','adolescent','robotica'];
 
 var PAD_LAYER_DEFS = [
   {minDur:50,maxDur:80,octMin:-1,octMax:-1,gainScale:1.15,overlap:0.6},
@@ -530,13 +676,20 @@ var STRINGS = {
     opt_scale_calda:"Caldă", opt_scale_nocturna:"Nocturnă", opt_scale_eterica:"Eterică", opt_scale_adanca:"Adâncă",
     opt_density_minimal:"Minimală", opt_density_echilibrat:"Echilibrată", opt_density_bogat:"Bogată",
     opt_duration_300:"5 min", opt_duration_600:"10 min", opt_duration_900:"15 min", opt_duration_1200:"20 min",
+    opt_duration_1800:"30 min", opt_duration_2700:"45 min", opt_duration_3600:"60 min",
     opt_texture_neutru:"Neutră", opt_texture_ploaie:"Ploaie", opt_texture_ocean:"Ocean", opt_texture_vant:"Vânt",
     opt_tempo_lent:"Lent", opt_tempo_natural:"Natural", opt_tempo_activ:"Activ",
     labelVolum:"Volum", labelBinaural:"Unde binaurale (necesită căști)",
+    labelVoice:"Voce & onomatopee", voiceNote:"Voci sintetizate prin filtre formant (oftaturi, fredonări, „om\u201d) — nu e voce umană reală sau înregistrată.",
+    labelVoiceProfile:"Profil voce", opt_voice_variat:"Variat", opt_voice_femeie_tanara:"Femeie tânără",
+    opt_voice_femeie_matura:"Femeie matură", opt_voice_femeie_senior:"Femeie senior", opt_voice_barbat_tanar:"Bărbat tânăr",
+    opt_voice_barbat_matur:"Bărbat matur", opt_voice_barbat_senior:"Bărbat senior", opt_voice_copil:"Copil",
+    opt_voice_adolescent:"Adolescent", opt_voice_robotica:"Robotică",
+    labelGongAuto:"Gong la început", labelConchAuto:"Scoică la final", gongManualBtn:"🔔 Gong", conchManualBtn:"🐚 Scoică",
     labelLoop:"Redare continuă (variante noi, la nesfârșit)", labelSleep:"Oprire automată",
     opt_sleep_0:"Dezactivată", opt_sleep_15:"15 min", opt_sleep_30:"30 min",
     opt_sleep_45:"45 min", opt_sleep_60:"60 min", opt_sleep_90:"90 min",
-    labelEq:"Egalizator &amp; lățime", labelEqLow:"Grav", labelEqMid:"Mediu", labelEqHigh:"Înalt", labelWidth:"Lățime stereo",
+    labelEq:"Egalizator & lățime", labelEqLow:"Grav", labelEqMid:"Mediu", labelEqHigh:"Înalt", labelWidth:"Lățime stereo",
     labelVariantCode:"Cod variantă", shuffleAria:"Variantă nouă", copyAria:"Copiază codul",
     copyStatusCopied:"Copiat.", copyStatusFallback:"Selectează manual și copiază (Ctrl/Cmd+C).",
     loadPlaceholder:"lipește un cod aici", loadButtonText:"Încarcă",
@@ -558,8 +711,16 @@ var STRINGS = {
     researchFlora:"<strong>Floră:</strong> dovezi amestecate și nereplicate la scară. Câteva studii punctuale (lintiță, mung, viță-de-vie) raportează creștere mai bună; consensul majoritar din horticultură spune că plantele nu au sistem nervos sau urechi, iar variabilele (lumină, apă, sol) rareori sunt controlate riguros. Nu confirm acest beneficiu — rămâne o întrebare deschisă, nu un fapt.",
     researchFauna:"<strong>Faună:</strong> dovezi solide pentru câini în adăposturi și clinici — muzica lentă/clasică reduce cortizolul și lătratul (Kogan 2012, Wells 2002 ș.a.); ceva mai puține pentru pisici, porci, vaci. Dar efectele documentate apar cu muzică adaptată speciei, în context de stres captiv — nu garantez transfer 1:1 la o piesă gândită pentru auzul uman.",
     researchInsecte:"<strong>Insecte / dăunători:</strong> nu alungă nimic, și nu am adăugat nicio pretenție în acest sens. Difuzoarele ultrasonice „anti-dăunători\u201d sunt exact categoria de dispozitiv pe care FTC a avertizat-o public din 2001 (scrisori către peste 60 de producători, procese ulterioare) și pe care studiile independente (o revizie din 2007 în Journal of Economic Entomology; un studiu din 2021 pe căpușe, sub 19,5% eficacitate) le-au găsit ineficiente. În plus, frecvențele înalte pot deranja câinii și pisicile din casă, care aud mult peste pragul uman — deci ar merge exact împotriva obiectivului de „benefic pentru faună\u201d.",
+    labelVisualization:"Vizualizare", opt_viz_elegant:"Elegantă", opt_viz_cartoon:"Cartoon", opt_viz_3d:"3D", opt_viz_wave:"Undă", opt_viz_mandala:"Mandala", fullscreenAria:"Ecran complet", resetViewAria:"Resetează vizualizarea", vizPanZoomHint:"Trage pentru a muta · scroll sau pensare pentru zoom · dublu-clic/atingere pentru resetare",
+    labelMoreFormats:"Mai multe formate", compressedExportBtn:"Exportă comprimat", compressedCancelBtn:"Anulează",
+    compressedExportHint:"Înregistrare în timp real prin motorul audio nativ al browserului (Opus/WebM sau AAC/MP4, în funcție de browser) — durează cât piesa, nu instant.",
+    compressedExportRendering:"Se înregistrează în timp real… durează ~{min} minute.",
+    compressedExportDone:"Export {ext} gata — descărcare pornită.", compressedCancelled:"Export anulat.",
+    compressedNotSupported:"Browserul nu suportă înregistrare audio comprimată nativă.",
+    breathIn:"Inspiră...", breathOut:"Expiră...",
     comboCounter:"peste 2.304 combinații posibile din meniuri, plus variații infinite de sămânță",
-    footerText:"CC0 · fără drepturi de autor · 100% offline · fără telemetrie",
+    footerText:"CC0 · fără drepturi de autor · <a href=\"https://trade-free.org\" target=\"_blank\" rel=\"noopener\">trade-free</a> · 100% offline · fără telemetrie",
+    supportAria:"Sprijină", supportLabel:"Sprijină:", closeAria:"Închide",
     langToggleAria:"Schimbă limba"
   },
   en: {
@@ -577,13 +738,20 @@ var STRINGS = {
     opt_scale_calda:"Warm", opt_scale_nocturna:"Nocturnal", opt_scale_eterica:"Ethereal", opt_scale_adanca:"Deep",
     opt_density_minimal:"Minimal", opt_density_echilibrat:"Balanced", opt_density_bogat:"Rich",
     opt_duration_300:"5 min", opt_duration_600:"10 min", opt_duration_900:"15 min", opt_duration_1200:"20 min",
+    opt_duration_1800:"30 min", opt_duration_2700:"45 min", opt_duration_3600:"60 min",
     opt_texture_neutru:"Neutral", opt_texture_ploaie:"Rain", opt_texture_ocean:"Ocean", opt_texture_vant:"Wind",
     opt_tempo_lent:"Slow", opt_tempo_natural:"Natural", opt_tempo_activ:"Active",
     labelVolum:"Volume", labelBinaural:"Binaural tones (needs headphones)",
+    labelVoice:"Voice & onomatopoeia", voiceNote:"Voices synthesized through formant filters (sighs, hums, \"om\") — not real or recorded human voice.",
+    labelVoiceProfile:"Voice profile", opt_voice_variat:"Varied", opt_voice_femeie_tanara:"Young woman",
+    opt_voice_femeie_matura:"Mature woman", opt_voice_femeie_senior:"Senior woman", opt_voice_barbat_tanar:"Young man",
+    opt_voice_barbat_matur:"Mature man", opt_voice_barbat_senior:"Senior man", opt_voice_copil:"Child",
+    opt_voice_adolescent:"Teenager", opt_voice_robotica:"Robotic",
+    labelGongAuto:"Gong at start", labelConchAuto:"Conch at end", gongManualBtn:"🔔 Gong", conchManualBtn:"🐚 Conch",
     labelLoop:"Continuous playback (new variants, endlessly)", labelSleep:"Auto-stop",
     opt_sleep_0:"Off", opt_sleep_15:"15 min", opt_sleep_30:"30 min",
     opt_sleep_45:"45 min", opt_sleep_60:"60 min", opt_sleep_90:"90 min",
-    labelEq:"Equalizer &amp; width", labelEqLow:"Bass", labelEqMid:"Mid", labelEqHigh:"Treble", labelWidth:"Stereo width",
+    labelEq:"Equalizer & width", labelEqLow:"Bass", labelEqMid:"Mid", labelEqHigh:"Treble", labelWidth:"Stereo width",
     labelVariantCode:"Variant code", shuffleAria:"New variant", copyAria:"Copy code",
     copyStatusCopied:"Copied.", copyStatusFallback:"Select manually and copy (Ctrl/Cmd+C).",
     loadPlaceholder:"paste a code here", loadButtonText:"Load",
@@ -605,8 +773,16 @@ var STRINGS = {
     researchFlora:"<strong>Plants:</strong> mixed evidence, not replicated at scale. A few individual studies (duckweed, mung bean, grapevine) report better growth; the horticultural mainstream holds that plants have no nervous system or ears, and the variables (light, water, soil) are rarely controlled rigorously. This benefit is not confirmed here — it remains an open question, not a fact.",
     researchFauna:"<strong>Animals:</strong> solid evidence for dogs in shelters and clinics — slow/classical music lowers cortisol and barking (Kogan 2012, Wells 2002, etc.); somewhat less for cats, pigs, cows. But the documented effects come from species-tuned music in captive-stress contexts — a 1:1 transfer to a piece designed for human hearing is not guaranteed.",
     researchInsecte:"<strong>Insects / pests:</strong> repels nothing, and no claim to that effect has been added. 'Anti-pest' ultrasonic speakers are exactly the device category the FTC has publicly warned about since 2001 (letters to 60+ manufacturers, later lawsuits), and which independent studies (a 2007 review in the Journal of Economic Entomology; a 2021 tick study, under 19.5% efficacy) have found ineffective. High frequencies could also disturb the dogs and cats in the house, who hear well above the human threshold — working directly against the goal of being good for animals.",
+    labelVisualization:"Visualization", opt_viz_elegant:"Elegant", opt_viz_cartoon:"Cartoon", opt_viz_3d:"3D", opt_viz_wave:"Waveform", opt_viz_mandala:"Mandala", fullscreenAria:"Fullscreen", resetViewAria:"Reset view", vizPanZoomHint:"Drag to move · scroll or pinch to zoom · double-click/tap to reset",
+    labelMoreFormats:"More formats", compressedExportBtn:"Export compressed", compressedCancelBtn:"Cancel",
+    compressedExportHint:"Real-time capture through the browser's native audio encoder (Opus/WebM or AAC/MP4, depending on browser) — takes as long as the piece, not instant.",
+    compressedExportRendering:"Recording in real time… takes about {min} minutes.",
+    compressedExportDone:"{ext} export ready — download started.", compressedCancelled:"Export cancelled.",
+    compressedNotSupported:"This browser doesn't support native compressed audio recording.",
+    breathIn:"Breathe in...", breathOut:"Breathe out...",
     comboCounter:"over 2,304 possible menu combinations, plus infinite seed variations",
-    footerText:"CC0 · public domain · 100% offline · no telemetry",
+    footerText:"CC0 · public domain · <a href=\"https://trade-free.org\" target=\"_blank\" rel=\"noopener\">trade-free</a> · 100% offline · no telemetry",
+    supportAria:"Support", supportLabel:"Support:", closeAria:"Close",
     langToggleAria:"Choose language"
   },
   fr: {
@@ -624,13 +800,20 @@ var STRINGS = {
     opt_scale_calda:"Chaude", opt_scale_nocturna:"Nocturne", opt_scale_eterica:"Éthérée", opt_scale_adanca:"Profonde",
     opt_density_minimal:"Minimale", opt_density_echilibrat:"Équilibrée", opt_density_bogat:"Riche",
     opt_duration_300:"5 min", opt_duration_600:"10 min", opt_duration_900:"15 min", opt_duration_1200:"20 min",
+    opt_duration_1800:"30 min", opt_duration_2700:"45 min", opt_duration_3600:"60 min",
     opt_texture_neutru:"Neutre", opt_texture_ploaie:"Pluie", opt_texture_ocean:"Océan", opt_texture_vant:"Vent",
     opt_tempo_lent:"Lent", opt_tempo_natural:"Naturel", opt_tempo_activ:"Actif",
     labelVolum:"Volume", labelBinaural:"Sons binauraux (casque nécessaire)",
+    labelVoice:"Voix & onomatopées", voiceNote:"Voix synthétisées par filtres formants (soupirs, fredonnements, « om ») — pas une voix humaine réelle ou enregistrée.",
+    labelVoiceProfile:"Profil vocal", opt_voice_variat:"Varié", opt_voice_femeie_tanara:"Jeune femme",
+    opt_voice_femeie_matura:"Femme mûre", opt_voice_femeie_senior:"Femme âgée", opt_voice_barbat_tanar:"Jeune homme",
+    opt_voice_barbat_matur:"Homme mûr", opt_voice_barbat_senior:"Homme âgé", opt_voice_copil:"Enfant",
+    opt_voice_adolescent:"Adolescent", opt_voice_robotica:"Robotique",
+    labelGongAuto:"Gong au début", labelConchAuto:"Conque à la fin", gongManualBtn:"🔔 Gong", conchManualBtn:"🐚 Conque",
     labelLoop:"Lecture continue (nouvelles variantes, à l'infini)", labelSleep:"Arrêt automatique",
     opt_sleep_0:"Désactivé", opt_sleep_15:"15 min", opt_sleep_30:"30 min",
     opt_sleep_45:"45 min", opt_sleep_60:"60 min", opt_sleep_90:"90 min",
-    labelEq:"Égaliseur &amp; largeur", labelEqLow:"Graves", labelEqMid:"Médiums", labelEqHigh:"Aigus", labelWidth:"Largeur stéréo",
+    labelEq:"Égaliseur & largeur", labelEqLow:"Graves", labelEqMid:"Médiums", labelEqHigh:"Aigus", labelWidth:"Largeur stéréo",
     labelVariantCode:"Code de variante", shuffleAria:"Nouvelle variante", copyAria:"Copier le code",
     copyStatusCopied:"Copié.", copyStatusFallback:"Sélectionnez manuellement et copiez (Ctrl/Cmd+C).",
     loadPlaceholder:"collez un code ici", loadButtonText:"Charger",
@@ -652,8 +835,16 @@ var STRINGS = {
     researchFlora:"<strong>Plantes :</strong> preuves mitigées et non reproduites à grande échelle. Quelques études isolées (lentille d'eau, haricot mungo, vigne) rapportent une meilleure croissance ; le consensus majoritaire en horticulture affirme que les plantes n'ont ni système nerveux ni oreilles, et que les variables (lumière, eau, sol) sont rarement contrôlées rigoureusement. Ce bénéfice n'est pas confirmé ici — cela reste une question ouverte, pas un fait.",
     researchFauna:"<strong>Animaux :</strong> preuves solides pour les chiens en refuge et en clinique — la musique lente/classique réduit le cortisol et les aboiements (Kogan 2012, Wells 2002, etc.) ; un peu moins pour les chats, porcs, vaches. Mais les effets documentés proviennent de musique adaptée à l'espèce, en contexte de stress en captivité — un transfert 1:1 vers une piste conçue pour l'ouïe humaine n'est pas garanti.",
     researchInsecte:"<strong>Insectes / nuisibles :</strong> ne repousse rien, et aucune prétention en ce sens n'a été ajoutée. Les haut-parleurs ultrasoniques « anti-nuisibles » sont exactement la catégorie d'appareil que la FTC met publiquement en garde depuis 2001 (lettres à plus de 60 fabricants, procès ultérieurs), et que des études indépendantes (une revue de 2007 dans le Journal of Economic Entomology ; une étude de 2021 sur les tiques, sous 19,5 % d'efficacité) ont jugée inefficace. De plus, les hautes fréquences pourraient déranger les chiens et chats de la maison, qui entendent bien au-delà du seuil humain — allant directement à l'encontre de l'objectif d'être bénéfique pour les animaux.",
+    labelVisualization:"Visualisation", opt_viz_elegant:"Élégante", opt_viz_cartoon:"Cartoon", opt_viz_3d:"3D", opt_viz_wave:"Onde", opt_viz_mandala:"Mandala", fullscreenAria:"Plein écran", resetViewAria:"Réinitialiser la vue", vizPanZoomHint:"Glissez pour déplacer · molette ou pincement pour zoomer · double-clic/appui pour réinitialiser",
+    labelMoreFormats:"Plus de formats", compressedExportBtn:"Exporter en compressé", compressedCancelBtn:"Annuler",
+    compressedExportHint:"Capture en temps réel via l'encodeur audio natif du navigateur (Opus/WebM ou AAC/MP4, selon le navigateur) — prend autant de temps que la piste, pas instantané.",
+    compressedExportRendering:"Enregistrement en temps réel… prend environ {min} minutes.",
+    compressedExportDone:"Export {ext} prêt — téléchargement lancé.", compressedCancelled:"Export annulé.",
+    compressedNotSupported:"Ce navigateur ne prend pas en charge l'enregistrement audio comprimé natif.",
+    breathIn:"Inspirez...", breathOut:"Expirez...",
     comboCounter:"plus de 2 304 combinaisons de menus possibles, plus des variations de graine infinies",
-    footerText:"CC0 · domaine public · 100 % hors ligne · aucune télémétrie",
+    footerText:"CC0 · domaine public · <a href=\"https://trade-free.org\" target=\"_blank\" rel=\"noopener\">trade-free</a> · 100 % hors ligne · aucune télémétrie",
+    supportAria:"Soutenir", supportLabel:"Soutenir :", closeAria:"Fermer",
     langToggleAria:"Choisir la langue"
   },
   it: {
@@ -671,13 +862,20 @@ var STRINGS = {
     opt_scale_calda:"Calda", opt_scale_nocturna:"Notturna", opt_scale_eterica:"Eterea", opt_scale_adanca:"Profonda",
     opt_density_minimal:"Minimale", opt_density_echilibrat:"Equilibrata", opt_density_bogat:"Ricca",
     opt_duration_300:"5 min", opt_duration_600:"10 min", opt_duration_900:"15 min", opt_duration_1200:"20 min",
+    opt_duration_1800:"30 min", opt_duration_2700:"45 min", opt_duration_3600:"60 min",
     opt_texture_neutru:"Neutra", opt_texture_ploaie:"Pioggia", opt_texture_ocean:"Oceano", opt_texture_vant:"Vento",
     opt_tempo_lent:"Lento", opt_tempo_natural:"Naturale", opt_tempo_activ:"Attivo",
     labelVolum:"Volume", labelBinaural:"Toni binaurali (richiede cuffie)",
+    labelVoice:"Voce & onomatopee", voiceNote:"Voci sintetizzate tramite filtri formanti (sospiri, canticchi, «om») — non è voce umana reale o registrata.",
+    labelVoiceProfile:"Profilo voce", opt_voice_variat:"Variato", opt_voice_femeie_tanara:"Donna giovane",
+    opt_voice_femeie_matura:"Donna matura", opt_voice_femeie_senior:"Donna anziana", opt_voice_barbat_tanar:"Uomo giovane",
+    opt_voice_barbat_matur:"Uomo maturo", opt_voice_barbat_senior:"Uomo anziano", opt_voice_copil:"Bambino",
+    opt_voice_adolescent:"Adolescente", opt_voice_robotica:"Robotica",
+    labelGongAuto:"Gong all'inizio", labelConchAuto:"Conchiglia alla fine", gongManualBtn:"🔔 Gong", conchManualBtn:"🐚 Conchiglia",
     labelLoop:"Riproduzione continua (nuove varianti, all'infinito)", labelSleep:"Arresto automatico",
     opt_sleep_0:"Disattivato", opt_sleep_15:"15 min", opt_sleep_30:"30 min",
     opt_sleep_45:"45 min", opt_sleep_60:"60 min", opt_sleep_90:"90 min",
-    labelEq:"Equalizzatore &amp; ampiezza", labelEqLow:"Bassi", labelEqMid:"Medi", labelEqHigh:"Alti", labelWidth:"Ampiezza stereo",
+    labelEq:"Equalizzatore & ampiezza", labelEqLow:"Bassi", labelEqMid:"Medi", labelEqHigh:"Alti", labelWidth:"Ampiezza stereo",
     labelVariantCode:"Codice variante", shuffleAria:"Nuova variante", copyAria:"Copia il codice",
     copyStatusCopied:"Copiato.", copyStatusFallback:"Seleziona manualmente e copia (Ctrl/Cmd+C).",
     loadPlaceholder:"incolla un codice qui", loadButtonText:"Carica",
@@ -699,8 +897,16 @@ var STRINGS = {
     researchFlora:"<strong>Piante:</strong> prove contrastanti e non replicate su larga scala. Alcuni studi isolati (lenticchia d'acqua, fagiolo mung, vite) riportano una crescita migliore; il consenso prevalente in orticoltura sostiene che le piante non hanno sistema nervoso né orecchie, e che le variabili (luce, acqua, terreno) sono raramente controllate con rigore. Questo beneficio non è confermato qui — resta una domanda aperta, non un fatto.",
     researchFauna:"<strong>Animali:</strong> prove solide per i cani in canili e cliniche — la musica lenta/classica riduce il cortisolo e l'abbaiare (Kogan 2012, Wells 2002, ecc.); un po' meno per gatti, maiali, mucche. Ma gli effetti documentati derivano da musica calibrata sulla specie, in contesti di stress da cattività — un trasferimento 1:1 a un brano pensato per l'udito umano non è garantito.",
     researchInsecte:"<strong>Insetti / parassiti:</strong> non allontana nulla, e non è stata aggiunta alcuna pretesa in tal senso. Gli altoparlanti ultrasonici «anti-parassiti» sono esattamente la categoria di dispositivo contro cui la FTC mette pubblicamente in guardia dal 2001 (lettere a oltre 60 produttori, cause legali successive), e che studi indipendenti (una revisione del 2007 sul Journal of Economic Entomology; uno studio del 2021 sulle zecche, sotto il 19,5% di efficacia) hanno giudicato inefficaci. Inoltre, le alte frequenze potrebbero disturbare cani e gatti di casa, che sentono ben oltre la soglia umana — andando direttamente contro l'obiettivo di essere utili agli animali.",
+    labelVisualization:"Visualizzazione", opt_viz_elegant:"Elegante", opt_viz_cartoon:"Cartoon", opt_viz_3d:"3D", opt_viz_wave:"Onda", opt_viz_mandala:"Mandala", fullscreenAria:"Schermo intero", resetViewAria:"Reimposta vista", vizPanZoomHint:"Trascina per spostare · rotellina o pizzico per zoomare · doppio clic/tocco per ripristinare",
+    labelMoreFormats:"Altri formati", compressedExportBtn:"Esporta compresso", compressedCancelBtn:"Annulla",
+    compressedExportHint:"Cattura in tempo reale tramite l'encoder audio nativo del browser (Opus/WebM o AAC/MP4, a seconda del browser) — richiede tanto tempo quanto il brano, non è istantaneo.",
+    compressedExportRendering:"Registrazione in tempo reale… richiede circa {min} minuti.",
+    compressedExportDone:"Esportazione {ext} pronta — download avviato.", compressedCancelled:"Esportazione annullata.",
+    compressedNotSupported:"Questo browser non supporta la registrazione audio compressa nativa.",
+    breathIn:"Inspira...", breathOut:"Espira...",
     comboCounter:"oltre 2.304 combinazioni possibili dai menu, più infinite variazioni di seme",
-    footerText:"CC0 · dominio pubblico · 100% offline · nessuna telemetria",
+    footerText:"CC0 · dominio pubblico · <a href=\"https://trade-free.org\" target=\"_blank\" rel=\"noopener\">trade-free</a> · 100% offline · nessuna telemetria",
+    supportAria:"Sostieni", supportLabel:"Sostieni:", closeAria:"Chiudi",
     langToggleAria:"Scegli la lingua"
   },
   es: {
@@ -718,13 +924,20 @@ var STRINGS = {
     opt_scale_calda:"Cálida", opt_scale_nocturna:"Nocturna", opt_scale_eterica:"Etérea", opt_scale_adanca:"Profunda",
     opt_density_minimal:"Mínima", opt_density_echilibrat:"Equilibrada", opt_density_bogat:"Rica",
     opt_duration_300:"5 min", opt_duration_600:"10 min", opt_duration_900:"15 min", opt_duration_1200:"20 min",
+    opt_duration_1800:"30 min", opt_duration_2700:"45 min", opt_duration_3600:"60 min",
     opt_texture_neutru:"Neutra", opt_texture_ploaie:"Lluvia", opt_texture_ocean:"Océano", opt_texture_vant:"Viento",
     opt_tempo_lent:"Lento", opt_tempo_natural:"Natural", opt_tempo_activ:"Activo",
     labelVolum:"Volumen", labelBinaural:"Tonos binaurales (requiere auriculares)",
+    labelVoice:"Voz & onomatopeyas", voiceNote:"Voces sintetizadas mediante filtros formantes (suspiros, tarareos, «om») — no es voz humana real ni grabada.",
+    labelVoiceProfile:"Perfil de voz", opt_voice_variat:"Variado", opt_voice_femeie_tanara:"Mujer joven",
+    opt_voice_femeie_matura:"Mujer madura", opt_voice_femeie_senior:"Mujer mayor", opt_voice_barbat_tanar:"Hombre joven",
+    opt_voice_barbat_matur:"Hombre maduro", opt_voice_barbat_senior:"Hombre mayor", opt_voice_copil:"Niño",
+    opt_voice_adolescent:"Adolescente", opt_voice_robotica:"Robótica",
+    labelGongAuto:"Gong al inicio", labelConchAuto:"Caracola al final", gongManualBtn:"🔔 Gong", conchManualBtn:"🐚 Caracola",
     labelLoop:"Reproducción continua (variantes nuevas, sin fin)", labelSleep:"Apagado automático",
     opt_sleep_0:"Desactivado", opt_sleep_15:"15 min", opt_sleep_30:"30 min",
     opt_sleep_45:"45 min", opt_sleep_60:"60 min", opt_sleep_90:"90 min",
-    labelEq:"Ecualizador &amp; amplitud", labelEqLow:"Graves", labelEqMid:"Medios", labelEqHigh:"Agudos", labelWidth:"Amplitud estéreo",
+    labelEq:"Ecualizador & amplitud", labelEqLow:"Graves", labelEqMid:"Medios", labelEqHigh:"Agudos", labelWidth:"Amplitud estéreo",
     labelVariantCode:"Código de variante", shuffleAria:"Nueva variante", copyAria:"Copiar código",
     copyStatusCopied:"Copiado.", copyStatusFallback:"Selecciona manualmente y copia (Ctrl/Cmd+C).",
     loadPlaceholder:"pega un código aquí", loadButtonText:"Cargar",
@@ -746,8 +959,16 @@ var STRINGS = {
     researchFlora:"<strong>Plantas:</strong> evidencia mixta y no replicada a gran escala. Algunos estudios puntuales (lenteja de agua, frijol mungo, vid) reportan mejor crecimiento; el consenso mayoritario en horticultura sostiene que las plantas no tienen sistema nervioso ni oídos, y que las variables (luz, agua, suelo) rara vez se controlan con rigor. Este beneficio no se confirma aquí — sigue siendo una pregunta abierta, no un hecho.",
     researchFauna:"<strong>Animales:</strong> evidencia sólida en perros de refugios y clínicas — la música lenta/clásica reduce el cortisol y los ladridos (Kogan 2012, Wells 2002, etc.); algo menos en gatos, cerdos, vacas. Pero los efectos documentados provienen de música ajustada a la especie, en contextos de estrés en cautiverio — no se garantiza una transferencia 1:1 a una pieza pensada para el oído humano.",
     researchInsecte:"<strong>Insectos / plagas:</strong> no repele nada, y no se ha añadido ninguna afirmación en ese sentido. Los altavoces ultrasónicos «antiplagas» son exactamente la categoría de dispositivo sobre la que la FTC advierte públicamente desde 2001 (cartas a más de 60 fabricantes, demandas posteriores), y que estudios independientes (una revisión de 2007 en el Journal of Economic Entomology; un estudio de 2021 sobre garrapatas, con menos del 19,5% de eficacia) han encontrado ineficaces. Además, las frecuencias altas podrían molestar a los perros y gatos de casa, que oyen muy por encima del umbral humano — yendo directamente en contra del objetivo de ser beneficioso para los animales.",
+    labelVisualization:"Visualización", opt_viz_elegant:"Elegante", opt_viz_cartoon:"Cartoon", opt_viz_3d:"3D", opt_viz_wave:"Onda", opt_viz_mandala:"Mandala", fullscreenAria:"Pantalla completa", resetViewAria:"Restablecer vista", vizPanZoomHint:"Arrastra para mover · rueda o pellizco para zoom · doble clic/toque para restablecer",
+    labelMoreFormats:"Más formatos", compressedExportBtn:"Exportar comprimido", compressedCancelBtn:"Cancelar",
+    compressedExportHint:"Captura en tiempo real mediante el codificador de audio nativo del navegador (Opus/WebM o AAC/MP4, según el navegador) — tarda lo mismo que la pieza, no es instantáneo.",
+    compressedExportRendering:"Grabando en tiempo real… tarda unos {min} minutos.",
+    compressedExportDone:"Exportación {ext} lista — descarga iniciada.", compressedCancelled:"Exportación cancelada.",
+    compressedNotSupported:"Este navegador no admite grabación de audio comprimido nativa.",
+    breathIn:"Inhala...", breathOut:"Exhala...",
     comboCounter:"más de 2.304 combinaciones posibles de menú, más variaciones infinitas de semilla",
-    footerText:"CC0 · dominio público · 100% sin conexión · sin telemetría",
+    footerText:"CC0 · dominio público · <a href=\"https://trade-free.org\" target=\"_blank\" rel=\"noopener\">trade-free</a> · 100% sin conexión · sin telemetría",
+    supportAria:"Apoyar", supportLabel:"Apoyar:", closeAria:"Cerrar",
     langToggleAria:"Elegir idioma"
   },
   pt: {
@@ -765,13 +986,20 @@ var STRINGS = {
     opt_scale_calda:"Quente", opt_scale_nocturna:"Noturna", opt_scale_eterica:"Etérea", opt_scale_adanca:"Profunda",
     opt_density_minimal:"Mínima", opt_density_echilibrat:"Equilibrada", opt_density_bogat:"Rica",
     opt_duration_300:"5 min", opt_duration_600:"10 min", opt_duration_900:"15 min", opt_duration_1200:"20 min",
+    opt_duration_1800:"30 min", opt_duration_2700:"45 min", opt_duration_3600:"60 min",
     opt_texture_neutru:"Neutra", opt_texture_ploaie:"Chuva", opt_texture_ocean:"Oceano", opt_texture_vant:"Vento",
     opt_tempo_lent:"Lento", opt_tempo_natural:"Natural", opt_tempo_activ:"Ativo",
     labelVolum:"Volume", labelBinaural:"Tons binaurais (requer fones de ouvido)",
+    labelVoice:"Voz & onomatopeias", voiceNote:"Vozes sintetizadas por filtros formantes (suspiros, cantarolar, «om») — não é voz humana real ou gravada.",
+    labelVoiceProfile:"Perfil de voz", opt_voice_variat:"Variado", opt_voice_femeie_tanara:"Mulher jovem",
+    opt_voice_femeie_matura:"Mulher madura", opt_voice_femeie_senior:"Mulher idosa", opt_voice_barbat_tanar:"Homem jovem",
+    opt_voice_barbat_matur:"Homem maduro", opt_voice_barbat_senior:"Homem idoso", opt_voice_copil:"Criança",
+    opt_voice_adolescent:"Adolescente", opt_voice_robotica:"Robótica",
+    labelGongAuto:"Gongo no início", labelConchAuto:"Búzio no final", gongManualBtn:"🔔 Gongo", conchManualBtn:"🐚 Búzio",
     labelLoop:"Reprodução contínua (novas variantes, sem fim)", labelSleep:"Desligamento automático",
     opt_sleep_0:"Desativado", opt_sleep_15:"15 min", opt_sleep_30:"30 min",
     opt_sleep_45:"45 min", opt_sleep_60:"60 min", opt_sleep_90:"90 min",
-    labelEq:"Equalizador &amp; amplitude", labelEqLow:"Graves", labelEqMid:"Médios", labelEqHigh:"Agudos", labelWidth:"Amplitude estéreo",
+    labelEq:"Equalizador & amplitude", labelEqLow:"Graves", labelEqMid:"Médios", labelEqHigh:"Agudos", labelWidth:"Amplitude estéreo",
     labelVariantCode:"Código da variante", shuffleAria:"Nova variante", copyAria:"Copiar código",
     copyStatusCopied:"Copiado.", copyStatusFallback:"Selecione manualmente e copie (Ctrl/Cmd+C).",
     loadPlaceholder:"cole um código aqui", loadButtonText:"Carregar",
@@ -793,8 +1021,16 @@ var STRINGS = {
     researchFlora:"<strong>Plantas:</strong> evidências mistas e não replicadas em larga escala. Alguns estudos pontuais (lentilha-d'água, feijão mungo, videira) relatam melhor crescimento; o consenso predominante na horticultura afirma que as plantas não têm sistema nervoso nem ouvidos, e que as variáveis (luz, água, solo) raramente são controladas com rigor. Este benefício não é confirmado aqui — continua sendo uma questão em aberto, não um fato.",
     researchFauna:"<strong>Animais:</strong> evidências sólidas para cães em abrigos e clínicas — música lenta/clássica reduz o cortisol e os latidos (Kogan 2012, Wells 2002, etc.); um pouco menos para gatos, porcos, vacas. Mas os efeitos documentados vêm de música ajustada à espécie, em contextos de estresse em cativeiro — uma transferência 1:1 para uma peça pensada para a audição humana não é garantida.",
     researchInsecte:"<strong>Insetos / pragas:</strong> não afasta nada, e nenhuma alegação nesse sentido foi adicionada. Os alto-falantes ultrassônicos «antipragas» são exatamente a categoria de dispositivo contra a qual a FTC alerta publicamente desde 2001 (cartas a mais de 60 fabricantes, processos judiciais posteriores), e que estudos independentes (uma revisão de 2007 no Journal of Economic Entomology; um estudo de 2021 sobre carrapatos, com menos de 19,5% de eficácia) consideraram ineficazes. Além disso, frequências altas poderiam incomodar os cães e gatos da casa, que ouvem bem acima do limiar humano — indo diretamente contra o objetivo de ser benéfico para os animais.",
+    labelVisualization:"Visualização", opt_viz_elegant:"Elegante", opt_viz_cartoon:"Cartoon", opt_viz_3d:"3D", opt_viz_wave:"Onda", opt_viz_mandala:"Mandala", fullscreenAria:"Tela cheia", resetViewAria:"Repor vista", vizPanZoomHint:"Arraste para mover · roda ou pinça para zoom · duplo clique/toque para repor",
+    labelMoreFormats:"Mais formatos", compressedExportBtn:"Exportar comprimido", compressedCancelBtn:"Cancelar",
+    compressedExportHint:"Captura em tempo real através do codificador de áudio nativo do navegador (Opus/WebM ou AAC/MP4, dependendo do navegador) — demora o mesmo que a peça, não é instantâneo.",
+    compressedExportRendering:"Gravando em tempo real… demora cerca de {min} minutos.",
+    compressedExportDone:"Exportação {ext} pronta — download iniciado.", compressedCancelled:"Exportação cancelada.",
+    compressedNotSupported:"Este navegador não suporta gravação de áudio comprimido nativa.",
+    breathIn:"Inspire...", breathOut:"Expire...",
     comboCounter:"mais de 2.304 combinações possíveis de menu, além de variações infinitas de semente",
-    footerText:"CC0 · domínio público · 100% offline · sem telemetria",
+    footerText:"CC0 · domínio público · <a href=\"https://trade-free.org\" target=\"_blank\" rel=\"noopener\">trade-free</a> · 100% offline · sem telemetria",
+    supportAria:"Apoiar", supportLabel:"Apoiar:", closeAria:"Fechar",
     langToggleAria:"Escolher idioma"
   },
   de: {
@@ -812,13 +1048,20 @@ var STRINGS = {
     opt_scale_calda:"Warm", opt_scale_nocturna:"Nächtlich", opt_scale_eterica:"Ätherisch", opt_scale_adanca:"Tief",
     opt_density_minimal:"Minimal", opt_density_echilibrat:"Ausgewogen", opt_density_bogat:"Reich",
     opt_duration_300:"5 Min", opt_duration_600:"10 Min", opt_duration_900:"15 Min", opt_duration_1200:"20 Min",
+    opt_duration_1800:"30 Min", opt_duration_2700:"45 Min", opt_duration_3600:"60 Min",
     opt_texture_neutru:"Neutral", opt_texture_ploaie:"Regen", opt_texture_ocean:"Ozean", opt_texture_vant:"Wind",
     opt_tempo_lent:"Langsam", opt_tempo_natural:"Natürlich", opt_tempo_activ:"Aktiv",
     labelVolum:"Lautstärke", labelBinaural:"Binaurale Töne (Kopfhörer erforderlich)",
+    labelVoice:"Stimme & Lautmalerei", voiceNote:"Stimmen synthetisiert über Formantfilter (Seufzer, Summen, „Om\u201c) — keine echte oder aufgenommene menschliche Stimme.",
+    labelVoiceProfile:"Stimmprofil", opt_voice_variat:"Variiert", opt_voice_femeie_tanara:"Junge Frau",
+    opt_voice_femeie_matura:"Reife Frau", opt_voice_femeie_senior:"Ältere Frau", opt_voice_barbat_tanar:"Junger Mann",
+    opt_voice_barbat_matur:"Reifer Mann", opt_voice_barbat_senior:"Älterer Mann", opt_voice_copil:"Kind",
+    opt_voice_adolescent:"Jugendlicher", opt_voice_robotica:"Robotisch",
+    labelGongAuto:"Gong am Anfang", labelConchAuto:"Muschelhorn am Ende", gongManualBtn:"🔔 Gong", conchManualBtn:"🐚 Muschelhorn",
     labelLoop:"Endlose Wiedergabe (immer neue Varianten)", labelSleep:"Automatischer Stopp",
     opt_sleep_0:"Deaktiviert", opt_sleep_15:"15 Min", opt_sleep_30:"30 Min",
     opt_sleep_45:"45 Min", opt_sleep_60:"60 Min", opt_sleep_90:"90 Min",
-    labelEq:"Equalizer &amp; Breite", labelEqLow:"Bässe", labelEqMid:"Mitten", labelEqHigh:"Höhen", labelWidth:"Stereobreite",
+    labelEq:"Equalizer & Breite", labelEqLow:"Bässe", labelEqMid:"Mitten", labelEqHigh:"Höhen", labelWidth:"Stereobreite",
     labelVariantCode:"Variantencode", shuffleAria:"Neue Variante", copyAria:"Code kopieren",
     copyStatusCopied:"Kopiert.", copyStatusFallback:"Manuell markieren und kopieren (Strg/Cmd+C).",
     loadPlaceholder:"Code hier einfügen", loadButtonText:"Laden",
@@ -840,8 +1083,16 @@ var STRINGS = {
     researchFlora:"<strong>Pflanzen:</strong> gemischte Belege, nicht im großen Maßstab repliziert. Einige einzelne Studien (Wasserlinse, Mungbohne, Weinrebe) berichten von besserem Wachstum; der gartenbauliche Mainstream vertritt die Ansicht, dass Pflanzen weder Nervensystem noch Ohren haben und die Variablen (Licht, Wasser, Boden) selten rigoros kontrolliert werden. Dieser Nutzen wird hier nicht bestätigt — er bleibt eine offene Frage, keine Tatsache.",
     researchFauna:"<strong>Tiere:</strong> solide Belege für Hunde in Tierheimen und Kliniken — langsame/klassische Musik senkt Cortisol und Bellen (Kogan 2012, Wells 2002 u. a.); etwas weniger bei Katzen, Schweinen, Kühen. Doch die dokumentierten Effekte stammen von artspezifisch abgestimmter Musik in Gefangenschafts-Stresskontexten — eine 1:1-Übertragung auf ein für das menschliche Gehör konzipiertes Stück ist nicht garantiert.",
     researchInsecte:"<strong>Insekten / Schädlinge:</strong> vertreibt nichts, und es wurde keine entsprechende Behauptung hinzugefügt. „Schädlingsabwehr\u201c-Ultraschalllautsprecher sind genau die Gerätekategorie, vor der die FTC seit 2001 öffentlich warnt (Schreiben an über 60 Hersteller, spätere Klagen), und die unabhängige Studien (eine Übersichtsarbeit von 2007 im Journal of Economic Entomology; eine Zeckenstudie von 2021 mit unter 19,5 % Wirksamkeit) als wirkungslos eingestuft haben. Zudem könnten hohe Frequenzen Hunde und Katzen im Haus stören, die weit über die menschliche Hörschwelle hinaus hören — was dem Ziel, gut für Tiere zu sein, direkt entgegenwirkt.",
+    labelVisualization:"Visualisierung", opt_viz_elegant:"Elegant", opt_viz_cartoon:"Cartoon", opt_viz_3d:"3D", opt_viz_wave:"Wellenform", opt_viz_mandala:"Mandala", fullscreenAria:"Vollbild", resetViewAria:"Ansicht zurücksetzen", vizPanZoomHint:"Ziehen zum Verschieben · Mausrad oder Pinch-Geste zum Zoomen · Doppelklick/-tipp zum Zurücksetzen",
+    labelMoreFormats:"Weitere Formate", compressedExportBtn:"Komprimiert exportieren", compressedCancelBtn:"Abbrechen",
+    compressedExportHint:"Echtzeitaufnahme über den nativen Audio-Encoder des Browsers (Opus/WebM oder AAC/MP4, je nach Browser) — dauert so lange wie das Stück, nicht sofort.",
+    compressedExportRendering:"Echtzeitaufnahme läuft… dauert etwa {min} Minuten.",
+    compressedExportDone:"{ext}-Export bereit — Download gestartet.", compressedCancelled:"Export abgebrochen.",
+    compressedNotSupported:"Dieser Browser unterstützt keine native komprimierte Audioaufnahme.",
+    breathIn:"Einatmen...", breathOut:"Ausatmen...",
     comboCounter:"über 2.304 mögliche Menü-Kombinationen, plus unendliche Seed-Variationen",
-    footerText:"CC0 · gemeinfrei · 100 % offline · keine Telemetrie",
+    footerText:"CC0 · gemeinfrei · <a href=\"https://trade-free.org\" target=\"_blank\" rel=\"noopener\">trade-free</a> · 100 % offline · keine Telemetrie",
+    supportAria:"Unterstützen", supportLabel:"Unterstützen:", closeAria:"Schließen",
     langToggleAria:"Sprache wählen"
   }
 };
@@ -923,11 +1174,134 @@ function audioBufferToWav(buffer){
   for (var i=0;i<numFrames;i++){
     for (var ch2=0; ch2<numCh; ch2++){
       var s = Math.max(-1,Math.min(1,chans[ch2][i]));
-      s = s<0 ? s*0x8000 : s*0x7FFF;
+      s = Math.round(s<0 ? s*0x8000 : s*0x7FFF);
       view.setInt16(offset,s,true); offset+=2;
     }
   }
   return new Blob([ab], {type:'audio/wav'});
+}
+
+function audioBufferToAiff(buffer){
+  // AIFF: big-endian, FORM/COMM/SSND chunks. Sample rate is stored as an 80-bit
+  // IEEE-754 extended float, an unusual format outside this app's normal range -
+  // hardcoded here since this app only ever renders at 44100 Hz.
+  var SAMPLE_RATE_44100_EXT80 = [0x40,0x0E,0xAC,0x44,0x00,0x00,0x00,0x00,0x00,0x00];
+  var numCh = buffer.numberOfChannels;
+  var numFrames = buffer.length;
+  var bitsPerSample = 16;
+  var blockAlign = numCh*2;
+  var dataSize = numFrames*blockAlign;
+  var ssndSize = 8+dataSize;
+  var commSize = 18;
+  var formSize = 4 + (8+commSize) + (8+ssndSize);
+  var ab = new ArrayBuffer(8+formSize);
+  var view = new DataView(ab);
+  var pos = 0;
+  function ws(str){ for(var i=0;i<str.length;i++){ view.setUint8(pos, str.charCodeAt(i)); pos++; } }
+  ws('FORM'); view.setUint32(pos, formSize, false); pos+=4; ws('AIFF');
+  ws('COMM'); view.setUint32(pos, commSize, false); pos+=4;
+  view.setInt16(pos, numCh, false); pos+=2;
+  view.setUint32(pos, numFrames, false); pos+=4;
+  view.setInt16(pos, bitsPerSample, false); pos+=2;
+  for (var b=0;b<10;b++){ view.setUint8(pos, SAMPLE_RATE_44100_EXT80[b]); pos++; }
+  ws('SSND'); view.setUint32(pos, ssndSize, false); pos+=4;
+  view.setUint32(pos, 0, false); pos+=4;
+  view.setUint32(pos, 0, false); pos+=4;
+  var chans=[]; for(var ch=0;ch<numCh;ch++) chans.push(buffer.getChannelData(ch));
+  for (var f=0; f<numFrames; f++){
+    for (var c=0; c<numCh; c++){
+      var s = Math.max(-1,Math.min(1,chans[c][f]));
+      s = Math.round(s<0 ? s*0x8000 : s*0x7FFF);
+      view.setInt16(pos, s, false); pos+=2;
+    }
+  }
+  return new Blob([ab], {type:'audio/aiff'});
+}
+
+var GONG_RATIO_SETS = [
+  [1, 1.4, 1.9, 2.76, 3.36, 4.42, 5.63],
+  [1, 1.5, 2.2, 3.0, 4.1],
+  [1, 1.3, 1.7, 2.15, 2.65, 3.25, 4.0, 4.9, 6.05]
+];
+
+function renderGong(ctx, startTime, fundamental, gainMult, dryOut, wetOut, rng){
+  var ratios = GONG_RATIO_SETS[Math.floor(rng()*GONG_RATIO_SETS.length)];
+  var registerMult = 0.88 + rng()*0.3;
+  var decayMult = 0.75 + rng()*0.6;
+  var actualFundamental = fundamental * registerMult;
+  var sumGain = ctx.createGain();
+  var created = [];
+  ratios.forEach(function(ratio, idx){
+    var osc = ctx.createOscillator();
+    osc.type = 'sine';
+    var detune = 1 + (rng()-0.5)*0.02;
+    osc.frequency.setValueAtTime(actualFundamental*ratio*detune, startTime);
+    var pg = ctx.createGain();
+    var peak = gainMult * (1/(idx+1.4)) * (0.6+rng()*0.4);
+    var attack = 0.05+idx*0.02;
+    var decay = (3.2+idx*0.7+rng()*1.3) * decayMult;
+    pg.gain.setValueAtTime(0.0001, startTime);
+    pg.gain.linearRampToValueAtTime(peak, startTime+attack);
+    pg.gain.exponentialRampToValueAtTime(0.0001, startTime+decay);
+    osc.connect(pg); pg.connect(sumGain);
+    osc.start(startTime); osc.stop(startTime+decay+0.3);
+    created.push(osc);
+  });
+  var panner = ctx.createStereoPanner();
+  panner.pan.value = (rng()*2-1)*0.3;
+  sumGain.connect(panner);
+  panner.connect(dryOut);
+  var send = ctx.createGain(); send.gain.value = 0.9;
+  panner.connect(send); send.connect(wetOut);
+  return created;
+}
+
+function renderConch(ctx, startTime, fundamental, dur, gainMult, dryOut, wetOut, rng){
+  var created = [];
+  var registerMult = 0.9 + rng()*0.25;
+  var actualFundamental = fundamental * registerMult;
+  var numHarmonics = 2 + Math.floor(rng()*3);
+  var breathBalance = 0.22 + rng()*0.3;
+  var envGain = ctx.createGain();
+  var attack = dur*(0.2+rng()*0.12);
+  envGain.gain.setValueAtTime(0.0001, startTime);
+  envGain.gain.linearRampToValueAtTime(gainMult, startTime+attack);
+  envGain.gain.setValueAtTime(gainMult, startTime+dur*0.75);
+  envGain.gain.linearRampToValueAtTime(0.0001, startTime+dur);
+
+  var toneGain = ctx.createGain();
+  for (var h=1; h<=numHarmonics; h++){
+    var osc = ctx.createOscillator();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(actualFundamental*h, startTime);
+    var hg = ctx.createGain();
+    hg.gain.value = 1/(h*1.4);
+    osc.connect(hg); hg.connect(toneGain);
+    osc.start(startTime); osc.stop(startTime+dur+0.3);
+    created.push(osc);
+  }
+  toneGain.connect(envGain);
+
+  var noiseBuf = createNoiseBuffer(ctx, dur+1, 'white');
+  var noiseSrc = ctx.createBufferSource();
+  noiseSrc.buffer = noiseBuf;
+  var noiseFilter = ctx.createBiquadFilter();
+  noiseFilter.type = 'bandpass';
+  noiseFilter.frequency.value = actualFundamental*(1.7+rng()*0.6);
+  noiseFilter.Q.value = 1.0+rng()*0.6;
+  var noiseGain = ctx.createGain();
+  noiseGain.gain.value = breathBalance;
+  noiseSrc.connect(noiseFilter); noiseFilter.connect(noiseGain); noiseGain.connect(envGain);
+  noiseSrc.start(startTime); noiseSrc.stop(startTime+dur+1);
+  created.push(noiseSrc);
+
+  var panner = ctx.createStereoPanner();
+  panner.pan.value = (rng()*2-1)*0.3;
+  envGain.connect(panner);
+  panner.connect(dryOut);
+  var send = ctx.createGain(); send.gain.value = 0.6;
+  panner.connect(send); send.connect(wetOut);
+  return created;
 }
 
 function buildComposition(ctx, config){
@@ -939,6 +1313,10 @@ function buildComposition(ctx, config){
   var texture = config.texture;
   var tempo = config.tempo;
   var binauralEnabled = config.binauralEnabled;
+  // Beyond the original 20-minute ceiling, gradually space events further apart so total
+  // node count stays bounded (roughly sub-linear in duration) - keeps long pieces playable
+  // on older/lower-power mobile devices instead of front-loading thousands more oscillators.
+  var durationThinning = DURATION > 1200 ? 1 + (DURATION-1200)/1800 : 1;
 
   var rng = mulberry32(seed);
   var t0 = ctx.currentTime;
@@ -1013,7 +1391,7 @@ function buildComposition(ctx, config){
       var degree = Math.floor(rng()*5);
       var freq = scaleFreq(scale, oct, degree);
       schedulePad(t, dur, freq, cfg.gainScale);
-      t += dur*cfg.overlap + rng()*8*tempo.durMult;
+      t += (dur*cfg.overlap + rng()*8*tempo.durMult) * durationThinning;
     }
   });
 
@@ -1063,10 +1441,161 @@ function buildComposition(ctx, config){
     while (t < DURATION-5){
       scheduleBell(t);
       var intensity = intensityEnvelope(t, DURATION);
-      var gap = (6+rng()*16-intensity*4) * purpose.bellGapMult * density.bellGapMult * tempo.gapMult;
+      var gap = (6+rng()*16-intensity*4) * purpose.bellGapMult * density.bellGapMult * tempo.gapMult * durationThinning;
       t += Math.max(4,gap);
     }
   })();
+
+  function scheduleVoice(startTime, vType, profileKeyRaw){
+    var profileKey = profileKeyRaw;
+    if (!profileKey || profileKey === 'variat' || !VOICE_PROFILES[profileKey]){
+      profileKey = VOICE_PROFILE_POOL[Math.floor(rng()*VOICE_PROFILE_POOL.length)];
+    }
+    var profile = VOICE_PROFILES[profileKey] || VOICE_PROFILES.femeie_tanara;
+
+    var dur, freq, formants, isNoise = false;
+    if (vType === 'shh'){
+      isNoise = true;
+      dur = 2 + rng()*2.5;
+    } else if (vType === 'om'){
+      dur = 4.5 + rng()*2.5;
+      freq = scaleFreq(scale, 0, 0) * profile.pitchMult;
+      formants = VOWEL_FORMANTS.ohh;
+    } else {
+      dur = 1.4 + rng()*1.8;
+      var oct = Math.floor(rng()*2);
+      var degree = Math.floor(rng()*5);
+      freq = scaleFreq(scale, oct, degree) * profile.pitchMult;
+      formants = VOWEL_FORMANTS[vType] || VOWEL_FORMANTS.ahh;
+    }
+    if (startTime+dur > DURATION-1) return;
+
+    var peak = (0.028+rng()*0.02) * purpose.voiceGain * density.gainMult;
+    var attack = dur*(vType==='om' ? 0.25 : 0.3);
+    var envGain = ctx.createGain();
+    envGain.gain.setValueAtTime(0.0001, t0+startTime);
+    envGain.gain.linearRampToValueAtTime(peak, t0+startTime+attack);
+    envGain.gain.linearRampToValueAtTime(0.0001, t0+startTime+dur);
+
+    var panner = ctx.createStereoPanner();
+    panner.pan.value = (rng()*2-1)*0.7;
+    var send = ctx.createGain();
+    send.gain.value = 0.55;
+
+    envGain.connect(panner);
+    panner.connect(dryBus);
+    panner.connect(send);
+    send.connect(reverbSend);
+
+    if (isNoise){
+      var buf = createNoiseBuffer(ctx, dur+0.5, 'white');
+      var src = ctx.createBufferSource();
+      src.buffer = buf;
+      var hp = ctx.createBiquadFilter();
+      hp.type = 'highpass';
+      hp.frequency.value = 3200 * profile.formantMult;
+      hp.Q.value = 0.6;
+      src.connect(hp); hp.connect(envGain);
+      src.start(t0+startTime); src.stop(t0+startTime+dur+0.6);
+      allSources.push(src);
+      return;
+    }
+
+    var osc = ctx.createOscillator();
+    osc.type = 'sawtooth';
+    osc.frequency.setValueAtTime(freq, t0+startTime);
+
+    if (vType === 'om'){
+      var vibrato = ctx.createOscillator();
+      vibrato.frequency.value = 4.5;
+      var vibGain = ctx.createGain();
+      vibGain.gain.value = freq*0.012;
+      vibrato.connect(vibGain); vibGain.connect(osc.frequency);
+      vibrato.start(t0+startTime); vibrato.stop(t0+startTime+dur+0.1);
+      allSources.push(vibrato);
+    }
+
+    var sumGain = ctx.createGain();
+    formants.forEach(function(f){
+      var bp = ctx.createBiquadFilter();
+      bp.type = 'bandpass';
+      bp.frequency.value = f.freq * profile.formantMult;
+      bp.Q.value = f.q;
+      var fg = ctx.createGain();
+      fg.gain.value = f.gain;
+      osc.connect(bp); bp.connect(fg); fg.connect(sumGain);
+    });
+
+    var voiceOut = sumGain;
+    if (profile.robotic){
+      var ringCarrier = ctx.createOscillator();
+      ringCarrier.type = 'sine';
+      var ringRatios = [2,3,4,5];
+      ringCarrier.frequency.setValueAtTime(freq*ringRatios[Math.floor(rng()*ringRatios.length)], t0+startTime);
+      var ringGainNode = ctx.createGain();
+      ringGainNode.gain.value = 0;
+      sumGain.connect(ringGainNode);
+      ringCarrier.connect(ringGainNode.gain);
+      ringCarrier.start(t0+startTime); ringCarrier.stop(t0+startTime+dur+0.15);
+      allSources.push(ringCarrier);
+
+      var mixGain = ctx.createGain();
+      var dryTap = ctx.createGain(); dryTap.gain.value = 0.45;
+      var wetTap = ctx.createGain(); wetTap.gain.value = 0.75;
+      sumGain.connect(dryTap); dryTap.connect(mixGain);
+      ringGainNode.connect(wetTap); wetTap.connect(mixGain);
+      voiceOut = mixGain;
+    }
+
+    if (profile.breathiness > 0.001){
+      var breathBuf = createNoiseBuffer(ctx, dur+0.3, 'white');
+      var breathSrc = ctx.createBufferSource();
+      breathSrc.buffer = breathBuf;
+      var breathFilter = ctx.createBiquadFilter();
+      breathFilter.type = 'bandpass';
+      breathFilter.frequency.value = formants[0].freq*profile.formantMult*1.5;
+      breathFilter.Q.value = 0.5;
+      var breathGain = ctx.createGain();
+      breathGain.gain.value = profile.breathiness;
+      breathSrc.connect(breathFilter); breathFilter.connect(breathGain);
+      breathGain.connect(envGain);
+      breathSrc.start(t0+startTime); breathSrc.stop(t0+startTime+dur+0.4);
+      allSources.push(breathSrc);
+    }
+
+    voiceOut.connect(envGain);
+    osc.start(t0+startTime); osc.stop(t0+startTime+dur+0.15);
+    allSources.push(osc);
+  }
+
+  if (config.voiceEnabled){
+    (function(){
+      var t = 15+rng()*15;
+      while (t < DURATION-6){
+        var types = purpose.voiceTypes;
+        var chosenType = types[Math.floor(rng()*types.length)];
+        scheduleVoice(t, chosenType, config.voiceProfile);
+        var intensity = intensityEnvelope(t, DURATION);
+        var gap = (28+rng()*30-intensity*6) * purpose.voiceGapMult * durationThinning;
+        t += Math.max(18, gap);
+      }
+    })();
+  }
+
+  if (config.gongAtStart){
+    var gongDegree = rng()<0.6 ? 0 : 3;
+    var gongFreq = scaleFreq(scale, -1, gongDegree);
+    var gongNodes = renderGong(ctx, t0+0.8, gongFreq, 0.11, dryBus, reverbSend, rng);
+    gongNodes.forEach(function(n){ allSources.push(n); });
+  }
+  if (config.conchAtEnd && DURATION > 30){
+    var conchDegree = rng()<0.6 ? 0 : 3;
+    var conchFreq = scaleFreq(scale, -1, conchDegree)*1.5;
+    var conchDur = Math.min(5.5, DURATION*0.15);
+    var conchStart = Math.max(DURATION-conchDur-1, DURATION*0.9);
+    var conchNodes = renderConch(ctx, t0+conchStart, conchFreq, conchDur, 0.09, dryBus, reverbSend, rng);
+    conchNodes.forEach(function(n){ allSources.push(n); });
+  }
 
   (function(){
     var noiseBuf = createNoiseBuffer(ctx, 20, texture.color);
@@ -1207,7 +1736,7 @@ function buildComposition(ctx, config){
   var analyser = ctx.createAnalyser();
   analyser.fftSize = 256;
   volumeGain.connect(analyser);
-  analyser.connect(ctx.destination);
+  analyser.connect(config.destination || ctx.destination);
 
   return {
     allSources: allSources, master: master, volumeGain: volumeGain, analyser: analyser,
@@ -1230,6 +1759,7 @@ var wakeLockSentinel = null;
 var activeKeys = null;
 var recentVariants = [];
 var vizRunning = true;
+var vizMode = 'elegant';
 
 var playBtn = document.getElementById('playBtn');
 var resetBtn = document.getElementById('resetBtn');
@@ -1238,6 +1768,12 @@ var totalTimeEl = document.getElementById('totalTime');
 var progressFill = document.getElementById('progressFill');
 var volumeSlider = document.getElementById('volume');
 var binauralToggle = document.getElementById('binauralToggle');
+var voiceToggle = document.getElementById('voiceToggle');
+var voiceProfileSelect = document.getElementById('voiceProfileSelect');
+var gongAutoToggle = document.getElementById('gongAutoToggle');
+var conchAutoToggle = document.getElementById('conchAutoToggle');
+var gongManualBtn = document.getElementById('gongManualBtn');
+var conchManualBtn = document.getElementById('conchManualBtn');
 var loopToggle = document.getElementById('loopToggle');
 var sleepTimerSelect = document.getElementById('sleepTimerSelect');
 var exportBtn = document.getElementById('exportBtn');
@@ -1265,6 +1801,15 @@ var eqLowSlider = document.getElementById('eqLowSlider');
 var eqMidSlider = document.getElementById('eqMidSlider');
 var eqHighSlider = document.getElementById('eqHighSlider');
 var widthSlider = document.getElementById('widthSlider');
+var exportAiffBtn = document.getElementById('exportAiffBtn');
+var compressedExportBtn = document.getElementById('compressedExportBtn');
+var compressedCancelBtn = document.getElementById('compressedCancelBtn');
+var compressedProgressTrack = document.getElementById('compressedProgressTrack');
+var compressedProgressFill = document.getElementById('compressedProgressFill');
+var compressedExportStatus = document.getElementById('compressedExportStatus');
+var heartBtn = document.getElementById('heartBtn');
+var supportPopover = document.getElementById('supportPopover');
+var supportCloseBtn = document.getElementById('supportCloseBtn');
 var modeSimpleBtn = document.getElementById('modeSimpleBtn');
 var modeCompletBtn = document.getElementById('modeCompletBtn');
 
@@ -1279,6 +1824,7 @@ function formatTime(s){
 }
 
 function applyTranslations(){
+  if (!STRINGS[LANG]) LANG = 'en';
   var dict = STRINGS[LANG];
   var plain = document.querySelectorAll('[data-i18n]');
   for (var i=0;i<plain.length;i++){
@@ -1300,6 +1846,11 @@ function applyTranslations(){
     var key4 = placeholderEls[m].getAttribute('data-i18n-placeholder');
     if (dict[key4] !== undefined) placeholderEls[m].placeholder = dict[key4];
   }
+  var titleEls = document.querySelectorAll('[data-i18n-title]');
+  for (var n=0;n<titleEls.length;n++){
+    var key5 = titleEls[n].getAttribute('data-i18n-title');
+    if (dict[key5] !== undefined) titleEls[n].title = dict[key5];
+  }
   document.title = dict.pageTitle;
   if (!sessionActive){
     playBtn.setAttribute('aria-label', dict.ariaAsculta);
@@ -1316,6 +1867,19 @@ langSelect.value = LANG;
 langSelect.addEventListener('change', function(){
   LANG = langSelect.value;
   applyTranslations();
+  langSelect.value = LANG;
+});
+
+heartBtn.addEventListener('click', function(){
+  supportPopover.hidden = !supportPopover.hidden;
+});
+supportCloseBtn.addEventListener('click', function(){
+  supportPopover.hidden = true;
+});
+document.addEventListener('click', function(e){
+  if (!supportPopover.hidden && !supportPopover.contains(e.target) && e.target!==heartBtn){
+    supportPopover.hidden = true;
+  }
 });
 
 function updateNote(){
@@ -1364,7 +1928,7 @@ function applyVariantCode(code){
   var p=parts[0], s=parts[1], d=parts[2], tex=parts[3], tmp=parts[4], dur=parts[5], seed=parts[6];
   if (!PURPOSES[p] || !SCALES[s] || !DENSITIES[d] || !TEXTURES[tex] || !TEMPOS[tmp]) return false;
   var durNum = parseInt(dur,10);
-  var validDurations = [300,600,900,1200];
+  var validDurations = [300,600,900,1200,1800,2700,3600];
   if (validDurations.indexOf(durNum) === -1) return false;
   var seedNum = parseInt(seed,10);
   if (!isFinite(seedNum)) return false;
@@ -1467,11 +2031,58 @@ for (var pbi=0; pbi<presetButtons.length; pbi++){
   });
 }
 
+var idleRhythmMult = 0.6 + Math.random()*1.2;
+setInterval(function(){
+  if (!sessionActive){ idleRhythmMult = 0.6 + Math.random()*1.2; idlePulsePeriod = 1.3+Math.random()*1.4; }
+}, 18000);
+function getVizRhythmMult(){
+  if (sessionActive && !isPaused){
+    var m = {lent:0.65, natural:1.0, activ:1.55}[tempoSelect.value];
+    return m || 1.0;
+  }
+  return idleRhythmMult;
+}
+
+var levelHistory = [];
+var pulseEnergy = 0;
+var lastPulseTime = -10;
+var idlePulsePeriod = 1.3+Math.random()*1.4;
+function updatePulseEnergy(t, level){
+  if (sessionActive && !isPaused){
+    levelHistory.push(level);
+    if (levelHistory.length > 24) levelHistory.shift();
+    var avg = 0; for (var i=0;i<levelHistory.length;i++) avg += levelHistory[i];
+    avg /= levelHistory.length;
+    var flux = level - avg;
+    if (flux > 0.05 && t-lastPulseTime > 0.12){
+      pulseEnergy = Math.min(1, pulseEnergy + flux*3.5);
+      lastPulseTime = t;
+    }
+  } else {
+    var phase = (t % idlePulsePeriod) / idlePulsePeriod;
+    if (phase < 0.035 && t-lastPulseTime > 0.3){
+      pulseEnergy = Math.min(1, pulseEnergy + 0.65);
+      lastPulseTime = t;
+    }
+  }
+  pulseEnergy *= 0.90;
+  return pulseEnergy;
+}
+
+var vizPanX = 0, vizPanY = 0, vizZoom = 1;
+function beginVizTransform(){
+  vctx.save();
+  vctx.translate(canvas.width/2 + vizPanX, canvas.height/2 + vizPanY);
+  vctx.scale(vizZoom, vizZoom);
+  vctx.translate(-canvas.width/2, -canvas.height/2);
+}
+function endVizTransform(){
+  vctx.restore();
+}
+
 function drawViz(timestamp){
   if (!vizRunning) return;
   requestAnimationFrame(drawViz);
-  vctx.fillStyle='rgba(10,11,15,0.12)';
-  vctx.fillRect(0,0,canvas.width,canvas.height);
 
   var level = 0;
   if (compositionHandle && compositionHandle.analyser){
@@ -1480,22 +2091,51 @@ function drawViz(timestamp){
     var sum=0; for(var i=0;i<data.length;i++) sum+=data[i];
     level = sum/data.length/255;
   }
+  var t = (timestamp||0)/1000;
+  var rhythmMult = getVizRhythmMult();
+  var pulse = updatePulseEnergy(t, level);
+
+  if (vizMode === 'cartoon'){
+    drawVizCartoon(t, level, rhythmMult, pulse);
+    return;
+  }
+  if (vizMode === '3d'){
+    drawViz3D(t, level, rhythmMult, pulse);
+    return;
+  }
+  if (vizMode === 'wave'){
+    var timeData = null;
+    if (compositionHandle && compositionHandle.analyser){
+      timeData = new Uint8Array(compositionHandle.analyser.frequencyBinCount);
+      compositionHandle.analyser.getByteTimeDomainData(timeData);
+    }
+    drawVizWave(t, level, rhythmMult, timeData, pulse);
+    return;
+  }
+  if (vizMode === 'mandala'){
+    drawVizMandala(t, level, rhythmMult, pulse);
+    return;
+  }
+
+  vctx.fillStyle='rgba(10,11,15,0.12)';
+  vctx.fillRect(0,0,canvas.width,canvas.height);
+  beginVizTransform();
 
   var cx = canvas.width/2, cy = canvas.height*0.4;
-  var t = (timestamp||0)/1000;
   var maxR = Math.min(canvas.width,canvas.height)*0.42;
-  var speedA = 0.045;
+  var speedA = 0.045 * rhythmMult;
   var ratio = 1 + Math.min(0.25, Math.max(0.03, vizPurpose.beatMid/vizPurpose.carrier));
   var speedB = speedA*ratio;
   var numRings = 5;
+  var pulseBoost = 1 + pulse*0.18;
 
   for (var r=0;r<numRings;r++){
     var phaseA = (t*speedA + r/numRings) % 1;
     var phaseB = (t*speedB + r/numRings) % 1;
-    var radA = phaseA*maxR;
-    var radB = phaseB*maxR;
-    var alphaA = (1-phaseA)*(0.22+level*0.5);
-    var alphaB = (1-phaseB)*(0.22+level*0.5);
+    var radA = phaseA*maxR*pulseBoost;
+    var radB = phaseB*maxR*pulseBoost;
+    var alphaA = (1-phaseA)*(0.22+level*0.5+pulse*0.35);
+    var alphaB = (1-phaseB)*(0.22+level*0.5+pulse*0.35);
 
     vctx.beginPath(); vctx.arc(cx,cy,radA,0,Math.PI*2);
     vctx.strokeStyle = 'rgba(95,179,163,'+alphaA.toFixed(3)+')';
@@ -1507,17 +2147,245 @@ function drawViz(timestamp){
     vctx.lineWidth = 1.1;
     vctx.stroke();
   }
+
+  if (pulse > 0.05){
+    vctx.beginPath(); vctx.arc(cx,cy,maxR*0.3*(1+pulse*0.6),0,Math.PI*2);
+    vctx.strokeStyle = 'rgba(232,228,216,'+(pulse*0.4).toFixed(3)+')';
+    vctx.lineWidth = 1.5;
+    vctx.stroke();
+  }
+  endVizTransform();
+}
+
+function drawCartoonCloud(cx,cy,size){
+  vctx.fillStyle = 'rgba(255,255,255,0.82)';
+  vctx.beginPath();
+  vctx.arc(cx, cy, size*0.5, 0, Math.PI*2);
+  vctx.arc(cx+size*0.55, cy+size*0.08, size*0.42, 0, Math.PI*2);
+  vctx.arc(cx-size*0.55, cy+size*0.08, size*0.40, 0, Math.PI*2);
+  vctx.arc(cx+size*0.12, cy-size*0.28, size*0.36, 0, Math.PI*2);
+  vctx.fill();
+}
+
+function drawCartoonBlob(cx,cy,r){
+  vctx.fillStyle = '#f2c879';
+  vctx.beginPath();
+  vctx.arc(cx,cy,r,0,Math.PI*2);
+  vctx.fill();
+  vctx.strokeStyle='rgba(10,11,15,0.45)';
+  vctx.lineWidth=Math.max(2,r*0.04);
+  vctx.stroke();
+  vctx.strokeStyle='rgba(10,11,15,0.65)';
+  vctx.lineWidth=Math.max(2,r*0.06);
+  vctx.lineCap='round';
+  vctx.beginPath(); vctx.arc(cx-r*0.28, cy-r*0.05, r*0.14, Math.PI*0.15, Math.PI*0.85); vctx.stroke();
+  vctx.beginPath(); vctx.arc(cx+r*0.28, cy-r*0.05, r*0.14, Math.PI*0.15, Math.PI*0.85); vctx.stroke();
+  vctx.beginPath(); vctx.arc(cx, cy+r*0.12, r*0.24, Math.PI*0.15, Math.PI*0.85); vctx.stroke();
+}
+
+function drawVizCartoon(t, level, rhythmMult, pulse){
+  var hueBase = 220;
+  var hueShift = (t*1.5) % 30 - 15;
+  var grad = vctx.createLinearGradient(0,0,0,canvas.height);
+  grad.addColorStop(0, 'hsl('+(hueBase+hueShift)+',45%,16%)');
+  grad.addColorStop(1, 'hsl('+(hueBase+30+hueShift)+',40%,8%)');
+  vctx.fillStyle = grad;
+  vctx.fillRect(0,0,canvas.width,canvas.height);
+  beginVizTransform();
+
+  var numClouds = 4;
+  for (var i=0;i<numClouds;i++){
+    var speed = (10 + i*4) * rhythmMult;
+    var cloudX = ((t*speed + i*220) % (canvas.width+240)) - 120;
+    var cloudY = canvas.height*(0.12+i*0.07) + 20;
+    drawCartoonCloud(cloudX, cloudY, 30+i*7);
+  }
+
+  var breathCycle = 9 / rhythmMult;
+  var breathPhase = (t % breathCycle) / breathCycle;
+  var breathScale = 1 + 0.10*Math.sin(breathPhase*Math.PI*2) + level*0.12 + pulse*0.14;
+  var bx = canvas.width/2, by = canvas.height*0.56;
+  var baseR = Math.min(canvas.width,canvas.height)*0.13;
+  var r = baseR*breathScale;
+  drawCartoonBlob(bx, by, r);
+
+  var breathingIn = breathPhase < 0.5;
+  endVizTransform();
+  vctx.font = '500 15px Georgia, serif';
+  vctx.textAlign = 'center';
+  vctx.fillStyle = 'rgba(232,228,216,0.6)';
+  var hintText = breathingIn ? (STRINGS[LANG].breathIn||'') : (STRINGS[LANG].breathOut||'');
+  vctx.fillText(hintText, canvas.width/2, by+r+34);
+  vctx.textAlign = 'left';
+}
+
+function drawViz3D(t, level, rhythmMult, pulse){
+  vctx.fillStyle = 'rgba(10,11,15,0.16)';
+  vctx.fillRect(0,0,canvas.width,canvas.height);
+  beginVizTransform();
+
+  var cx = canvas.width/2, cy = canvas.height*0.42;
+  var camDist = 300;
+  var focal = 240 + Math.min(canvas.width,canvas.height)*0.15;
+  var baseRadius = Math.min(canvas.width,canvas.height)*0.24*(1+pulse*0.08);
+
+  var ratio = 1 + Math.min(0.25, Math.max(0.03, vizPurpose.beatMid/vizPurpose.carrier));
+  var speedA = 0.35 * rhythmMult * (1+pulse*0.5);
+  var speedB = speedA * ratio;
+  var tiltA = 0.55 + Math.sin(t*0.07)*0.15;
+  var tiltB = -0.5 + Math.sin(t*0.05+1)*0.15;
+
+  function drawRing(radius, rotSpeed, tilt, colorRGB, numPoints, phaseOffset){
+    var pts = [];
+    for (var i=0;i<numPoints;i++){
+      var a = (i/numPoints)*Math.PI*2 + t*rotSpeed + phaseOffset;
+      var x = Math.cos(a)*radius;
+      var z0 = Math.sin(a)*radius;
+      var y = z0*Math.sin(tilt);
+      var z = z0*Math.cos(tilt);
+      var depth = camDist + z;
+      var persp = focal/depth;
+      var sx = cx + x*persp;
+      var sy = cy + y*persp;
+      var size = (3.2+level*4+pulse*5) * persp;
+      var alpha = Math.max(0.08, Math.min(0.95, persp*0.55 + level*0.3 + pulse*0.25));
+      pts.push({sx:sx, sy:sy, size:size, alpha:alpha, z:z});
+    }
+    pts.sort(function(a,b){ return a.z - b.z; });
+    pts.forEach(function(p){
+      vctx.beginPath();
+      vctx.arc(p.sx, p.sy, Math.max(0.6,p.size), 0, Math.PI*2);
+      vctx.fillStyle = 'rgba('+colorRGB+','+p.alpha.toFixed(3)+')';
+      vctx.fill();
+    });
+  }
+
+  drawRing(baseRadius, speedA, tiltA, '95,179,163', 26, 0);
+  drawRing(baseRadius*0.7, speedB, tiltB, '138,125,196', 20, Math.PI/5);
+  endVizTransform();
+}
+
+function drawVizWave(t, level, rhythmMult, timeData, pulse){
+  vctx.fillStyle = 'rgba(10,11,15,0.16)';
+  vctx.fillRect(0,0,canvas.width,canvas.height);
+  beginVizTransform();
+
+  var cy = canvas.height*0.42;
+  var w = canvas.width;
+  var amp = Math.min(canvas.width,canvas.height)*0.16*(0.5+level*0.9+pulse*0.5);
+
+  function drawLine(colorRGB, phaseOffset, ampMult, alphaBase){
+    vctx.beginPath();
+    var n = 128;
+    for (var i=0;i<=n;i++){
+      var x = (i/n)*w;
+      var yOff;
+      if (timeData && timeData.length){
+        var idx = Math.floor((i/n)*(timeData.length-1));
+        yOff = ((timeData[idx]-128)/128) * amp * ampMult;
+      } else {
+        var speed = 1.2*rhythmMult;
+        yOff = Math.sin(i*0.25 + t*speed + phaseOffset) * amp*0.6*ampMult
+             + Math.sin(i*0.09 + t*speed*0.6 + phaseOffset*1.7) * amp*0.4*ampMult;
+      }
+      var y = cy + yOff;
+      if (i===0) vctx.moveTo(x,y); else vctx.lineTo(x,y);
+    }
+    vctx.strokeStyle = 'rgba('+colorRGB+','+alphaBase+')';
+    vctx.lineWidth = 2;
+    vctx.stroke();
+  }
+
+  drawLine('95,179,163', 0, 1.0, 0.75);
+  drawLine('138,125,196', Math.PI/3, 0.85, 0.55);
+  endVizTransform();
+}
+
+function drawVizMandala(t, level, rhythmMult, pulse){
+  vctx.fillStyle = 'rgba(10,11,15,0.14)';
+  vctx.fillRect(0,0,canvas.width,canvas.height);
+  beginVizTransform();
+
+  var cx = canvas.width/2, cy = canvas.height*0.42;
+  var symmetry = 8;
+  var maxR = Math.min(canvas.width,canvas.height)*0.4;
+  var rotation = t*0.12*rhythmMult*(1+pulse*0.4);
+  var levelPulse = 0.5+level*0.6+pulse*0.35;
+
+  for (var s=0;s<symmetry;s++){
+    var baseAngle = (s/symmetry)*Math.PI*2 + rotation;
+    vctx.save();
+    vctx.translate(cx,cy);
+    vctx.rotate(baseAngle);
+    vctx.beginPath();
+    var petals = 5;
+    for (var i=0;i<=petals;i++){
+      var frac = i/petals;
+      var r = maxR*(0.25+0.75*Math.sin(frac*Math.PI))*levelPulse;
+      var ang = (frac-0.5)*0.6;
+      var x = Math.sin(ang)*r;
+      var y = -Math.cos(ang)*r;
+      if (i===0) vctx.moveTo(x,y); else vctx.lineTo(x,y);
+    }
+    var hue = 175 + s*8 + Math.sin(t*0.1)*10;
+    vctx.strokeStyle = 'hsla('+hue+',55%,65%,'+(0.35+level*0.4+pulse*0.3)+')';
+    vctx.lineWidth = 1.3;
+    vctx.stroke();
+    vctx.restore();
+  }
+  endVizTransform();
 }
 if (!reduceMotion){ requestAnimationFrame(drawViz); }
 
 function requestWakeLock(){
-  if ('wakeLock' in navigator){
+  if (navigator.wakeLock && navigator.wakeLock.request){
     navigator.wakeLock.request('screen').then(function(sentinel){ wakeLockSentinel = sentinel; }).catch(function(){});
   }
 }
 function hapticPulse(ms){
   try{ if (navigator.vibrate) navigator.vibrate(ms); }catch(e){}
 }
+
+var utilityCtx = null;
+var utilityDry = null;
+var utilityWet = null;
+function ensureUtilityContext(){
+  if (utilityCtx) return;
+  utilityCtx = new (window.AudioContext||window.webkitAudioContext)();
+  utilityDry = utilityCtx.createGain(); utilityDry.gain.value = 1;
+  var conv = utilityCtx.createConvolver();
+  conv.buffer = createReverbImpulse(utilityCtx);
+  utilityWet = utilityCtx.createGain(); utilityWet.gain.value = 1;
+  var wetReturn = utilityCtx.createGain(); wetReturn.gain.value = 0.5;
+  utilityWet.connect(conv); conv.connect(wetReturn);
+  var master = utilityCtx.createGain(); master.gain.value = 0.85;
+  utilityDry.connect(master);
+  wetReturn.connect(master);
+  master.connect(utilityCtx.destination);
+}
+var lastOneShotTime = 0;
+function playOneShot(type){
+  var nowMs = Date.now();
+  if (nowMs - lastOneShotTime < 900) return;
+  lastOneShotTime = nowMs;
+  ensureUtilityContext();
+  if (utilityCtx.state === 'suspended'){ utilityCtx.resume().catch(function(){}); }
+  var rng = mulberry32(Math.floor(Math.random()*1e9));
+  var scale = SCALES[scaleSelect.value] || SCALES.calda;
+  var now = utilityCtx.currentTime + 0.02;
+  hapticPulse(15);
+  var manualDegree = rng()<0.6 ? 0 : 3;
+  if (type === 'gong'){
+    var gongFreq = scaleFreq(scale, -1, manualDegree);
+    renderGong(utilityCtx, now, gongFreq, 0.5, utilityDry, utilityWet, rng);
+  } else {
+    var conchFreq = scaleFreq(scale, -1, manualDegree)*1.5;
+    renderConch(utilityCtx, now, conchFreq, 3.5, 0.42, utilityDry, utilityWet, rng);
+  }
+}
+gongManualBtn.addEventListener('click', function(){ playOneShot('gong'); });
+conchManualBtn.addEventListener('click', function(){ playOneShot('conch'); });
+
 function releaseWakeLock(){
   if (wakeLockSentinel){ try{ wakeLockSentinel.release(); }catch(e){} wakeLockSentinel=null; }
 }
@@ -1549,6 +2417,10 @@ function currentConfig(){
     seed: currentSeed,
     duration: parseInt(durationSelect.value,10),
     binauralEnabled: binauralToggle.checked,
+    voiceEnabled: voiceToggle.checked,
+    voiceProfile: voiceProfileSelect.value,
+    gongAtStart: gongAutoToggle.checked,
+    conchAtEnd: conchAutoToggle.checked,
     scale: SCALES[scaleSelect.value] || SCALES.calda,
     purpose: PURPOSES[purposeSelect.value] || PURPOSES.relaxare,
     density: DENSITIES[densitySelect.value] || DENSITIES.echilibrat,
@@ -1638,6 +2510,8 @@ function togglePlayPause(){
       playBtn.setAttribute('aria-label', STRINGS[LANG].ariaPauza);
       requestWakeLock();
       requestAnimationFrame(updateProgress);
+    }).catch(function(){
+      stopPlayback();
     });
   } else {
     ctx.suspend().then(function(){
@@ -1645,6 +2519,8 @@ function togglePlayPause(){
       hapticPulse(10);
       playBtn.textContent = '▶';
       playBtn.setAttribute('aria-label', STRINGS[LANG].ariaReda);
+    }).catch(function(){
+      stopPlayback();
     });
   }
 }
@@ -1694,32 +2570,279 @@ document.addEventListener('keydown', function(e){
   }
 });
 
-exportBtn.addEventListener('click', function(){
-  exportBtn.disabled = true;
-  exportStatus.textContent = STRINGS[LANG].exportStatusRendering;
+function renderOfflineAndDownload(encoderFn, extension, statusEl, btnEl){
+  btnEl.disabled = true;
+  statusEl.textContent = STRINGS[LANG].exportStatusRendering;
   try {
     var config = currentConfig();
     var OfflineCtor = window.OfflineAudioContext || window.webkitOfflineAudioContext;
     var offlineCtx = new OfflineCtor(2, config.duration*44100, 44100);
     buildComposition(offlineCtx, config);
     offlineCtx.startRendering().then(function(rendered){
-      var wavBlob = audioBufferToWav(rendered);
-      var url = URL.createObjectURL(wavBlob);
+      var blob = encoderFn(rendered);
+      var url = URL.createObjectURL(blob);
       var a = document.createElement('a');
-      a.href = url; a.download = 'unde-de-liniste-'+purposeSelect.value+'-'+scaleSelect.value+'.wav';
+      a.href = url; a.download = 'calm-waves-'+purposeSelect.value+'-'+scaleSelect.value+'.'+extension;
       document.body.appendChild(a); a.click(); document.body.removeChild(a);
       setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
-      exportStatus.textContent = STRINGS[LANG].exportStatusDone;
-      exportBtn.disabled = false;
+      statusEl.textContent = STRINGS[LANG].exportStatusDone;
+      btnEl.disabled = false;
     }).catch(function(err){
-      exportStatus.textContent = STRINGS[LANG].exportStatusErrorPrefix+err.message;
-      exportBtn.disabled = false;
+      statusEl.textContent = STRINGS[LANG].exportStatusErrorPrefix+err.message;
+      btnEl.disabled = false;
     });
   } catch(err){
-    exportStatus.textContent = STRINGS[LANG].exportStatusErrorPrefix+err.message;
+    statusEl.textContent = STRINGS[LANG].exportStatusErrorPrefix+err.message;
+    btnEl.disabled = false;
+  }
+}
+
+exportBtn.addEventListener('click', function(){
+  renderOfflineAndDownload(audioBufferToWav, 'wav', exportStatus, exportBtn);
+});
+exportAiffBtn.addEventListener('click', function(){
+  renderOfflineAndDownload(audioBufferToAiff, 'aiff', exportStatus, exportAiffBtn);
+});
+
+function getSupportedRecorderMimeType(){
+  if (!window.MediaRecorder || !MediaRecorder.isTypeSupported) return null;
+  var candidates = ['audio/webm;codecs=opus','audio/ogg;codecs=opus','audio/mp4','audio/webm'];
+  for (var i=0;i<candidates.length;i++){
+    if (MediaRecorder.isTypeSupported(candidates[i])) return candidates[i];
+  }
+  return null;
+}
+function extensionForMime(mime){
+  if (mime.indexOf('mp4')>-1) return 'm4a';
+  if (mime.indexOf('ogg')>-1) return 'ogg';
+  return 'webm';
+}
+
+var compressedRecCtx = null;
+var compressedRecorder = null;
+var compressedChunks = [];
+var compressedActive = false;
+var compressedCancelled = false;
+
+function updateCompressedProgress(pct){
+  compressedProgressFill.style.width = Math.round(pct*100)+'%';
+}
+
+compressedExportBtn.addEventListener('click', function(){
+  if (compressedActive) return;
+  var mimeType = getSupportedRecorderMimeType();
+  var hasAudioContext = !!(window.AudioContext || window.webkitAudioContext);
+  if (!mimeType || !hasAudioContext){
+    compressedExportStatus.textContent = STRINGS[LANG].compressedNotSupported;
+    return;
+  }
+  compressedActive = true;
+  compressedCancelled = false;
+  compressedChunks = [];
+  compressedExportBtn.disabled = true;
+  exportAiffBtn.disabled = true;
+  exportBtn.disabled = true;
+  compressedCancelBtn.hidden = false;
+  compressedProgressTrack.hidden = false;
+  updateCompressedProgress(0);
+
+  var config = currentConfig();
+  try{
+    compressedRecCtx = new (window.AudioContext||window.webkitAudioContext)();
+    var streamDest = compressedRecCtx.createMediaStreamDestination();
+    config.destination = streamDest;
+    var handle = buildComposition(compressedRecCtx, config);
+    handle.analyser.connect(compressedRecCtx.destination); // also audible while it renders
+
+    var recorder = new MediaRecorder(streamDest.stream, {mimeType: mimeType});
+    compressedRecorder = recorder;
+    recorder.ondataavailable = function(e){ if (e.data && e.data.size>0) compressedChunks.push(e.data); };
+    recorder.onstop = function(){
+      compressedActive = false;
+      compressedCancelBtn.hidden = true;
+      compressedExportBtn.disabled = false;
+      exportAiffBtn.disabled = false;
+      exportBtn.disabled = false;
+      try{ compressedRecCtx.close(); }catch(e){}
+      if (compressedCancelled){
+        compressedExportStatus.textContent = STRINGS[LANG].compressedCancelled;
+        compressedProgressTrack.hidden = true;
+        return;
+      }
+      updateCompressedProgress(1);
+      var blob = new Blob(compressedChunks, {type: mimeType});
+      var url = URL.createObjectURL(blob);
+      var ext = extensionForMime(mimeType);
+      var a = document.createElement('a');
+      a.href = url; a.download = 'calm-waves-'+purposeSelect.value+'-'+scaleSelect.value+'.'+ext;
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
+      compressedExportStatus.textContent = STRINGS[LANG].compressedExportDone.replace('{ext}', ext.toUpperCase());
+    };
+    recorder.start();
+    var startTime = compressedRecCtx.currentTime;
+    var totalMin = Math.round(config.duration/60);
+    compressedExportStatus.textContent = STRINGS[LANG].compressedExportRendering.replace('{min}', totalMin);
+
+    (function tick(){
+      if (!compressedActive) return;
+      var elapsed = compressedRecCtx.currentTime - startTime;
+      updateCompressedProgress(Math.min(1, elapsed/config.duration));
+      if (elapsed >= config.duration){
+        try{ recorder.stop(); }catch(e){}
+        return;
+      }
+      requestAnimationFrame(tick);
+    })();
+  } catch(err){
+    compressedActive = false;
+    compressedCancelBtn.hidden = true;
+    compressedExportBtn.disabled = false;
+    exportAiffBtn.disabled = false;
     exportBtn.disabled = false;
+    compressedExportStatus.textContent = STRINGS[LANG].exportStatusErrorPrefix+err.message;
   }
 });
+
+compressedCancelBtn.addEventListener('click', function(){
+  compressedCancelled = true;
+  if (compressedRecorder && compressedActive){
+    try{ compressedRecorder.stop(); }catch(e){}
+  }
+});
+
+var vizElegantBtn = document.getElementById('vizElegantBtn');
+var vizCartoonBtn = document.getElementById('vizCartoonBtn');
+var viz3dBtn = document.getElementById('viz3dBtn');
+var vizWaveBtn = document.getElementById('vizWaveBtn');
+var vizMandalaBtn = document.getElementById('vizMandalaBtn');
+var vizFullscreenBtn = document.getElementById('vizFullscreenBtn');
+function setVizMode(mode){
+  vizMode = mode;
+  vizElegantBtn.classList.toggle('active', mode==='elegant');
+  vizCartoonBtn.classList.toggle('active', mode==='cartoon');
+  viz3dBtn.classList.toggle('active', mode==='3d');
+  vizWaveBtn.classList.toggle('active', mode==='wave');
+  vizMandalaBtn.classList.toggle('active', mode==='mandala');
+}
+vizElegantBtn.addEventListener('click', function(){ setVizMode('elegant'); });
+vizCartoonBtn.addEventListener('click', function(){ setVizMode('cartoon'); });
+viz3dBtn.addEventListener('click', function(){ setVizMode('3d'); });
+vizWaveBtn.addEventListener('click', function(){ setVizMode('wave'); });
+vizMandalaBtn.addEventListener('click', function(){ setVizMode('mandala'); });
+
+function isFullscreen(){
+  return !!(document.fullscreenElement || document.webkitFullscreenElement);
+}
+function updateFullscreenBtn(){
+  vizFullscreenBtn.textContent = isFullscreen() ? '⛶' : '⛶';
+  vizFullscreenBtn.classList.toggle('active', isFullscreen());
+}
+vizFullscreenBtn.addEventListener('click', function(){
+  try{
+    if (!isFullscreen()){
+      var req = canvas.requestFullscreen || canvas.webkitRequestFullscreen;
+      if (req) req.call(canvas);
+    } else {
+      var ext = document.exitFullscreen || document.webkitExitFullscreen;
+      if (ext) ext.call(document);
+    }
+  }catch(e){}
+});
+canvas.addEventListener('click', function(){
+  if (vizDragDistance > 6) return;
+  if (isFullscreen()){
+    try{ (document.exitFullscreen||document.webkitExitFullscreen).call(document); }catch(e){}
+  }
+});
+
+var vizDragDistance = 0;
+var isDraggingViz = false;
+var lastDragX = 0, lastDragY = 0;
+canvas.style.cursor = 'grab';
+canvas.addEventListener('mousedown', function(e){
+  isDraggingViz = true;
+  vizDragDistance = 0;
+  lastDragX = e.clientX; lastDragY = e.clientY;
+  canvas.style.cursor = 'grabbing';
+});
+window.addEventListener('mousemove', function(e){
+  if (!isDraggingViz) return;
+  var dx = e.clientX - lastDragX;
+  var dy = e.clientY - lastDragY;
+  vizDragDistance += Math.abs(dx)+Math.abs(dy);
+  vizPanX += dx; vizPanY += dy;
+  lastDragX = e.clientX; lastDragY = e.clientY;
+});
+window.addEventListener('mouseup', function(){
+  isDraggingViz = false;
+  canvas.style.cursor = 'grab';
+});
+canvas.addEventListener('wheel', function(e){
+  e.preventDefault();
+  var delta = -e.deltaY * 0.0012;
+  vizZoom = Math.max(0.4, Math.min(3, vizZoom * (1+delta)));
+}, {passive:false});
+canvas.addEventListener('dblclick', function(){
+  vizPanX = 0; vizPanY = 0; vizZoom = 1;
+});
+
+function vizTouchDistance(t1,t2){
+  var dx = t1.clientX-t2.clientX, dy = t1.clientY-t2.clientY;
+  return Math.sqrt(dx*dx+dy*dy);
+}
+var vizTouchMode = null;
+var vizLastPinchDist = 0;
+var vizLastTapTime = 0;
+canvas.addEventListener('touchstart', function(e){
+  if (e.touches.length===1){
+    vizTouchMode = 'pan';
+    lastDragX = e.touches[0].clientX; lastDragY = e.touches[0].clientY;
+    vizDragDistance = 0;
+  } else if (e.touches.length===2){
+    vizTouchMode = 'zoom';
+    vizLastPinchDist = vizTouchDistance(e.touches[0], e.touches[1]);
+  }
+}, {passive:true});
+canvas.addEventListener('touchmove', function(e){
+  if (vizTouchMode==='pan' && e.touches.length===1){
+    var dx = e.touches[0].clientX - lastDragX;
+    var dy = e.touches[0].clientY - lastDragY;
+    vizDragDistance += Math.abs(dx)+Math.abs(dy);
+    vizPanX += dx; vizPanY += dy;
+    lastDragX = e.touches[0].clientX; lastDragY = e.touches[0].clientY;
+    e.preventDefault();
+  } else if (vizTouchMode==='zoom' && e.touches.length===2){
+    var dist = vizTouchDistance(e.touches[0], e.touches[1]);
+    if (vizLastPinchDist > 0){
+      var ratio = dist/vizLastPinchDist;
+      vizZoom = Math.max(0.4, Math.min(3, vizZoom*ratio));
+    }
+    vizLastPinchDist = dist;
+    e.preventDefault();
+  }
+}, {passive:false});
+canvas.addEventListener('touchend', function(e){
+  if (e.touches.length===0){
+    var now = Date.now();
+    if (vizDragDistance < 6 && now-vizLastTapTime < 350){
+      vizPanX = 0; vizPanY = 0; vizZoom = 1;
+    }
+    vizLastTapTime = now;
+    vizTouchMode = null;
+  } else if (e.touches.length===1){
+    vizTouchMode = 'pan';
+    lastDragX = e.touches[0].clientX; lastDragY = e.touches[0].clientY;
+  }
+});
+
+var vizResetBtn = document.getElementById('vizResetBtn');
+vizResetBtn.addEventListener('click', function(){
+  vizPanX = 0; vizPanY = 0; vizZoom = 1;
+});
+document.addEventListener('fullscreenchange', function(){ resizeCanvas(); updateFullscreenBtn(); });
+document.addEventListener('webkitfullscreenchange', function(){ resizeCanvas(); updateFullscreenBtn(); });
+
 
 // Initial setup
 applyTranslations();
