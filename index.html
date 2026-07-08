@@ -2549,11 +2549,7 @@ function playOneShot(type){
     }
   };
 
-  if (utilityCtx.state === 'suspended'){
-    utilityCtx.resume().then(fireSound).catch(fireSound);
-  } else {
-    fireSound();
-  }
+  utilityCtx.resume().then(fireSound).catch(fireSound);
 }
 gongManualBtn.addEventListener('click', function(){ playOneShot('gong'); });
 conchManualBtn.addEventListener('click', function(){ playOneShot('conch'); });
@@ -2679,11 +2675,7 @@ function startPlayback(isLoopContinuation){
     requestAnimationFrame(updateProgress);
   };
 
-  if (ctx.state === 'suspended'){
-    ctx.resume().then(finishStart).catch(finishStart);
-  } else {
-    finishStart();
-  }
+  ctx.resume().then(finishStart).catch(finishStart);
 }
 
 function stopPlayback(){
@@ -2907,11 +2899,7 @@ compressedExportBtn.addEventListener('click', function(){
     })();
     };
 
-    if (compressedRecCtx.state === 'suspended'){
-      compressedRecCtx.resume().then(proceedWithRecording).catch(proceedWithRecording);
-    } else {
-      proceedWithRecording();
-    }
+    compressedRecCtx.resume().then(proceedWithRecording).catch(proceedWithRecording);
   } catch(err){
     compressedActive = false;
     compressedCancelBtn.hidden = true;
