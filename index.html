@@ -1448,6 +1448,7 @@ function buildComposition(ctx, config){
     allSources.push(osc1,osc2);
   }
 
+  try{
   PAD_LAYER_DEFS.slice(0, density.layerCount).forEach(function(cfg){
     var t = rng()*10;
     while (t < DURATION - 10){
@@ -1459,6 +1460,7 @@ function buildComposition(ctx, config){
       t += (dur*cfg.overlap + rng()*8*tempo.durMult) * durationThinning;
     }
   });
+  }catch(e){}
 
   function scheduleBell(startTime){
     var octave = 1+Math.floor(rng()*2);
@@ -1501,6 +1503,7 @@ function buildComposition(ctx, config){
     allSources.push(osc,osc2);
   }
 
+  try{
   (function(){
     var t = 8+rng()*5;
     while (t < DURATION-5){
@@ -1510,6 +1513,7 @@ function buildComposition(ctx, config){
       t += Math.max(4,gap);
     }
   })();
+  }catch(e){}
 
   function scheduleVoice(startTime, vType, profileKeyRaw){
     var profileKey = profileKeyRaw;
@@ -1633,6 +1637,7 @@ function buildComposition(ctx, config){
     allSources.push(osc);
   }
 
+  try{
   if (config.voiceEnabled){
     (function(){
       var t = 15+rng()*15;
@@ -1646,13 +1651,17 @@ function buildComposition(ctx, config){
       }
     })();
   }
+  }catch(e){}
 
+  try{
   if (config.gongAtStart){
     var gongDegree = rng()<0.6 ? 0 : 3;
     var gongFreq = scaleFreq(scale, -1, gongDegree);
     var gongNodes = renderGong(ctx, t0+0.8, gongFreq, 0.11, dryBus, reverbSend, rng);
     gongNodes.forEach(function(n){ allSources.push(n); });
   }
+  }catch(e){}
+  try{
   if (config.conchAtEnd && DURATION > 30){
     var conchDegree = rng()<0.6 ? 0 : 3;
     var conchFreq = scaleFreq(scale, -1, conchDegree)*1.5;
@@ -1661,7 +1670,9 @@ function buildComposition(ctx, config){
     var conchNodes = renderConch(ctx, t0+conchStart, conchFreq, conchDur, 0.09, dryBus, reverbSend, rng);
     conchNodes.forEach(function(n){ allSources.push(n); });
   }
+  }catch(e){}
 
+  try{
   (function(){
     var noiseBuf = createNoiseBuffer(ctx, 6, texture.color);
     var src = ctx.createBufferSource();
@@ -1727,6 +1738,7 @@ function buildComposition(ctx, config){
       }
     }
   })();
+  }catch(e){}
 
   // Stereo width stage (mid/side), applied only to the music bus (pads/bells/texture/reverb).
   var splitter = ctx.createChannelSplitter(2);
@@ -1753,6 +1765,7 @@ function buildComposition(ctx, config){
   finalMix.gain.value = 1.0;
   widthMerger.connect(finalMix);
 
+  try{
   if (binauralEnabled){
     var merger = ctx.createChannelMerger(2);
     var oscL = ctx.createOscillator();
@@ -1780,6 +1793,7 @@ function buildComposition(ctx, config){
     oscR.start(t0); oscR.stop(t0+DURATION);
     allSources.push(oscL,oscR);
   }
+  }catch(e){}
 
   var compressor = ctx.createDynamicsCompressor();
   compressor.threshold.setValueAtTime(-18, t0);
