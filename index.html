@@ -2369,19 +2369,29 @@ function playOneShot(type){
   var nowMs = Date.now();
   if (nowMs - lastOneShotTime < 900) return;
   lastOneShotTime = nowMs;
+  var freshCtx = !utilityCtx;
   ensureUtilityContext();
-  if (utilityCtx.state === 'suspended'){ utilityCtx.resume().catch(function(){}); }
-  var rng = mulberry32(Math.floor(Math.random()*1e9));
-  var scale = SCALES[scaleSelect.value] || SCALES.calda;
-  var now = utilityCtx.currentTime + 0.02;
+  if (freshCtx){ unlockAudioContext(utilityCtx); }
   hapticPulse(15);
-  var manualDegree = rng()<0.6 ? 0 : 3;
-  if (type === 'gong'){
-    var gongFreq = scaleFreq(scale, -1, manualDegree);
-    renderGong(utilityCtx, now, gongFreq, 0.5, utilityDry, utilityWet, rng);
+
+  var fireSound = function(){
+    var rng = mulberry32(Math.floor(Math.random()*1e9));
+    var scale = SCALES[scaleSelect.value] || SCALES.calda;
+    var now = utilityCtx.currentTime + 0.02;
+    var manualDegree = rng()<0.6 ? 0 : 3;
+    if (type === 'gong'){
+      var gongFreq = scaleFreq(scale, -1, manualDegree);
+      renderGong(utilityCtx, now, gongFreq, 0.5, utilityDry, utilityWet, rng);
+    } else {
+      var conchFreq = scaleFreq(scale, -1, manualDegree)*1.5;
+      renderConch(utilityCtx, now, conchFreq, 3.5, 0.42, utilityDry, utilityWet, rng);
+    }
+  };
+
+  if (utilityCtx.state === 'suspended'){
+    utilityCtx.resume().then(fireSound).catch(fireSound);
   } else {
-    var conchFreq = scaleFreq(scale, -1, manualDegree)*1.5;
-    renderConch(utilityCtx, now, conchFreq, 3.5, 0.42, utilityDry, utilityWet, rng);
+    fireSound();
   }
 }
 gongManualBtn.addEventListener('click', function(){ playOneShot('gong'); });
@@ -2459,27 +2469,47 @@ function syncLiveMixerControls(){
   compositionHandle.setWidth(parseInt(widthSlider.value,10)/100);
 }
 
+function unlockAudioContext(audioCtx){
+  try{
+    var buffer = audioCtx.createBuffer(1, 1, audioCtx.sampleRate);
+    var src = audioCtx.createBufferSource();
+    src.buffer = buffer;
+    src.connect(audioCtx.destination);
+    src.start(0);
+  }catch(e){}
+}
+
 function startPlayback(isLoopContinuation){
   if (sessionActive && !isLoopContinuation) return;
   ctx = new (window.AudioContext||window.webkitAudioContext)();
-  if (isLoopContinuation){ currentSeed = Math.floor(Math.random()*1e9); }
-  var config = currentConfig();
-  currentDuration = config.duration;
-  compositionHandle = buildComposition(ctx, config);
-  syncLiveMixerControls();
-  startWallTime = ctx.currentTime;
-  sessionActive = true;
-  isPaused = false;
-  activeKeys = {purpose:purposeSelect.value, scale:scaleSelect.value, density:densitySelect.value, texture:textureSelect.value, tempo:tempoSelect.value};
-  playBtn.textContent = '⏸';
-  playBtn.setAttribute('aria-label', STRINGS[LANG].ariaPauza);
-  resetBtn.hidden = false;
-  updateVariantCodeDisplay();
-  updateNowPlayingDisplay();
-  pushHistory(encodeVariantCode());
-  if (!isLoopContinuation){ armSleepTimer(); }
-  requestWakeLock();
-  requestAnimationFrame(updateProgress);
+  unlockAudioContext(ctx);
+
+  var finishStart = function(){
+    if (isLoopContinuation){ currentSeed = Math.floor(Math.random()*1e9); }
+    var config = currentConfig();
+    currentDuration = config.duration;
+    compositionHandle = buildComposition(ctx, config);
+    syncLiveMixerControls();
+    startWallTime = ctx.currentTime;
+    sessionActive = true;
+    isPaused = false;
+    activeKeys = {purpose:purposeSelect.value, scale:scaleSelect.value, density:densitySelect.value, texture:textureSelect.value, tempo:tempoSelect.value};
+    playBtn.textContent = '⏸';
+    playBtn.setAttribute('aria-label', STRINGS[LANG].ariaPauza);
+    resetBtn.hidden = false;
+    updateVariantCodeDisplay();
+    updateNowPlayingDisplay();
+    pushHistory(encodeVariantCode());
+    if (!isLoopContinuation){ armSleepTimer(); }
+    requestWakeLock();
+    requestAnimationFrame(updateProgress);
+  };
+
+  if (ctx.state === 'suspended'){
+    ctx.resume().then(finishStart).catch(finishStart);
+  } else {
+    finishStart();
+  }
 }
 
 function stopPlayback(){
@@ -2653,6 +2683,9 @@ compressedExportBtn.addEventListener('click', function(){
   var config = currentConfig();
   try{
     compressedRecCtx = new (window.AudioContext||window.webkitAudioContext)();
+    unlockAudioContext(compressedRecCtx);
+
+    var proceedWithRecording = function(){
     var streamDest = compressedRecCtx.createMediaStreamDestination();
     config.destination = streamDest;
     var handle = buildComposition(compressedRecCtx, config);
@@ -2698,6 +2731,13 @@ compressedExportBtn.addEventListener('click', function(){
       }
       requestAnimationFrame(tick);
     })();
+    };
+
+    if (compressedRecCtx.state === 'suspended'){
+      compressedRecCtx.resume().then(proceedWithRecording).catch(proceedWithRecording);
+    } else {
+      proceedWithRecording();
+    }
   } catch(err){
     compressedActive = false;
     compressedCancelBtn.hidden = true;
