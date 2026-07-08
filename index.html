@@ -1149,7 +1149,7 @@ function intensityEnvelope(t, duration){
 }
 
 function createReverbImpulse(ctx){
-  var duration = 4.5, decay = 3;
+  var duration = 3.5, decay = 3;
   var rate = ctx.sampleRate;
   var length = Math.floor(rate*duration);
   var impulse = ctx.createBuffer(2, length, rate);
@@ -1663,7 +1663,7 @@ function buildComposition(ctx, config){
   }
 
   (function(){
-    var noiseBuf = createNoiseBuffer(ctx, 20, texture.color);
+    var noiseBuf = createNoiseBuffer(ctx, 6, texture.color);
     var src = ctx.createBufferSource();
     src.buffer = noiseBuf; src.loop = true;
     var filter = ctx.createBiquadFilter();
@@ -2563,7 +2563,10 @@ function releaseWakeLock(){
 }
 document.addEventListener('visibilitychange', function(){
   if (document.visibilityState==='visible'){
-    if (sessionActive && !isPaused){ requestWakeLock(); }
+    if (sessionActive && !isPaused){
+      requestWakeLock();
+      if (ctx && ctx.state === 'suspended'){ ctx.resume().catch(function(){}); }
+    }
     if (!reduceMotion && !vizRunning){ vizRunning = true; requestAnimationFrame(drawViz); }
   } else {
     isDraggingViz = false;
@@ -2645,6 +2648,15 @@ function startPlayback(isLoopContinuation){
   if (sessionActive && !isLoopContinuation) return;
   ctx = new (window.AudioContext||window.webkitAudioContext)();
   unlockAudioContext(ctx);
+  (function(){
+    var localCtx = ctx;
+    localCtx.onstatechange = function(){
+      if (localCtx !== ctx) return;
+      if (localCtx.state === 'suspended' && sessionActive && !isPaused){
+        localCtx.resume().catch(function(){});
+      }
+    };
+  })();
 
   var finishStart = function(){
     if (isLoopContinuation){ currentSeed = Math.floor(Math.random()*1e9); }
