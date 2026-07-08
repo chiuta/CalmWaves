@@ -84,12 +84,31 @@ body{
 .presets-row{margin-bottom:1.2rem;text-align:left;}
 .presets-label{font-size:0.78rem;color:var(--text-dim);display:block;margin-bottom:0.5rem;}
 .presets-buttons{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem;}
+.preset-wrap{position:relative;display:flex;gap:0.3rem;}
 .preset-btn{
   background:var(--panel);border:1px solid var(--border);border-radius:8px;
   color:var(--text);cursor:pointer;font-size:0.8rem;padding:0.5rem 0.4rem;
-  font-family:'Cormorant Garamond',Garamond,serif;
+  font-family:'Cormorant Garamond',Garamond,serif;flex:1;min-width:0;
 }
 .preset-btn:hover{border-color:var(--wave1);color:var(--wave1);}
+.preset-btn.active{background:linear-gradient(155deg,var(--wave1),var(--wave2));color:#0a0b0f;border-color:transparent;}
+.preset-delete{
+  flex-shrink:0;width:28px;background:var(--panel);border:1px solid var(--border);border-radius:8px;
+  color:var(--text-dim);cursor:pointer;font-size:0.95rem;line-height:1;padding:0;
+}
+.preset-delete:hover{color:#e57373;border-color:#e57373;}
+.custom-preset-add{display:flex;gap:0.4rem;margin-top:0.6rem;}
+.custom-preset-add input{
+  flex:1;min-width:0;background:var(--panel);border:1px solid var(--border);border-radius:8px;
+  color:var(--text);font-size:0.8rem;padding:0.5rem 0.6rem;font-family:'Cormorant Garamond',Garamond,serif;
+}
+.custom-preset-add button{
+  flex-shrink:0;background:var(--panel);border:1px solid var(--border);border-radius:8px;
+  color:var(--text);cursor:pointer;font-size:0.78rem;padding:0.5rem 0.7rem;
+  font-family:'Cormorant Garamond',Garamond,serif;white-space:nowrap;
+}
+.custom-preset-add button:hover{border-color:var(--wave1);color:var(--wave1);}
+#presetAddStatus{font-size:0.75rem;color:var(--text-dim);margin-top:0.35rem;min-height:1.1em;display:block;}
 h1{
   font-weight:500;
   font-size:clamp(1.8rem,5vw,2.5rem);
@@ -423,12 +442,12 @@ footer a:hover{color:var(--wave1);}
 
   <div class="presets-row">
     <span class="presets-label" data-i18n="presetsLabel">Presetări rapide</span>
-    <div class="presets-buttons">
-      <button type="button" class="preset-btn" data-preset="0" data-i18n="preset_relaxare">Relaxare clasică</button>
-      <button type="button" class="preset-btn" data-preset="1" data-i18n="preset_somn">Somn adânc</button>
-      <button type="button" class="preset-btn" data-preset="2" data-i18n="preset_focus">Focus rapid</button>
-      <button type="button" class="preset-btn" data-preset="3" data-i18n="preset_meditatie">Meditație serală</button>
+    <div class="presets-buttons" id="presetsButtonsContainer"></div>
+    <div class="custom-preset-add advanced-only">
+      <input type="text" id="newPresetNameInput" data-i18n-placeholder="newPresetPlaceholder" placeholder="Nume preset nou" maxlength="24">
+      <button type="button" id="addPresetBtn" data-i18n="addPresetBtn">+ Adaugă preset curent</button>
     </div>
+    <span id="presetAddStatus" class="advanced-only"></span>
   </div>
 
   <div class="controls">
@@ -671,6 +690,7 @@ var STRINGS = {
     labelDurata:"Durată", labelTextura:"Textură de fond", labelRitm:"Ritm generativ",
     modeSimple:"Simplu", modeComplet:"Complet",
     presetsLabel:"Presetări rapide", preset_relaxare:"Relaxare clasică", preset_somn:"Somn adânc",
+    newPresetPlaceholder:"Nume preset nou", addPresetBtn:"+ Adaugă preset curent", deletePresetAria:"Șterge presetul", presetSaved:"Preset salvat.", presetLimitReached:"Limită atinsă (12 preseturi personalizate).",
     preset_focus:"Focus rapid", preset_meditatie:"Meditație serală", sessionDone:"Sesiune încheiată:",
     opt_purpose_relaxare:"Relaxare profundă", opt_purpose_somn:"Somn",
     opt_purpose_concentrare:"Concentrare calmă", opt_purpose_meditatie:"Meditație",
@@ -733,6 +753,7 @@ var STRINGS = {
     labelDurata:"Duration", labelTextura:"Background texture", labelRitm:"Generative pace",
     modeSimple:"Simple", modeComplet:"Full",
     presetsLabel:"Quick presets", preset_relaxare:"Classic relaxation", preset_somn:"Deep sleep",
+    newPresetPlaceholder:"New preset name", addPresetBtn:"+ Save current preset", deletePresetAria:"Delete preset", presetSaved:"Preset saved.", presetLimitReached:"Limit reached (12 custom presets).",
     preset_focus:"Quick focus", preset_meditatie:"Evening meditation", sessionDone:"Session complete:",
     opt_purpose_relaxare:"Deep relaxation", opt_purpose_somn:"Sleep",
     opt_purpose_concentrare:"Calm focus", opt_purpose_meditatie:"Meditation",
@@ -795,6 +816,7 @@ var STRINGS = {
     labelDurata:"Durée", labelTextura:"Texture de fond", labelRitm:"Rythme génératif",
     modeSimple:"Simple", modeComplet:"Complet",
     presetsLabel:"Préréglages rapides", preset_relaxare:"Relaxation classique", preset_somn:"Sommeil profond",
+    newPresetPlaceholder:"Nom du nouveau préréglage", addPresetBtn:"+ Enregistrer le préréglage", deletePresetAria:"Supprimer le préréglage", presetSaved:"Préréglage enregistré.", presetLimitReached:"Limite atteinte (12 préréglages personnalisés).",
     preset_focus:"Concentration rapide", preset_meditatie:"Méditation du soir", sessionDone:"Séance terminée :",
     opt_purpose_relaxare:"Relaxation profonde", opt_purpose_somn:"Sommeil",
     opt_purpose_concentrare:"Concentration calme", opt_purpose_meditatie:"Méditation",
@@ -857,6 +879,7 @@ var STRINGS = {
     labelDurata:"Durata", labelTextura:"Texture di sottofondo", labelRitm:"Ritmo generativo",
     modeSimple:"Semplice", modeComplet:"Completo",
     presetsLabel:"Preimpostazioni rapide", preset_relaxare:"Relax classico", preset_somn:"Sonno profondo",
+    newPresetPlaceholder:"Nome nuovo preset", addPresetBtn:"+ Salva preset attuale", deletePresetAria:"Elimina preset", presetSaved:"Preset salvato.", presetLimitReached:"Limite raggiunto (12 preset personalizzati).",
     preset_focus:"Focus rapido", preset_meditatie:"Meditazione serale", sessionDone:"Sessione conclusa:",
     opt_purpose_relaxare:"Relax profondo", opt_purpose_somn:"Sonno",
     opt_purpose_concentrare:"Concentrazione calma", opt_purpose_meditatie:"Meditazione",
@@ -919,6 +942,7 @@ var STRINGS = {
     labelDurata:"Duración", labelTextura:"Textura de fondo", labelRitm:"Ritmo generativo",
     modeSimple:"Simple", modeComplet:"Completo",
     presetsLabel:"Preajustes rápidos", preset_relaxare:"Relajación clásica", preset_somn:"Sueño profundo",
+    newPresetPlaceholder:"Nombre del nuevo preset", addPresetBtn:"+ Guardar preset actual", deletePresetAria:"Eliminar preset", presetSaved:"Preset guardado.", presetLimitReached:"Límite alcanzado (12 preajustes personalizados).",
     preset_focus:"Enfoque rápido", preset_meditatie:"Meditación vespertina", sessionDone:"Sesión terminada:",
     opt_purpose_relaxare:"Relajación profunda", opt_purpose_somn:"Sueño",
     opt_purpose_concentrare:"Concentración calmada", opt_purpose_meditatie:"Meditación",
@@ -981,6 +1005,7 @@ var STRINGS = {
     labelDurata:"Duração", labelTextura:"Textura de fundo", labelRitm:"Ritmo gerativo",
     modeSimple:"Simples", modeComplet:"Completo",
     presetsLabel:"Predefinições rápidas", preset_relaxare:"Relaxamento clássico", preset_somn:"Sono profundo",
+    newPresetPlaceholder:"Nome do novo preset", addPresetBtn:"+ Salvar preset atual", deletePresetAria:"Excluir preset", presetSaved:"Preset salvo.", presetLimitReached:"Limite atingido (12 presets personalizados).",
     preset_focus:"Foco rápido", preset_meditatie:"Meditação noturna", sessionDone:"Sessão concluída:",
     opt_purpose_relaxare:"Relaxamento profundo", opt_purpose_somn:"Sono",
     opt_purpose_concentrare:"Foco calmo", opt_purpose_meditatie:"Meditação",
@@ -1043,6 +1068,7 @@ var STRINGS = {
     labelDurata:"Dauer", labelTextura:"Hintergrundtextur", labelRitm:"Generatives Tempo",
     modeSimple:"Einfach", modeComplet:"Vollständig",
     presetsLabel:"Schnellauswahl", preset_relaxare:"Klassische Entspannung", preset_somn:"Tiefschlaf",
+    newPresetPlaceholder:"Name des neuen Presets", addPresetBtn:"+ Aktuelles Preset speichern", deletePresetAria:"Preset löschen", presetSaved:"Preset gespeichert.", presetLimitReached:"Limit erreicht (12 eigene Presets).",
     preset_focus:"Schnelle Konzentration", preset_meditatie:"Abendmeditation", sessionDone:"Sitzung beendet:",
     opt_purpose_relaxare:"Tiefe Entspannung", opt_purpose_somn:"Schlaf",
     opt_purpose_concentrare:"Ruhige Konzentration", opt_purpose_meditatie:"Meditation",
@@ -1127,10 +1153,16 @@ function createReverbImpulse(ctx){
   var rate = ctx.sampleRate;
   var length = Math.floor(rate*duration);
   var impulse = ctx.createBuffer(2, length, rate);
+  var tau = 1/(2*Math.PI*3500); // ~3.5kHz-ish gentle rolloff, sample-rate-independent
+  var coeff = Math.exp(-1/(tau*rate));
+  var compensationGain = Math.sqrt((1+coeff)/(1-coeff)); // keeps overall reverb level matched to the original unfiltered noise
   for (var ch=0; ch<2; ch++){
     var data = impulse.getChannelData(ch);
+    var last = 0;
     for (var i=0;i<length;i++){
-      data[i] = (Math.random()*2-1) * Math.pow(1-i/length, decay);
+      var white = Math.random()*2-1;
+      last = last*coeff + white*(1-coeff);
+      data[i] = last * compensationGain * Math.pow(1-i/length, decay);
     }
   }
   return impulse;
@@ -1145,11 +1177,23 @@ function createNoiseBuffer(ctx, seconds, color){
     if (color === 'white'){
       for (var i=0;i<length;i++){ data[i] = (Math.random()*2-1)*0.6; }
     } else {
+      var tau = 0.0011451; // time constant in seconds, tuned to reproduce the original ~139Hz cutoff at 44100Hz
+      var coeff = Math.exp(-1/(tau*rate));
       var last = 0;
       for (var j=0;j<length;j++){
         var white = Math.random()*2-1;
-        last = (last + 0.02*white)/1.02;
+        last = last*coeff + white*(1-coeff);
         data[j] = last*3.2;
+      }
+      if (length > 1){
+        var drift = data[length-1] - data[0];
+        for (var k=0;k<length;k++){
+          data[k] -= drift*(k/(length-1));
+        }
+        var mean = 0;
+        for (var m=0;m<length;m++){ mean += data[m]; }
+        mean /= length;
+        for (var n=0;n<length;n++){ data[n] -= mean; }
       }
     }
   }
@@ -1320,6 +1364,26 @@ function buildComposition(ctx, config){
   var durationThinning = DURATION > 1200 ? 1 + (DURATION-1200)/1800 : 1;
 
   var rng = mulberry32(seed);
+
+  var scheduledNotes = [];
+  function pickDegreeAvoidingClash(startTime, dur, oct){
+    var degree = Math.floor(rng()*5);
+    var attempts = 0;
+    while (attempts < 6){
+      var clash = false;
+      for (var idx=0; idx<scheduledNotes.length; idx++){
+        var n = scheduledNotes[idx];
+        if (startTime >= n.end || startTime+dur <= n.start) continue;
+        var semitoneDiff = Math.abs((scale.steps[degree]+oct*12) - (scale.steps[n.degree]+n.oct*12)) % 12;
+        if (semitoneDiff === 1 || semitoneDiff === 11){ clash = true; break; }
+      }
+      if (!clash) break;
+      degree = Math.floor(rng()*5);
+      attempts++;
+    }
+    scheduledNotes.push({start:startTime, end:startTime+dur, degree:degree, oct:oct});
+    return degree;
+  }
   var t0 = ctx.currentTime;
   var allSources = [];
 
@@ -1389,7 +1453,7 @@ function buildComposition(ctx, config){
     while (t < DURATION - 10){
       var dur = (cfg.minDur + rng()*(cfg.maxDur-cfg.minDur)) * tempo.durMult;
       var oct = cfg.octMin + Math.floor(rng()*(cfg.octMax-cfg.octMin+1));
-      var degree = Math.floor(rng()*5);
+      var degree = pickDegreeAvoidingClash(t, dur, oct);
       var freq = scaleFreq(scale, oct, degree);
       schedulePad(t, dur, freq, cfg.gainScale);
       t += (dur*cfg.overlap + rng()*8*tempo.durMult) * durationThinning;
@@ -1398,9 +1462,9 @@ function buildComposition(ctx, config){
 
   function scheduleBell(startTime){
     var octave = 1+Math.floor(rng()*2);
-    var degree = Math.floor(rng()*5);
-    var freq = scaleFreq(scale, octave, degree);
     var dur = 2.5+rng()*3;
+    var degree = pickDegreeAvoidingClash(startTime, dur, octave);
+    var freq = scaleFreq(scale, octave, degree);
     if (startTime+dur > DURATION-1) return;
 
     var osc = ctx.createOscillator();
@@ -1464,8 +1528,8 @@ function buildComposition(ctx, config){
       formants = VOWEL_FORMANTS.ohh;
     } else {
       dur = 1.4 + rng()*1.8;
-      var oct = Math.floor(rng()*2);
-      var degree = Math.floor(rng()*5);
+      var oct = profile.pitchMult > 1.5 ? 0 : Math.floor(rng()*2);
+      var degree = pickDegreeAvoidingClash(startTime, dur, oct);
       freq = scaleFreq(scale, oct, degree) * profile.pitchMult;
       formants = VOWEL_FORMANTS[vType] || VOWEL_FORMANTS.ahh;
     }
@@ -1869,6 +1933,7 @@ langSelect.addEventListener('change', function(){
   LANG = langSelect.value;
   applyTranslations();
   langSelect.value = LANG;
+  renderPresetButtons();
 });
 
 heartBtn.addEventListener('click', function(){
@@ -1973,6 +2038,7 @@ function pushHistory(code){
     if (sel===purposeSelect) updateNote();
     if (sel===durationSelect) updateTotalTimeDisplay();
     updateVariantCodeDisplay();
+    clearActivePreset();
   });
 });
 shuffleBtn.addEventListener('click', function(){
@@ -2012,25 +2078,120 @@ modeSimpleBtn.addEventListener('click', function(){ setMode(true); });
 modeCompletBtn.addEventListener('click', function(){ setMode(false); });
 setMode(true);
 
-var PRESETS = [
-  {purpose:'relaxare', scale:'calda', density:'echilibrat', texture:'ocean', tempo:'natural', duration:'600'},
-  {purpose:'somn', scale:'adanca', density:'minimal', texture:'ploaie', tempo:'lent', duration:'1200'},
-  {purpose:'concentrare', scale:'eterica', density:'minimal', texture:'neutru', tempo:'activ', duration:'300'},
-  {purpose:'meditatie', scale:'nocturna', density:'echilibrat', texture:'vant', tempo:'natural', duration:'900'}
+var BUILTIN_PRESETS = [
+  {id:'b0', builtin:true, name_key:'preset_relaxare', purpose:'relaxare', scale:'calda', density:'echilibrat', texture:'ocean', tempo:'natural', duration:'600'},
+  {id:'b1', builtin:true, name_key:'preset_somn', purpose:'somn', scale:'adanca', density:'minimal', texture:'ploaie', tempo:'lent', duration:'1200'},
+  {id:'b2', builtin:true, name_key:'preset_focus', purpose:'concentrare', scale:'eterica', density:'minimal', texture:'neutru', tempo:'activ', duration:'300'},
+  {id:'b3', builtin:true, name_key:'preset_meditatie', purpose:'meditatie', scale:'nocturna', density:'echilibrat', texture:'vant', tempo:'natural', duration:'900'}
 ];
-var presetButtons = document.querySelectorAll('.preset-btn');
-for (var pbi=0; pbi<presetButtons.length; pbi++){
-  presetButtons[pbi].addEventListener('click', function(){
-    var idx = parseInt(this.getAttribute('data-preset'),10);
-    var p = PRESETS[idx];
-    if (!p) return;
-    hapticPulse(12);
-    purposeSelect.value=p.purpose; scaleSelect.value=p.scale; densitySelect.value=p.density;
-    textureSelect.value=p.texture; tempoSelect.value=p.tempo; durationSelect.value=p.duration;
-    currentSeed = Math.floor(Math.random()*1e9);
-    updateNote(); updateTotalTimeDisplay(); updateVariantCodeDisplay();
+var CUSTOM_PRESETS_KEY = 'calmWavesCustomPresets';
+var VALID_DURATIONS_STR = ['300','600','900','1200','1800','2700','3600'];
+function loadCustomPresets(){
+  try{
+    var raw = localStorage.getItem(CUSTOM_PRESETS_KEY);
+    if (!raw) return [];
+    var parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter(function(p){
+      return p && typeof p.id==='string' && typeof p.name==='string' && p.name.length>0 &&
+        PURPOSES[p.purpose] && SCALES[p.scale] && DENSITIES[p.density] && TEXTURES[p.texture] && TEMPOS[p.tempo] &&
+        VALID_DURATIONS_STR.indexOf(String(p.duration))!==-1;
+    }).slice(0,12);
+  }catch(e){ return []; }
+}
+function saveCustomPresets(){
+  try{ localStorage.setItem(CUSTOM_PRESETS_KEY, JSON.stringify(customPresets)); }catch(e){}
+}
+var customPresets = loadCustomPresets();
+var activePresetId = null;
+
+function clearActivePreset(){
+  if (activePresetId !== null){ activePresetId = null; renderPresetButtons(); }
+}
+
+function renderPresetButtons(){
+  var container = document.getElementById('presetsButtonsContainer');
+  container.innerHTML = '';
+  BUILTIN_PRESETS.concat(customPresets).forEach(function(p){
+    var wrap = document.createElement('div');
+    wrap.className = 'preset-wrap';
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'preset-btn' + (activePresetId===p.id ? ' active' : '');
+    if (p.builtin){
+      btn.setAttribute('data-i18n', p.name_key);
+      btn.textContent = STRINGS[LANG][p.name_key] || p.name_key;
+    } else {
+      btn.textContent = p.name;
+    }
+    btn.addEventListener('click', function(){ handlePresetClick(p); });
+    wrap.appendChild(btn);
+    if (!p.builtin){
+      var delBtn = document.createElement('button');
+      delBtn.type = 'button';
+      delBtn.className = 'preset-delete';
+      delBtn.textContent = '×';
+      delBtn.setAttribute('aria-label', STRINGS[LANG].deletePresetAria || 'Delete');
+      delBtn.addEventListener('click', function(){ deleteCustomPreset(p.id); });
+      wrap.appendChild(delBtn);
+    }
+    container.appendChild(wrap);
   });
 }
+
+function handlePresetClick(p){
+  hapticPulse(12);
+  if (sessionActive && activePresetId === p.id){
+    stopPlayback();
+    activePresetId = null;
+    renderPresetButtons();
+    return;
+  }
+  purposeSelect.value=p.purpose; scaleSelect.value=p.scale; densitySelect.value=p.density;
+  textureSelect.value=p.texture; tempoSelect.value=p.tempo; durationSelect.value=p.duration;
+  currentSeed = Math.floor(Math.random()*1e9);
+  updateNote(); updateTotalTimeDisplay(); updateVariantCodeDisplay();
+
+  if (sessionActive){ stopPlayback(); }
+  activePresetId = p.id;
+  renderPresetButtons();
+  startPlayback(false);
+}
+
+function deleteCustomPreset(id){
+  customPresets = customPresets.filter(function(p){ return p.id !== id; });
+  saveCustomPresets();
+  if (activePresetId === id){ activePresetId = null; }
+  renderPresetButtons();
+}
+
+renderPresetButtons();
+
+var newPresetNameInput = document.getElementById('newPresetNameInput');
+var addPresetBtn = document.getElementById('addPresetBtn');
+var presetAddStatus = document.getElementById('presetAddStatus');
+addPresetBtn.addEventListener('click', function(){
+  var name = newPresetNameInput.value.trim();
+  if (!name){ newPresetNameInput.focus(); return; }
+  if (customPresets.length >= 12){
+    presetAddStatus.textContent = STRINGS[LANG].presetLimitReached || '';
+    return;
+  }
+  customPresets.push({
+    id: 'custom_'+Date.now()+'_'+Math.floor(Math.random()*1000),
+    builtin: false,
+    name: name.slice(0,24),
+    purpose: purposeSelect.value, scale: scaleSelect.value, density: densitySelect.value,
+    texture: textureSelect.value, tempo: tempoSelect.value, duration: durationSelect.value
+  });
+  saveCustomPresets();
+  newPresetNameInput.value = '';
+  presetAddStatus.textContent = STRINGS[LANG].presetSaved || '';
+  renderPresetButtons();
+});
+newPresetNameInput.addEventListener('keydown', function(e){
+  if (e.key === 'Enter'){ e.preventDefault(); addPresetBtn.click(); }
+});
 
 var idleRhythmMult = 0.6 + Math.random()*1.2;
 setInterval(function(){
@@ -2462,7 +2623,7 @@ function teardownAudio(){
 function syncLiveMixerControls(){
   if (!compositionHandle || !ctx) return;
   var now = ctx.currentTime;
-  compositionHandle.volumeGain.gain.value = Math.pow(volumeSlider.value/100, 1.4);
+  compositionHandle.volumeGain.gain.setTargetAtTime(Math.pow(volumeSlider.value/100, 1.4), now, 0.05);
   compositionHandle.eqLow.gain.setTargetAtTime(parseInt(eqLowSlider.value,10), now, 0.05);
   compositionHandle.eqMid.gain.setTargetAtTime(parseInt(eqMidSlider.value,10), now, 0.05);
   compositionHandle.eqHigh.gain.setTargetAtTime(parseInt(eqHighSlider.value,10), now, 0.05);
@@ -2472,6 +2633,7 @@ function syncLiveMixerControls(){
 function unlockAudioContext(audioCtx){
   try{
     var buffer = audioCtx.createBuffer(1, 1, audioCtx.sampleRate);
+    buffer.getChannelData(0)[0] = 0;
     var src = audioCtx.createBufferSource();
     src.buffer = buffer;
     src.connect(audioCtx.destination);
@@ -2579,7 +2741,7 @@ function updateProgress(){
 }
 
 playBtn.addEventListener('click', togglePlayPause);
-resetBtn.addEventListener('click', function(){ stopPlayback(); });
+resetBtn.addEventListener('click', function(){ stopPlayback(); clearActivePreset(); });
 
 volumeSlider.addEventListener('input', function(){ syncLiveMixerControls(); });
 eqLowSlider.addEventListener('input', function(){ syncLiveMixerControls(); });
