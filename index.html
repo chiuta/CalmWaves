@@ -398,7 +398,7 @@ footer a:hover{color:var(--wave1);}
 </style>
 </head>
 <body>
-<canvas id="viz"></canvas>
+<canvas id="viz" aria-hidden="true"></canvas>
 <main class="panel">
   <div class="top-row">
     <select id="langSelect" data-i18n-aria="langToggleAria" aria-label="Alege limba">
@@ -444,10 +444,10 @@ footer a:hover{color:var(--wave1);}
     <span class="presets-label" data-i18n="presetsLabel">Presetări rapide</span>
     <div class="presets-buttons" id="presetsButtonsContainer"></div>
     <div class="custom-preset-add advanced-only">
-      <input type="text" id="newPresetNameInput" data-i18n-placeholder="newPresetPlaceholder" placeholder="Nume preset nou" maxlength="24">
+      <input type="text" id="newPresetNameInput" data-i18n-aria="newPresetPlaceholder" aria-label="Nume preset nou" data-i18n-placeholder="newPresetPlaceholder" placeholder="Nume preset nou" maxlength="24">
       <button type="button" id="addPresetBtn" data-i18n="addPresetBtn">+ Adaugă preset curent</button>
     </div>
-    <span id="presetAddStatus" class="advanced-only"></span>
+    <span id="presetAddStatus" class="advanced-only" role="status"></span>
   </div>
 
   <div class="controls">
@@ -551,7 +551,7 @@ footer a:hover{color:var(--wave1);}
       <input type="text" id="variantCodeInput" data-i18n-placeholder="loadPlaceholder" placeholder="lipește un cod aici" aria-label="Încarcă un cod de variantă">
       <button type="button" id="loadVariantBtn" data-i18n="loadButtonText">Încarcă</button>
     </div>
-    <div id="codeStatus"></div>
+    <div id="codeStatus" role="status"></div>
   </div>
 
   <div class="history-section advanced-only">
@@ -570,7 +570,7 @@ footer a:hover{color:var(--wave1);}
   </details>
 
   <button id="exportBtn" data-i18n="exportButtonText">Exportă ca WAV</button>
-  <div id="exportStatus"></div>
+  <div id="exportStatus" role="status"></div>
 
   <div class="more-formats advanced-only">
     <span class="history-label" data-i18n="labelMoreFormats">Mai multe formate</span>
@@ -581,7 +581,7 @@ footer a:hover{color:var(--wave1);}
     </div>
     <div class="compressed-progress-track" id="compressedProgressTrack" hidden><div class="compressed-progress-fill" id="compressedProgressFill"></div></div>
     <p class="kbd-hint" data-i18n="compressedExportHint">Înregistrare în timp real prin motorul audio nativ al browserului (Opus/WebM sau AAC/MP4, în funcție de browser) — durează cât piesa, nu instant.</p>
-    <div id="compressedExportStatus"></div>
+    <div id="compressedExportStatus" role="status"></div>
   </div>
 
   <p class="note" id="dynamicNote"></p>
@@ -1931,6 +1931,7 @@ function applyTranslations(){
     if (dict[key5] !== undefined) titleEls[n].title = dict[key5];
   }
   document.title = dict.pageTitle;
+  document.documentElement.lang = LANG;
   if (!sessionActive){
     playBtn.setAttribute('aria-label', dict.ariaAsculta);
   } else if (isPaused){
@@ -2514,6 +2515,7 @@ function drawVizMandala(t, level, rhythmMult, pulse){
 if (!reduceMotion){ requestAnimationFrame(drawViz); }
 
 function requestWakeLock(){
+  if (wakeLockSentinel && !wakeLockSentinel.released) return; /* nu acumula blocări de ecran */
   if (navigator.wakeLock && navigator.wakeLock.request){
     navigator.wakeLock.request('screen').then(function(sentinel){ wakeLockSentinel = sentinel; }).catch(function(){});
   }
@@ -2525,6 +2527,7 @@ function hapticPulse(ms){
 var utilityCtx = null;
 var utilityDry = null;
 var utilityWet = null;
+var utilityMaster = null;
 function ensureUtilityContext(){
   if (utilityCtx) return;
   utilityCtx = new (window.AudioContext||window.webkitAudioContext)();
@@ -2535,6 +2538,7 @@ function ensureUtilityContext(){
   var wetReturn = utilityCtx.createGain(); wetReturn.gain.value = 0.5;
   utilityWet.connect(conv); conv.connect(wetReturn);
   var master = utilityCtx.createGain(); master.gain.value = 0.85;
+  utilityMaster = master;
   utilityDry.connect(master);
   wetReturn.connect(master);
   master.connect(utilityCtx.destination);
@@ -2550,6 +2554,7 @@ function playOneShot(type){
   hapticPulse(15);
 
   var fireSound = function(){
+    if (utilityMaster) utilityMaster.gain.value = 0.85*Math.pow(volumeSlider.value/100, 1.4); /* respectă cursorul de volum */
     var rng = mulberry32(Math.floor(Math.random()*1e9));
     var scale = SCALES[scaleSelect.value] || SCALES.calda;
     var now = utilityCtx.currentTime + 0.02;
@@ -2563,7 +2568,7 @@ function playOneShot(type){
     }
   };
 
-  utilityCtx.resume().then(fireSound).catch(fireSound);
+  utilityCtx.resume().then(fireSound, fireSound);
 }
 gongManualBtn.addEventListener('click', function(){ playOneShot('gong'); });
 conchManualBtn.addEventListener('click', function(){ playOneShot('conch'); });
@@ -2654,9 +2659,14 @@ function unlockAudioContext(audioCtx){
   }catch(e){}
 }
 
+var startPending = false;
 function startPlayback(isLoopContinuation){
   if (sessionActive && !isLoopContinuation) return;
+  if (startPending && !isLoopContinuation) return; /* dublu clic înainte de resume(): nu crea un al doilea context */
+  startPending = true;
+  setTimeout(function(){ startPending = false; }, 4000); /* plasă de siguranță dacă resume() nu se rezolvă */
   ctx = new (window.AudioContext||window.webkitAudioContext)();
+  var myCtx = ctx;
   unlockAudioContext(ctx);
   (function(){
     var localCtx = ctx;
@@ -2669,6 +2679,8 @@ function startPlayback(isLoopContinuation){
   })();
 
   var finishStart = function(){
+    startPending = false;
+    if (ctx !== myCtx){ try{ myCtx.close(); }catch(e){} return; } /* oprit între timp */
     if (isLoopContinuation){ currentSeed = Math.floor(Math.random()*1e9); }
     var config = currentConfig();
     currentDuration = config.duration;
@@ -2689,7 +2701,7 @@ function startPlayback(isLoopContinuation){
     requestAnimationFrame(updateProgress);
   };
 
-  ctx.resume().then(finishStart).catch(finishStart);
+  ctx.resume().then(finishStart, finishStart);
 }
 
 function stopPlayback(){
@@ -2913,7 +2925,7 @@ compressedExportBtn.addEventListener('click', function(){
     })();
     };
 
-    compressedRecCtx.resume().then(proceedWithRecording).catch(proceedWithRecording);
+    compressedRecCtx.resume().then(proceedWithRecording, proceedWithRecording);
   } catch(err){
     compressedActive = false;
     compressedCancelBtn.hidden = true;
