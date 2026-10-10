@@ -43,6 +43,12 @@ Calm Waves este o aplicație single-file (`index.html`) care generează algoritm
 - **Rețea:** codul nu face apeluri `fetch`/XHR și nu încarcă scripturi, fonturi sau resurse externe; audio și grafica sunt generate local. Singurele adrese externe sunt linkuri de navigare deschise la click: trade-free.org, Patreon și Buy Me a Coffee (butonul ♥).
 - Subsolul aplicației declară: CC0, trade-free, 100% offline, fără telemetrie.
 
+## Limitări și disclaimer
+
+Conținut informativ și de relaxare; nu este dispozitiv medical și nu înlocuiește sfatul medical sau tratamentul. Secțiunea „Ce spune cercetarea, de fapt” rezumă afirmații despre studii (ex. unde binaurale și anxietate) care nu au fost verificate independent în acest audit și nu trebuie luate ca promisiune terapeutică. Cine are epilepsie sau afecțiuni neurologice ar trebui să ceară sfatul unui medic înainte de a folosi unde binaurale. Pagina nu are Content-Security-Policy.
+
+O notă scurtă (RO/EN) este afișată sub subsolul aplicației.
+
 ## Rulare locală / offline
 
 Descarcă `index.html` și deschide-l în browser; nu necesită internet. Unele funcții depind de browser (Wake Lock, MediaRecorder pentru exportul comprimat).
@@ -50,6 +56,10 @@ Descarcă `index.html` și deschide-l în browser; nu necesită internet. Unele 
 ## Licență
 
 CC0 1.0 Universal (domeniu public) — vezi fișierul LICENSE
+
+## Audit
+
+Audit: 2026-10-10 — afirmațiile „fără rețea / fără telemetrie” corespund codului (fără `fetch`/XHR/CDN).
 
 ## Autor
 
