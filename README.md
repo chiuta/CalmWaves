@@ -74,6 +74,7 @@ Calm Waves is a single-file generative ambient music app (Web Audio API) with in
 ## Istoric / Changelog
 
 ### 11 octombrie 2026
+- Exportul afișează progresul (procent) în timpul randării; extensia din mesajul final corespunde formatului ales. Dacă audio nu pornește (context suspendat), apare o notă vizibilă (7 limbi) după ~2,5 s.
 - Oprirea automată afișează timpul rămas (7 limbi) și reduce volumul treptat în ultimele 20 s, în loc să se oprească brusc. CSP: `script-src` pe hash SHA-256, fără `'unsafe-inline'` pentru scripturi.
 - Adăugat Content-Security-Policy (meta) restrictiv; exportul WAV/AIFF și redarea verificate sub CSP.
 - Secțiunea „Ce spune cercetarea” are o notă explicită (7 limbi) că rezumatul nu a fost reverificat independent.

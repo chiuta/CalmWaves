@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-t6NfFP9w+2MrkuN1Wfonc4S64QVmRe0QTv6gxG9nCe8='; style-src 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' data: blob:; connect-src 'self' data: blob:; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-CuO2n5Fvk8OUpvddJwTottsqBldRwu0LvHM3YhvKnrs='; style-src 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' data: blob:; connect-src 'self' data: blob:; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#0a0b0f">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -437,6 +437,7 @@ footer a:hover{color:var(--wave1);}
     <button id="playBtn" aria-label="Ascultă">▶</button>
     <div class="time-display"><span id="elapsed">00:00</span> / <span id="totalTime">10:00</span></div>
   </div>
+  <p class="kbd-hint" id="audioNote" role="status" hidden></p>
   <div style="margin-bottom:0.7rem;"><button id="resetBtn" data-i18n="resetBtnText" hidden>↺ resetează</button></div>
   <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
   <p class="kbd-hint" data-i18n="kbdHint">Spațiu = redare / pauză · ↑ ↓ = volum</p>
@@ -723,7 +724,7 @@ var STRINGS = {
     labelNowPlaying:"Acum cântă",
     exportButtonText:"Exportă ca WAV",
     exportStatusRendering:"Se randează piesa… poate dura 10-60 secunde, în funcție de durată.",
-    exportStatusDone:"Fișier WAV gata — descărcare pornită.", exportStatusErrorPrefix:"Eroare la randare: ",
+    exportStatusProgress:"Se randează piesa… {p}%", audioStuck:"Sunetul nu a pornit: browserul l-a blocat sau nu există un dispozitiv audio. Apasă din nou ▶ sau verifică setările de sunet.", exportStatusDone:"Fișier WAV gata — descărcare pornită.", exportStatusErrorPrefix:"Eroare la randare: ",
     noteSuffix:" Efectul complet necesită căști; nu este un tratament medical.",
     note_relaxare:"Stratul binaural pornește în jurul a 10 Hz și coboară lin spre ~5,5 Hz — frecvențe asociate uzual cu relaxare profundă — revenind ușor spre final.",
     note_somn:"Stratul binaural pornește în jurul a 8 Hz și coboară spre ~3–4 Hz — frecvențe asociate uzual cu tranziția spre somn — rămânând jos până la capăt, fără revenire.",
@@ -787,7 +788,7 @@ var STRINGS = {
     labelNowPlaying:"Now playing",
     exportButtonText:"Export as WAV",
     exportStatusRendering:"Rendering the piece… may take 10-60 seconds, depending on length.",
-    exportStatusDone:"WAV file ready — download started.", exportStatusErrorPrefix:"Rendering error: ",
+    exportStatusProgress:"Rendering the piece… {p}%", audioStuck:"Audio did not start: the browser blocked it or there is no audio device. Press ▶ again or check your sound settings.", exportStatusDone:"WAV file ready — download started.", exportStatusErrorPrefix:"Rendering error: ",
     noteSuffix:" Full effect requires headphones; this is not a medical treatment.",
     note_relaxare:"The binaural layer starts around 10 Hz and glides down to ~5.5 Hz — frequencies usually associated with deep relaxation — easing back up near the end.",
     note_somn:"The binaural layer starts around 8 Hz and descends to ~3–4 Hz — frequencies usually associated with the transition into sleep — staying low through to the end, with no return.",
@@ -851,7 +852,7 @@ var STRINGS = {
     labelNowPlaying:"En cours de lecture",
     exportButtonText:"Exporter en WAV",
     exportStatusRendering:"Rendu de la piste en cours… peut prendre 10 à 60 secondes selon la durée.",
-    exportStatusDone:"Fichier WAV prêt — téléchargement lancé.", exportStatusErrorPrefix:"Erreur de rendu : ",
+    exportStatusProgress:"Rendu de la piste en cours… {p} %", audioStuck:"Le son n’a pas démarré : le navigateur l’a bloqué ou aucun périphérique audio n’est disponible. Appuyez de nouveau sur ▶ ou vérifiez vos réglages son.", exportStatusDone:"Fichier WAV prêt — téléchargement lancé.", exportStatusErrorPrefix:"Erreur de rendu : ",
     noteSuffix:" L'effet complet nécessite un casque ; ceci n'est pas un traitement médical.",
     note_relaxare:"La couche binaurale démarre autour de 10 Hz et descend doucement vers ~5,5 Hz — des fréquences habituellement associées à une relaxation profonde — avant de remonter légèrement vers la fin.",
     note_somn:"La couche binaurale démarre autour de 8 Hz et descend vers ~3–4 Hz — des fréquences habituellement associées à la transition vers le sommeil — restant basse jusqu'à la fin, sans remontée.",
@@ -915,7 +916,7 @@ var STRINGS = {
     labelNowPlaying:"In riproduzione",
     exportButtonText:"Esporta come WAV",
     exportStatusRendering:"Rendering del brano in corso… può richiedere 10-60 secondi, a seconda della durata.",
-    exportStatusDone:"File WAV pronto — download avviato.", exportStatusErrorPrefix:"Errore di rendering: ",
+    exportStatusProgress:"Rendering del brano… {p}%", audioStuck:"L’audio non è partito: il browser lo ha bloccato o non c’è un dispositivo audio. Premi di nuovo ▶ o controlla le impostazioni audio.", exportStatusDone:"File WAV pronto — download avviato.", exportStatusErrorPrefix:"Errore di rendering: ",
     noteSuffix:" L'effetto completo richiede le cuffie; non è un trattamento medico.",
     note_relaxare:"Lo strato binaurale parte da circa 10 Hz e scende dolcemente verso ~5,5 Hz — frequenze solitamente associate a un rilassamento profondo — risalendo leggermente verso la fine.",
     note_somn:"Lo strato binaurale parte da circa 8 Hz e scende verso ~3–4 Hz — frequenze solitamente associate alla transizione verso il sonno — restando basso fino alla fine, senza risalita.",
@@ -979,7 +980,7 @@ var STRINGS = {
     labelNowPlaying:"Reproduciendo ahora",
     exportButtonText:"Exportar como WAV",
     exportStatusRendering:"Renderizando la pieza… puede tardar entre 10 y 60 segundos, según la duración.",
-    exportStatusDone:"Archivo WAV listo — descarga iniciada.", exportStatusErrorPrefix:"Error de renderizado: ",
+    exportStatusProgress:"Renderizando la pieza… {p}%", audioStuck:"El audio no se inició: el navegador lo bloqueó o no hay dispositivo de audio. Pulsa ▶ de nuevo o revisa la configuración de sonido.", exportStatusDone:"Archivo WAV listo — descarga iniciada.", exportStatusErrorPrefix:"Error de renderizado: ",
     noteSuffix:" El efecto completo requiere auriculares; esto no es un tratamiento médico.",
     note_relaxare:"La capa binaural empieza alrededor de 10 Hz y desciende suavemente hasta ~5,5 Hz — frecuencias asociadas habitualmente con una relajación profunda — subiendo ligeramente hacia el final.",
     note_somn:"La capa binaural empieza alrededor de 8 Hz y desciende hasta ~3–4 Hz — frecuencias asociadas habitualmente con la transición hacia el sueño — manteniéndose baja hasta el final, sin retorno.",
@@ -1043,7 +1044,7 @@ var STRINGS = {
     labelNowPlaying:"A reproduzir agora",
     exportButtonText:"Exportar como WAV",
     exportStatusRendering:"A renderizar a peça… pode demorar 10-60 segundos, dependendo da duração.",
-    exportStatusDone:"Arquivo WAV pronto — download iniciado.", exportStatusErrorPrefix:"Erro ao renderizar: ",
+    exportStatusProgress:"A renderizar a peça… {p}%", audioStuck:"O áudio não iniciou: o navegador bloqueou-o ou não há dispositivo de áudio. Prima ▶ novamente ou verifique as definições de som.", exportStatusDone:"Arquivo WAV pronto — download iniciado.", exportStatusErrorPrefix:"Erro ao renderizar: ",
     noteSuffix:" O efeito completo requer fones de ouvido; isto não é um tratamento médico.",
     note_relaxare:"A camada binaural começa por volta de 10 Hz e desce suavemente até ~5,5 Hz — frequências normalmente associadas a relaxamento profundo — subindo ligeiramente perto do final.",
     note_somn:"A camada binaural começa por volta de 8 Hz e desce até ~3–4 Hz — frequências normalmente associadas à transição para o sono — permanecendo baixa até o final, sem retorno.",
@@ -1107,7 +1108,7 @@ var STRINGS = {
     labelNowPlaying:"Läuft gerade",
     exportButtonText:"Als WAV exportieren",
     exportStatusRendering:"Stück wird gerendert… kann je nach Dauer 10-60 Sekunden dauern.",
-    exportStatusDone:"WAV-Datei bereit — Download gestartet.", exportStatusErrorPrefix:"Fehler beim Rendern: ",
+    exportStatusProgress:"Stück wird gerendert… {p} %", audioStuck:"Der Ton wurde nicht gestartet: Der Browser hat ihn blockiert oder es gibt kein Audiogerät. Drücke erneut ▶ oder prüfe die Soundeinstellungen.", exportStatusDone:"WAV-Datei bereit — Download gestartet.", exportStatusErrorPrefix:"Fehler beim Rendern: ",
     noteSuffix:" Der volle Effekt erfordert Kopfhörer; dies ist keine medizinische Behandlung.",
     note_relaxare:"Die binaurale Schicht beginnt bei etwa 10 Hz und sinkt sanft auf ~5,5 Hz — Frequenzen, die üblicherweise mit tiefer Entspannung assoziiert werden — und steigt gegen Ende leicht wieder an.",
     note_somn:"Die binaurale Schicht beginnt bei etwa 8 Hz und sinkt auf ~3–4 Hz — Frequenzen, die üblicherweise mit dem Übergang in den Schlaf assoziiert werden — und bleibt bis zum Ende niedrig, ohne Anstieg.",
@@ -2724,6 +2725,12 @@ function startPlayback(isLoopContinuation){
     if (!isLoopContinuation){ armSleepTimer(); }
     requestWakeLock();
     requestAnimationFrame(updateProgress);
+    /* dacă după ~2,5 s contextul audio nu rulează / timpul nu avansează (autoplay blocat, fără dispozitiv audio), spune-o explicit */
+    setTimeout(function(){
+      if (!sessionActive || isPaused || ctx !== myCtx) return;
+      var note = document.getElementById('audioNote'); if (!note) return;
+      if (myCtx.state !== 'running' || (myCtx.currentTime - startWallTime) < 0.3){ note.textContent = STRINGS[LANG].audioStuck; note.hidden = false; }
+    }, 2500);
   };
 
   ctx.resume().then(finishStart, finishStart);
@@ -2742,6 +2749,7 @@ function stopPlayback(){
   teardownAudio();
   elapsedEl.textContent = '00:00';
   progressFill.style.width = '0%';
+  { var an0 = document.getElementById('audioNote'); if (an0) an0.hidden = true; }
   ctx = null;
   compositionHandle = null;
   updateNowPlayingDisplay();
@@ -2790,6 +2798,7 @@ function updateProgress(){
     }
     return;
   }
+  if (elapsed > 1.5){ var an = document.getElementById('audioNote'); if (an && !an.hidden) an.hidden = true; }
   elapsedEl.textContent = formatTime(elapsed);
   progressFill.style.width = (elapsed/currentDuration*100)+'%';
   requestAnimationFrame(updateProgress);
@@ -2829,6 +2838,16 @@ function renderOfflineAndDownload(encoderFn, extension, statusEl, btnEl){
     var OfflineCtor = window.OfflineAudioContext || window.webkitOfflineAudioContext;
     var offlineCtx = new OfflineCtor(2, config.duration*44100, 44100);
     buildComposition(offlineCtx, config);
+    /* progres: suspend/resume la intervale regulate (OfflineAudioContext nu raportează progresul singur) */
+    (function(){
+      var total = config.duration, step = Math.max(5, Math.ceil(total/20));
+      for (var tt = step; tt < total; tt += step){
+        (function(t){ offlineCtx.suspend(t).then(function(){
+          statusEl.textContent = STRINGS[LANG].exportStatusProgress.replace('{p}', Math.round(t/total*100));
+          offlineCtx.resume();
+        }).catch(function(){}); })(tt);
+      }
+    })();
     offlineCtx.startRendering().then(function(rendered){
       var blob = encoderFn(rendered);
       var url = URL.createObjectURL(blob);
@@ -2836,7 +2855,7 @@ function renderOfflineAndDownload(encoderFn, extension, statusEl, btnEl){
       a.href = url; a.download = 'calm-waves-'+purposeSelect.value+'-'+scaleSelect.value+'.'+extension;
       document.body.appendChild(a); a.click(); document.body.removeChild(a);
       setTimeout(function(){ URL.revokeObjectURL(url); }, 4000);
-      statusEl.textContent = STRINGS[LANG].exportStatusDone;
+      statusEl.textContent = STRINGS[LANG].exportStatusDone.replace('WAV', extension.toUpperCase());
       btnEl.disabled = false;
     }).catch(function(err){
       statusEl.textContent = STRINGS[LANG].exportStatusErrorPrefix+err.message;
