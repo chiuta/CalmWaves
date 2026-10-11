@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' data: blob:; connect-src 'self' data: blob:; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-t6NfFP9w+2MrkuN1Wfonc4S64QVmRe0QTv6gxG9nCe8='; style-src 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' data: blob:; connect-src 'self' data: blob:; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#0a0b0f">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -538,6 +538,7 @@ footer a:hover{color:var(--wave1);}
         <option value="90" data-i18n="opt_sleep_90">90 min</option>
       </select>
     </label>
+    <div id="sleepLeft" class="advanced-only" style="font-size:12px;color:var(--text-dim);text-align:right;min-height:0" aria-live="off"></div>
   </div>
 
   <div class="variant-code-section advanced-only">
@@ -710,7 +711,7 @@ var STRINGS = {
     opt_voice_barbat_matur:"Bărbat matur", opt_voice_barbat_senior:"Bărbat senior", opt_voice_copil:"Copil",
     opt_voice_adolescent:"Adolescent", opt_voice_robotica:"Robotică",
     labelGongAuto:"Gong la început", labelConchAuto:"Scoică la final", gongManualBtn:"🔔 Gong", conchManualBtn:"🐚 Scoică",
-    labelLoop:"Redare continuă (variante noi, la nesfârșit)", labelSleep:"Oprire automată",
+    labelLoop:"Redare continuă (variante noi, la nesfârșit)", labelSleep:"Oprire automată", sleepLeft:"Se oprește în",
     opt_sleep_0:"Dezactivată", opt_sleep_15:"15 min", opt_sleep_30:"30 min",
     opt_sleep_45:"45 min", opt_sleep_60:"60 min", opt_sleep_90:"90 min",
     labelEq:"Egalizator & lățime", labelEqLow:"Grav", labelEqMid:"Mediu", labelEqHigh:"Înalt", labelWidth:"Lățime stereo",
@@ -774,7 +775,7 @@ var STRINGS = {
     opt_voice_barbat_matur:"Mature man", opt_voice_barbat_senior:"Senior man", opt_voice_copil:"Child",
     opt_voice_adolescent:"Teenager", opt_voice_robotica:"Robotic",
     labelGongAuto:"Gong at start", labelConchAuto:"Conch at end", gongManualBtn:"🔔 Gong", conchManualBtn:"🐚 Conch",
-    labelLoop:"Continuous playback (new variants, endlessly)", labelSleep:"Auto-stop",
+    labelLoop:"Continuous playback (new variants, endlessly)", labelSleep:"Auto-stop", sleepLeft:"Stops in",
     opt_sleep_0:"Off", opt_sleep_15:"15 min", opt_sleep_30:"30 min",
     opt_sleep_45:"45 min", opt_sleep_60:"60 min", opt_sleep_90:"90 min",
     labelEq:"Equalizer & width", labelEqLow:"Bass", labelEqMid:"Mid", labelEqHigh:"Treble", labelWidth:"Stereo width",
@@ -838,7 +839,7 @@ var STRINGS = {
     opt_voice_barbat_matur:"Homme mûr", opt_voice_barbat_senior:"Homme âgé", opt_voice_copil:"Enfant",
     opt_voice_adolescent:"Adolescent", opt_voice_robotica:"Robotique",
     labelGongAuto:"Gong au début", labelConchAuto:"Conque à la fin", gongManualBtn:"🔔 Gong", conchManualBtn:"🐚 Conque",
-    labelLoop:"Lecture continue (nouvelles variantes, à l'infini)", labelSleep:"Arrêt automatique",
+    labelLoop:"Lecture continue (nouvelles variantes, à l'infini)", labelSleep:"Arrêt automatique", sleepLeft:"Arrêt dans",
     opt_sleep_0:"Désactivé", opt_sleep_15:"15 min", opt_sleep_30:"30 min",
     opt_sleep_45:"45 min", opt_sleep_60:"60 min", opt_sleep_90:"90 min",
     labelEq:"Égaliseur & largeur", labelEqLow:"Graves", labelEqMid:"Médiums", labelEqHigh:"Aigus", labelWidth:"Largeur stéréo",
@@ -902,7 +903,7 @@ var STRINGS = {
     opt_voice_barbat_matur:"Uomo maturo", opt_voice_barbat_senior:"Uomo anziano", opt_voice_copil:"Bambino",
     opt_voice_adolescent:"Adolescente", opt_voice_robotica:"Robotica",
     labelGongAuto:"Gong all'inizio", labelConchAuto:"Conchiglia alla fine", gongManualBtn:"🔔 Gong", conchManualBtn:"🐚 Conchiglia",
-    labelLoop:"Riproduzione continua (nuove varianti, all'infinito)", labelSleep:"Arresto automatico",
+    labelLoop:"Riproduzione continua (nuove varianti, all'infinito)", labelSleep:"Arresto automatico", sleepLeft:"Si ferma tra",
     opt_sleep_0:"Disattivato", opt_sleep_15:"15 min", opt_sleep_30:"30 min",
     opt_sleep_45:"45 min", opt_sleep_60:"60 min", opt_sleep_90:"90 min",
     labelEq:"Equalizzatore & ampiezza", labelEqLow:"Bassi", labelEqMid:"Medi", labelEqHigh:"Alti", labelWidth:"Ampiezza stereo",
@@ -966,7 +967,7 @@ var STRINGS = {
     opt_voice_barbat_matur:"Hombre maduro", opt_voice_barbat_senior:"Hombre mayor", opt_voice_copil:"Niño",
     opt_voice_adolescent:"Adolescente", opt_voice_robotica:"Robótica",
     labelGongAuto:"Gong al inicio", labelConchAuto:"Caracola al final", gongManualBtn:"🔔 Gong", conchManualBtn:"🐚 Caracola",
-    labelLoop:"Reproducción continua (variantes nuevas, sin fin)", labelSleep:"Apagado automático",
+    labelLoop:"Reproducción continua (variantes nuevas, sin fin)", labelSleep:"Apagado automático", sleepLeft:"Se detiene en",
     opt_sleep_0:"Desactivado", opt_sleep_15:"15 min", opt_sleep_30:"30 min",
     opt_sleep_45:"45 min", opt_sleep_60:"60 min", opt_sleep_90:"90 min",
     labelEq:"Ecualizador & amplitud", labelEqLow:"Graves", labelEqMid:"Medios", labelEqHigh:"Agudos", labelWidth:"Amplitud estéreo",
@@ -1030,7 +1031,7 @@ var STRINGS = {
     opt_voice_barbat_matur:"Homem maduro", opt_voice_barbat_senior:"Homem idoso", opt_voice_copil:"Criança",
     opt_voice_adolescent:"Adolescente", opt_voice_robotica:"Robótica",
     labelGongAuto:"Gongo no início", labelConchAuto:"Búzio no final", gongManualBtn:"🔔 Gongo", conchManualBtn:"🐚 Búzio",
-    labelLoop:"Reprodução contínua (novas variantes, sem fim)", labelSleep:"Desligamento automático",
+    labelLoop:"Reprodução contínua (novas variantes, sem fim)", labelSleep:"Desligamento automático", sleepLeft:"Para em",
     opt_sleep_0:"Desativado", opt_sleep_15:"15 min", opt_sleep_30:"30 min",
     opt_sleep_45:"45 min", opt_sleep_60:"60 min", opt_sleep_90:"90 min",
     labelEq:"Equalizador & amplitude", labelEqLow:"Graves", labelEqMid:"Médios", labelEqHigh:"Agudos", labelWidth:"Amplitude estéreo",
@@ -1094,7 +1095,7 @@ var STRINGS = {
     opt_voice_barbat_matur:"Reifer Mann", opt_voice_barbat_senior:"Älterer Mann", opt_voice_copil:"Kind",
     opt_voice_adolescent:"Jugendlicher", opt_voice_robotica:"Robotisch",
     labelGongAuto:"Gong am Anfang", labelConchAuto:"Muschelhorn am Ende", gongManualBtn:"🔔 Gong", conchManualBtn:"🐚 Muschelhorn",
-    labelLoop:"Endlose Wiedergabe (immer neue Varianten)", labelSleep:"Automatischer Stopp",
+    labelLoop:"Endlose Wiedergabe (immer neue Varianten)", labelSleep:"Automatischer Stopp", sleepLeft:"Stoppt in",
     opt_sleep_0:"Deaktiviert", opt_sleep_15:"15 Min", opt_sleep_30:"30 Min",
     opt_sleep_45:"45 Min", opt_sleep_60:"60 Min", opt_sleep_90:"90 Min",
     labelEq:"Equalizer & Breite", labelEqLow:"Bässe", labelEqMid:"Mitten", labelEqHigh:"Höhen", labelWidth:"Stereobreite",
@@ -2601,8 +2602,21 @@ document.addEventListener('visibilitychange', function(){
   }
 });
 
+var sleepTickId = null, sleepEndAt = 0;
+function fmtLeft(ms){ var t=Math.max(0,Math.ceil(ms/1000)), m=Math.floor(t/60), r=t%60; return (m<10?'0':'')+m+':'+(r<10?'0':'')+r; }
+function sleepTick(){
+  var el = document.getElementById('sleepLeft'); if (!el) return;
+  var left = sleepEndAt - Date.now();
+  el.textContent = left > 0 ? STRINGS[LANG].sleepLeft + ' ' + fmtLeft(left) : '';
+  /* ultimele 20 s: volumul coboară treptat spre zero, pentru o adormire fără oprire bruscă */
+  if (left > 0 && left <= 20000 && compositionHandle && ctx && !isPaused){
+    compositionHandle.volumeGain.gain.setTargetAtTime(Math.pow(volumeSlider.value/100, 1.4) * (left/20000), ctx.currentTime, 0.3);
+  }
+}
 function clearSleepTimer(){
   if (sleepTimerTimeoutId){ clearTimeout(sleepTimerTimeoutId); sleepTimerTimeoutId=null; }
+  if (sleepTickId){ clearInterval(sleepTickId); sleepTickId=null; }
+  var el = document.getElementById('sleepLeft'); if (el) el.textContent = '';
 }
 function armSleepTimer(){
   clearSleepTimer();
@@ -2612,6 +2626,7 @@ function armSleepTimer(){
       loopToggle.checked = false;
       stopPlayback();
     }, mins*60000);
+    sleepEndAt = Date.now() + mins*60000; sleepTick(); sleepTickId = setInterval(sleepTick, 1000);
   }
 }
 

@@ -18,7 +18,7 @@ Calm Waves este o aplicație single-file (`index.html`) care generează algoritm
 - Presetări rapide (Relaxare clasică, Somn adânc, Focus rapid, Meditație serală) și preseturi personalizate (maximum 12, salvate local).
 - Parametri: intenție (Relaxare profundă, Somn, Concentrare calmă, Meditație), paletă tonală (Caldă, Nocturnă, Eterică, Adâncă), densitate (Minimală, Echilibrată, Bogată), durată (5–60 min), textură de fond (Neutră, Ploaie, Ocean, Vânt), ritm (Lent, Natural, Activ).
 - Unde binaurale (necesită căști), voce sintetizată prin filtre formant (nu voce umană înregistrată) cu profiluri de voce, gong la început și scoică la final (și butoane manuale 🔔 / 🐚).
-- Redare continuă (variante noi la nesfârșit) și oprire automată (15–90 min).
+- Redare continuă (variante noi la nesfârșit) și oprire automată (15–90 min) cu timp rămas afișat și coborâre treptată a volumului în ultimele 20 s.
 - Egalizator (grav/mediu/înalt) și lățime stereo; volum.
 - Cod de variantă: copiere (📋), variantă nouă (🔀), „Încarcă” pentru a reda un cod; istoric al variantelor recente.
 - Vizualizări: Elegantă, Cartoon, 3D, Undă, Mandala; ecran complet, resetare vizualizare, deplasare/zoom cu mouse sau atingere.
@@ -74,6 +74,7 @@ Calm Waves is a single-file generative ambient music app (Web Audio API) with in
 ## Istoric / Changelog
 
 ### 11 octombrie 2026
+- Oprirea automată afișează timpul rămas (7 limbi) și reduce volumul treptat în ultimele 20 s, în loc să se oprească brusc. CSP: `script-src` pe hash SHA-256, fără `'unsafe-inline'` pentru scripturi.
 - Adăugat Content-Security-Policy (meta) restrictiv; exportul WAV/AIFF și redarea verificate sub CSP.
 - Secțiunea „Ce spune cercetarea” are o notă explicită (7 limbi) că rezumatul nu a fost reverificat independent.
 - Verificări axe (1280 și 360 px): 0 violări; fără depășire orizontală.
