@@ -1,5 +1,7 @@
 # Calm Waves
 
+**Ultima actualizare:** 11 octombrie 2026
+
 Compoziție ambientală generativă, personalizabilă, pentru relaxare, somn, concentrare și meditație.
 
 **Live:** https://chiuta.github.io/CalmWaves/
@@ -45,7 +47,7 @@ Calm Waves este o aplicație single-file (`index.html`) care generează algoritm
 
 ## Limitări și disclaimer
 
-Conținut informativ și de relaxare; nu este dispozitiv medical și nu înlocuiește sfatul medical sau tratamentul. Secțiunea „Ce spune cercetarea, de fapt” rezumă afirmații despre studii (ex. unde binaurale și anxietate) care nu au fost verificate independent în acest audit și nu trebuie luate ca promisiune terapeutică. Cine are epilepsie sau afecțiuni neurologice ar trebui să ceară sfatul unui medic înainte de a folosi unde binaurale. Pagina nu are Content-Security-Policy.
+Conținut informativ și de relaxare; nu este dispozitiv medical și nu înlocuiește sfatul medical sau tratamentul. Secțiunea „Ce spune cercetarea, de fapt” rezumă afirmații despre studii (ex. unde binaurale și anxietate) care nu au fost verificate independent (la 11.10.2026 verificarea prin căutare web a rămas neconcludentă; aplicația afișează acum o notă în acest sens, în toate cele 7 limbi) și nu trebuie luate ca promisiune terapeutică. Cine are epilepsie sau afecțiuni neurologice ar trebui să ceară sfatul unui medic înainte de a folosi unde binaurale. Pagina are acum un Content-Security-Policy strict (`default-src 'none'`, fără conexiuni externe).
 
 O notă scurtă (RO/EN) este afișată sub subsolul aplicației.
 
@@ -68,3 +70,12 @@ Alexio — Alexandru-Ionuț Chiuță, contact: alexio@trom.tf.
 ## English summary
 
 Calm Waves is a single-file generative ambient music app (Web Audio API) with intent, palette, density, duration, texture and pace controls, binaural tones, synthesized formant voices, shareable variant codes, five visualizations and WAV/AIFF/compressed export. 7 UI languages. Only custom presets are stored in localStorage; no network requests apart from optional outbound links. CC0.
+
+## Istoric / Changelog
+
+### 11 octombrie 2026
+- Adăugat Content-Security-Policy (meta) restrictiv; exportul WAV/AIFF și redarea verificate sub CSP.
+- Secțiunea „Ce spune cercetarea” are o notă explicită (7 limbi) că rezumatul nu a fost reverificat independent.
+- Verificări axe (1280 și 360 px): 0 violări; fără depășire orizontală.
+
+Surse verificate la 11.10.2026: căutarea web pentru meta-analizele despre unde binaurale și pentru repelentele ultrasonice nu a dat confirmări concludente, de aceea afirmațiile rămân marcate ca neverificate
