@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-CuO2n5Fvk8OUpvddJwTottsqBldRwu0LvHM3YhvKnrs='; style-src 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' data: blob:; connect-src 'self' data: blob:; base-uri 'none'; form-action 'none'">
+<meta name="application-version" content="1.0.0">
+<meta name="last-updated" content="2026-10-12">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-RHtGoGBGAhlu2BEjsZERSr3xYivwQUHebmCN5e5aDU8='; style-src 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' data: blob:; connect-src 'self' data: blob:; base-uri 'none'; form-action 'none'">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#0a0b0f">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -610,6 +612,7 @@ footer a:hover{color:var(--wave1);}
   <p class="combo-counter advanced-only" data-i18n="comboCounter">peste 2.304 combinații posibile din meniuri, plus variații infinite de sămânță</p>
 
   <footer data-i18n-html="footerText">CC0 · fără drepturi de autor · 100% offline · fără telemetrie</footer>
+  <p id="app-version" style="text-align:center;font-size:0.7rem;color:var(--text-dim);margin-top:0.5rem"><span data-i18n="verLabel">Versiune</span>: v 1.0.0 · 2026-10-12</p>
   <p class="disclaimer-note" style="font-size:0.7rem;line-height:1.5;color:var(--text-dim);margin-top:1rem;max-width:42rem">Conținut informativ și de relaxare; nu este dispozitiv medical și nu înlocuiește sfatul medical sau tratamentul. Dacă aveți epilepsie sau afecțiuni neurologice, cereți sfatul unui medic înainte de a folosi unde binaurale; nu ascultați în timpul condusului. / Informational and relaxation content; not a medical device and not a substitute for medical advice or treatment. If you have epilepsy or a neurological condition, ask a doctor before using binaural tones; do not listen while driving.</p>
 </main>
 
@@ -747,6 +750,7 @@ var STRINGS = {
     breathIn:"Inspiră...", breathOut:"Expiră...",
     comboCounter:"peste 2.304 combinații posibile din meniuri, plus variații infinite de sămânță",
     footerText:"CC0 · fără drepturi de autor · <a href=\"https://trade-free.org\" target=\"_blank\" rel=\"noopener\">trade-free</a> · 100% offline · fără telemetrie",
+    verLabel:"Versiune",
     supportAria:"Sprijină", supportLabel:"Sprijină:", closeAria:"Închide",
     langToggleAria:"Schimbă limba"
   },
@@ -811,6 +815,7 @@ var STRINGS = {
     breathIn:"Breathe in...", breathOut:"Breathe out...",
     comboCounter:"over 2,304 possible menu combinations, plus infinite seed variations",
     footerText:"CC0 · public domain · <a href=\"https://trade-free.org\" target=\"_blank\" rel=\"noopener\">trade-free</a> · 100% offline · no telemetry",
+    verLabel:"Version",
     supportAria:"Support", supportLabel:"Support:", closeAria:"Close",
     langToggleAria:"Choose language"
   },
@@ -875,6 +880,7 @@ var STRINGS = {
     breathIn:"Inspirez...", breathOut:"Expirez...",
     comboCounter:"plus de 2 304 combinaisons de menus possibles, plus des variations de graine infinies",
     footerText:"CC0 · domaine public · <a href=\"https://trade-free.org\" target=\"_blank\" rel=\"noopener\">trade-free</a> · 100 % hors ligne · aucune télémétrie",
+    verLabel:"Version",
     supportAria:"Soutenir", supportLabel:"Soutenir :", closeAria:"Fermer",
     langToggleAria:"Choisir la langue"
   },
@@ -939,6 +945,7 @@ var STRINGS = {
     breathIn:"Inspira...", breathOut:"Espira...",
     comboCounter:"oltre 2.304 combinazioni possibili dai menu, più infinite variazioni di seme",
     footerText:"CC0 · dominio pubblico · <a href=\"https://trade-free.org\" target=\"_blank\" rel=\"noopener\">trade-free</a> · 100% offline · nessuna telemetria",
+    verLabel:"Versione",
     supportAria:"Sostieni", supportLabel:"Sostieni:", closeAria:"Chiudi",
     langToggleAria:"Scegli la lingua"
   },
@@ -1003,6 +1010,7 @@ var STRINGS = {
     breathIn:"Inhala...", breathOut:"Exhala...",
     comboCounter:"más de 2.304 combinaciones posibles de menú, más variaciones infinitas de semilla",
     footerText:"CC0 · dominio público · <a href=\"https://trade-free.org\" target=\"_blank\" rel=\"noopener\">trade-free</a> · 100% sin conexión · sin telemetría",
+    verLabel:"Versión",
     supportAria:"Apoyar", supportLabel:"Apoyar:", closeAria:"Cerrar",
     langToggleAria:"Elegir idioma"
   },
@@ -1067,6 +1075,7 @@ var STRINGS = {
     breathIn:"Inspire...", breathOut:"Expire...",
     comboCounter:"mais de 2.304 combinações possíveis de menu, além de variações infinitas de semente",
     footerText:"CC0 · domínio público · <a href=\"https://trade-free.org\" target=\"_blank\" rel=\"noopener\">trade-free</a> · 100% offline · sem telemetria",
+    verLabel:"Versão",
     supportAria:"Apoiar", supportLabel:"Apoiar:", closeAria:"Fechar",
     langToggleAria:"Escolher idioma"
   },
@@ -1131,6 +1140,7 @@ var STRINGS = {
     breathIn:"Einatmen...", breathOut:"Ausatmen...",
     comboCounter:"über 2.304 mögliche Menü-Kombinationen, plus unendliche Seed-Variationen",
     footerText:"CC0 · gemeinfrei · <a href=\"https://trade-free.org\" target=\"_blank\" rel=\"noopener\">trade-free</a> · 100 % offline · keine Telemetrie",
+    verLabel:"Version",
     supportAria:"Unterstützen", supportLabel:"Unterstützen:", closeAria:"Schließen",
     langToggleAria:"Sprache wählen"
   }

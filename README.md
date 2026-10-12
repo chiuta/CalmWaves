@@ -1,6 +1,6 @@
 # Calm Waves
 
-**Ultima actualizare:** 11 octombrie 2026
+**Versiune:** 1.0.0 · **Ultima actualizare:** 12 octombrie 2026
 
 Compoziție ambientală generativă, personalizabilă, pentru relaxare, somn, concentrare și meditație.
 
@@ -72,6 +72,9 @@ Alexio — Alexandru-Ionuț Chiuță, contact: alexio@trom.tf.
 Calm Waves is a single-file generative ambient music app (Web Audio API) with intent, palette, density, duration, texture and pace controls, binaural tones, synthesized formant voices, shareable variant codes, five visualizations and WAV/AIFF/compressed export. 7 UI languages. Only custom presets are stored in localStorage; no network requests apart from optional outbound links. CC0.
 
 ## Istoric / Changelog
+
+### 12 octombrie 2026 (v1.0.0)
+- 1.0.0 — 2026-10-12: versiunea și data ultimei actualizări sunt afișate în aplicație
 
 ### 11 octombrie 2026
 - Exportul afișează progresul (procent) în timpul randării; extensia din mesajul final corespunde formatului ales. Dacă audio nu pornește (context suspendat), apare o notă vizibilă (7 limbi) după ~2,5 s.
