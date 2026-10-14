@@ -1,6 +1,6 @@
 # Calm Waves
 
-**Versiune:** 1.0.0 · **Ultima actualizare:** 12 octombrie 2026
+**Versiune:** 1.1.0 · **Ultima actualizare:** 14 octombrie 2026
 
 Compoziție ambientală generativă, personalizabilă, pentru relaxare, somn, concentrare și meditație.
 
@@ -27,6 +27,14 @@ Calm Waves este o aplicație single-file (`index.html`) care generează algoritm
 - Interfață în 7 limbi: English, Română, Français, Italiano, Español, Português, Deutsch.
 - Secțiuni explicative: „Cum funcționează, tehnic” și „Ce spune cercetarea, de fapt”.
 
+## Funcții noi (v1.1.0)
+
+- **Cod QR pentru variantă**: din „Cod variantă” se generează un QR (cu adresă web și `?v=cod`, sau doar codul dacă nu există adresă); „Citește imagine QR” încarcă varianta; cod invalid sau imagine fără QR dau mesaj, fără modificări.
+- **Ghidaj vocal scurt** (opt-in, oprit implicit, `FFF.tts`): rostește la început intenția aleasă și un mesaj scurt la final; oprirea sesiunii taie vocea; fără voce în limba interfeței sau fără sinteză apare un mesaj clar și nu se rostește nimic.
+- **Estompare configurabilă la oprirea automată** (20 s implicit, 1 min, 5 min): volumul coboară doar în intervalul ales, verificat în timp real în teste.
+- **Kit**: Transparență și copie `.fff.json` (preferința de voce este indexată), `core, label, bundle, qr, tts`.
+- **Limbi și traduceri**: Textele noi sunt în cele 7 limbi ale aplicației (RO, EN, FR, IT, ES, PT, DE); aplicația nu are maghiară în selector. Traducerile FR/IT/ES/PT/DE sunt automate și **neverificate de vorbitori nativi**; dialogul kitului are 8 limbi.
+
 ## Manual de utilizare
 
 1. Alege limba din selectorul de limbă din antet.
@@ -40,6 +48,8 @@ Calm Waves este o aplicație single-file (`index.html`) care generează algoritm
 9. Export: „Exportă ca WAV”, „AIFF” sau „Exportă comprimat” (cu „Anulează” pentru oprire).
 
 ## Confidențialitate și rețea
+
+- Kitul „fără frontiere” (`fff-kit`, modulele `core, label, bundle, qr, tts`) este lipit în `index.html`: nu face cereri de rețea. Dialogul „Transparență” (clic pe versiune) arată rețeaua declarată (0 cereri externe), cheile din `localStorage`, SHA-256 al fișierului și oferă copie de siguranță `.fff.json` (opțional criptată cu parolă, AES-GCM). Codurile QR se generează și se citesc local; citirea se face doar dintr-o imagine aleasă de utilizator, fără cameră.
 
 - **Stocare locală:** doar presetările personalizate, în `localStorage` (cheia `calmWavesCustomPresets`). Nu am găsit în cod alte chei persistente.
 - **Rețea:** codul nu face apeluri `fetch`/XHR și nu încarcă scripturi, fonturi sau resurse externe; audio și grafica sunt generate local. Singurele adrese externe sunt linkuri de navigare deschise la click: trade-free.org, Patreon și Buy Me a Coffee (butonul ♥).
@@ -72,6 +82,8 @@ Alexio — Alexandru-Ionuț Chiuță, contact: alexio@trom.tf.
 Calm Waves is a single-file generative ambient music app (Web Audio API) with intent, palette, density, duration, texture and pace controls, binaural tones, synthesized formant voices, shareable variant codes, five visualizations and WAV/AIFF/compressed export. 7 UI languages. Only custom presets are stored in localStorage; no network requests apart from optional outbound links. CC0.
 
 ## Istoric / Changelog
+
+- 1.1.0 — 2026-10-14: cod QR pentru variantă, ghidaj vocal, estompare configurabilă, kit „fără frontiere”. Teste: `tests/fff-r8.test.mjs`.
 
 ### 12 octombrie 2026 (v1.0.0)
 - 1.0.0 — 2026-10-12: versiunea și data ultimei actualizări sunt afișate în aplicație
