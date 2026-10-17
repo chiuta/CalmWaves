@@ -52,7 +52,7 @@ Calm Waves este o aplicație single-file (`index.html`) care generează algoritm
 - Kitul „fără frontiere” (`fff-kit`, modulele `core, label, bundle, qr, tts`) este lipit în `index.html`: nu face cereri de rețea. Dialogul „Transparență” (clic pe versiune) arată rețeaua declarată (0 cereri externe), cheile din `localStorage`, SHA-256 al fișierului și oferă copie de siguranță `.fff.json` (opțional criptată cu parolă, AES-GCM). Codurile QR se generează și se citesc local; citirea se face doar dintr-o imagine aleasă de utilizator, fără cameră.
 
 - **Stocare locală:** doar presetările personalizate, în `localStorage` (cheia `calmWavesCustomPresets`). Nu am găsit în cod alte chei persistente.
-- **Rețea:** codul nu face apeluri `fetch`/XHR și nu încarcă scripturi, fonturi sau resurse externe; audio și grafica sunt generate local. Singurele adrese externe sunt linkuri de navigare deschise la click: trade-free.org, Patreon și Buy Me a Coffee (butonul ♥).
+- **Rețea:** codul nu face apeluri `fetch`/XHR și nu încarcă scripturi, fonturi sau resurse externe; audio și grafica sunt generate local. Singurele adrese externe sunt linkuri de navigare deschise la click: trade-free.org, Buy Me a Coffee (butonul ♥).
 - Subsolul aplicației declară: MIT, trade-free, 100% offline, fără telemetrie.
 
 ## Limitări și disclaimer
