@@ -53,7 +53,7 @@ Calm Waves este o aplicație single-file (`index.html`) care generează algoritm
 
 - **Stocare locală:** doar presetările personalizate, în `localStorage` (cheia `calmWavesCustomPresets`). Nu am găsit în cod alte chei persistente.
 - **Rețea:** codul nu face apeluri `fetch`/XHR și nu încarcă scripturi, fonturi sau resurse externe; audio și grafica sunt generate local. Singurele adrese externe sunt linkuri de navigare deschise la click: trade-free.org, Patreon și Buy Me a Coffee (butonul ♥).
-- Subsolul aplicației declară: CC0, trade-free, 100% offline, fără telemetrie.
+- Subsolul aplicației declară: MIT, trade-free, 100% offline, fără telemetrie.
 
 ## Limitări și disclaimer
 
@@ -67,7 +67,7 @@ Descarcă `index.html` și deschide-l în browser; nu necesită internet. Unele 
 
 ## Licență
 
-CC0 1.0 Universal (domeniu public) — vezi fișierul LICENSE
+MIT — vezi fișierul LICENSE
 
 ## Audit
 
@@ -79,7 +79,7 @@ Alexio — Alexandru-Ionuț Chiuță, contact: alexio@trom.tf.
 
 ## English summary
 
-Calm Waves is a single-file generative ambient music app (Web Audio API) with intent, palette, density, duration, texture and pace controls, binaural tones, synthesized formant voices, shareable variant codes, five visualizations and WAV/AIFF/compressed export. 7 UI languages. Only custom presets are stored in localStorage; no network requests apart from optional outbound links. CC0.
+Calm Waves is a single-file generative ambient music app (Web Audio API) with intent, palette, density, duration, texture and pace controls, binaural tones, synthesized formant voices, shareable variant codes, five visualizations and WAV/AIFF/compressed export. 7 UI languages. Only custom presets are stored in localStorage; no network requests apart from optional outbound links. MIT license.
 
 ## Istoric / Changelog
 
