@@ -46,7 +46,7 @@ console.log('Pornire și versiune');
   const {ctx, p, errs, net} = await open(1280, 800);
   t('0 pageerror/CSP', errs.length === 0, errs.join('|'));
   t('0 cereri de rețea', net() === 0);
-  t('versiune 1.1.0', await p.evaluate(() => document.querySelector('meta[name=application-version]').content === '1.1.0' && /v 1\.1\.0 · 2026-10-14/.test(document.getElementById('app-version').textContent)));
+  t('versiune 1.1.1', await p.evaluate(() => document.querySelector('meta[name=application-version]').content === '1.1.1' && /v 1\.1\.1 · 2026-10-19/.test(document.getElementById('app-version').textContent)));
   t('kit prezent', await p.evaluate(() => !!(window.FFF && FFF.label && FFF.bundle && FFF.qr && FFF.tts)));
   t('estompare implicită 20 s', await p.evaluate(() => document.getElementById('sleepFadeSelect').value) === '20');
   await ctx.close();

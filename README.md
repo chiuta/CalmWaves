@@ -1,6 +1,6 @@
 # Calm Waves
 
-**Versiune:** 1.1.0 · **Ultima actualizare:** 14 octombrie 2026
+**Versiune:** 1.1.1 · **Ultima actualizare:** 2026-10-19
 
 Compoziție ambientală generativă, personalizabilă, pentru relaxare, somn, concentrare și meditație.
 
@@ -83,6 +83,7 @@ Calm Waves is a single-file generative ambient music app (Web Audio API) with in
 
 ## Istoric / Changelog
 
+- 1.1.1 — 2026-10-19: **corecție**: parametrul `?v=<cod variantă>` din adresă nu mai este suprascris de varianta implicită la încărcare (mesajul „Variantă încărcată” era fals); link informativ spre SEVA (somn, relaxare, meditație).
 - 1.1.0 — 2026-10-14: cod QR pentru variantă, ghidaj vocal, estompare configurabilă, kit „fără frontiere”. Teste: `tests/fff-r8.test.mjs`.
 
 ### 12 octombrie 2026 (v1.0.0)
