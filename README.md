@@ -1,79 +1,81 @@
 # Calm Waves
 
-**Versiune:** 1.1.1 · **Ultima actualizare:** 2026-10-19
+**English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-Compoziție ambientală generativă, personalizabilă, pentru relaxare, somn, concentrare și meditație.
+**Version:** 1.1.2 · **Last updated:** 2026-10-19
 
-**Live:** https://chiuta.github.io/CalmWaves/
+Customisable generative ambient composition for relaxation, sleep, focus and meditation.
 
-![Captura de ecran](screenshot.png)
+**Live app:** https://chiuta.github.io/CalmWaves/
 
-## Ce este
+![Screenshot](screenshot.png)
 
-Calm Waves este o aplicație single-file (`index.html`) care generează algoritmic, în browser, piese ambientale calme (Web Audio API). Alegi intenția, paleta tonală, densitatea, durata, textura de fundal și ritmul, iar aplicația generează o „variantă” identificabilă printr-un cod pe care îl poți copia și reîncărca. Include vizualizări animate și export audio.
+## What it is
 
-## Funcții
+Calm Waves is a single-file application (`index.html`) that algorithmically generates calm ambient pieces in the browser (Web Audio API). You choose the intent, tonal palette, density, duration, background texture and pace, and the app generates a "variant" identifiable by a code that you can copy and reload. It includes animated visualisations and audio export.
 
-- Două moduri: **Simplu** și **Complet** (acesta din urmă afișează controalele avansate).
-- Presetări rapide (Relaxare clasică, Somn adânc, Focus rapid, Meditație serală) și preseturi personalizate (maximum 12, salvate local).
-- Parametri: intenție (Relaxare profundă, Somn, Concentrare calmă, Meditație), paletă tonală (Caldă, Nocturnă, Eterică, Adâncă), densitate (Minimală, Echilibrată, Bogată), durată (5–60 min), textură de fond (Neutră, Ploaie, Ocean, Vânt), ritm (Lent, Natural, Activ).
-- Unde binaurale (necesită căști), voce sintetizată prin filtre formant (nu voce umană înregistrată) cu profiluri de voce, gong la început și scoică la final (și butoane manuale 🔔 / 🐚).
-- Redare continuă (variante noi la nesfârșit) și oprire automată (15–90 min) cu timp rămas afișat și coborâre treptată a volumului în ultimele 20 s.
-- Egalizator (grav/mediu/înalt) și lățime stereo; volum.
-- Cod de variantă: copiere (📋), variantă nouă (🔀), „Încarcă” pentru a reda un cod; istoric al variantelor recente.
-- Vizualizări: Elegantă, Cartoon, 3D, Undă, Mandala; ecran complet, resetare vizualizare, deplasare/zoom cu mouse sau atingere.
-- Export: WAV, AIFF și „Exportă comprimat” (WebM/Ogg/M4A, în funcție de ce suportă browserul, prin MediaRecorder).
-- Menține ecranul activ în timpul redării, dacă browserul suportă Wake Lock.
-- Interfață în 7 limbi: English, Română, Français, Italiano, Español, Português, Deutsch.
-- Secțiuni explicative: „Cum funcționează, tehnic” și „Ce spune cercetarea, de fapt”.
+## Features
 
-## Funcții noi (v1.1.0)
+- Two modes: **Simple** and **Full** (the latter shows the advanced controls).
+- Quick presets (Classic relaxation, Deep sleep, Quick focus, Evening meditation) and custom presets (up to 12, saved locally).
+- Parameters: intent (Deep relaxation, Sleep, Calm focus, Meditation), tonal palette (Warm, Nocturnal, Ethereal, Deep), density (Minimal, Balanced, Rich), duration (5–60 min), background texture (Neutral, Rain, Ocean, Wind), pace (Slow, Natural, Active).
+- Binaural beats (headphones required), voice synthesised through formant filters (not a recorded human voice) with voice profiles, a gong at the start and a conch shell at the end (and manual 🔔 / 🐚 buttons).
+- Continuous playback (new variants endlessly) and auto-stop (15–90 min) with the remaining time displayed and a gradual volume fade-out over the last 20 s.
+- Equaliser (bass/mid/treble) and stereo width; volume.
+- Variant code: copy (📋), new variant (🔀), "Load" to play a code; history of recent variants.
+- Visualisations: Elegant, Cartoon, 3D, Wave, Mandala; full screen, reset view, pan/zoom with mouse or touch.
+- Export: WAV, AIFF and "Export compressed" (WebM/Ogg/M4A, depending on what the browser supports, via MediaRecorder).
+- Keeps the screen awake during playback, if the browser supports Wake Lock.
+- Interface in 7 languages: English, Română, Français, Italiano, Español, Português, Deutsch.
+- Explanatory sections: "How it works, technically" and "What the research actually says".
 
-- **Cod QR pentru variantă**: din „Cod variantă” se generează un QR (cu adresă web și `?v=cod`, sau doar codul dacă nu există adresă); „Citește imagine QR” încarcă varianta; cod invalid sau imagine fără QR dau mesaj, fără modificări.
-- **Ghidaj vocal scurt** (opt-in, oprit implicit, `FFF.tts`): rostește la început intenția aleasă și un mesaj scurt la final; oprirea sesiunii taie vocea; fără voce în limba interfeței sau fără sinteză apare un mesaj clar și nu se rostește nimic.
-- **Estompare configurabilă la oprirea automată** (20 s implicit, 1 min, 5 min): volumul coboară doar în intervalul ales, verificat în timp real în teste.
-- **Kit**: Transparență și copie `.fff.json` (preferința de voce este indexată), `core, label, bundle, qr, tts`.
-- **Limbi și traduceri**: Textele noi sunt în cele 7 limbi ale aplicației (RO, EN, FR, IT, ES, PT, DE); aplicația nu are maghiară în selector. Traducerile FR/IT/ES/PT/DE sunt automate și **neverificate de vorbitori nativi**; dialogul kitului are 8 limbi.
+## New features (v1.1.0)
 
-## Manual de utilizare
+- **QR code for a variant**: from "Variant code" a QR is generated (with a web address and `?v=code`, or just the code if there is no address); "Read QR image" loads the variant; an invalid code or an image without a QR gives a message, with no changes.
+- **Short voice guidance** (opt-in, off by default, `FFF.tts`): speaks the chosen intent at the start and a short message at the end; stopping the session cuts the voice; with no voice in the interface language or no speech synthesis, a clear message appears and nothing is spoken.
+- **Configurable fade at auto-stop** (20 s default, 1 min, 5 min): the volume drops only within the chosen interval, verified in real time in the tests.
+- **Kit**: Transparency and `.fff.json` backup (the voice preference is indexed), `core, label, bundle, qr, tts`.
+- **Languages and translations**: The new texts are in the app's 7 languages (RO, EN, FR, IT, ES, PT, DE); the app does not have Hungarian in the selector. The FR/IT/ES/PT/DE translations are automatic and **not verified by native speakers**; the kit dialog has 8 languages.
 
-1. Alege limba din selectorul de limbă din antet.
-2. Alege modul **Simplu** sau **Complet**.
-3. Alege un preset rapid sau setează manual intenția, paleta, densitatea, durata, textura și ritmul.
-4. Apasă ▶ (Ascultă) pentru a porni. Taste: **Spațiu** = redare/pauză, **↑ / ↓** = volum (±5). Tastele nu acționează când focusul e pe un câmp, buton sau listă.
-5. Schimbă vizualizarea (Elegantă / Cartoon / 3D / Undă / Mandala); trage pentru a muta, scroll sau pensare pentru zoom, dublu-clic pentru resetare.
-6. Pentru a reface o piesă: copiază „Cod variantă” (📋), iar mai târziu lipește-l și apasă „Încarcă”. 🔀 generează o variantă nouă.
-7. Pentru preset propriu (mod Complet): scrie un nume în „Nume preset nou” și apasă „+ Adaugă preset curent” (sau Enter).
-8. Setează „Oprire automată” dacă asculți la culcare.
-9. Export: „Exportă ca WAV”, „AIFF” sau „Exportă comprimat” (cu „Anulează” pentru oprire).
+## User guide
 
-## Confidențialitate și rețea
+1. Choose the language from the language selector in the header.
+2. Choose the **Simple** or **Full** mode.
+3. Choose a quick preset or set the intent, palette, density, duration, texture and pace manually.
+4. Press ▶ (Listen) to start. Keys: **Space** = play/pause, **↑ / ↓** = volume (±5). The keys do not act when focus is on a field, button or list.
+5. Change the visualisation (Elegant / Cartoon / 3D / Wave / Mandala); drag to move, scroll or pinch to zoom, double-click to reset.
+6. To recreate a piece: copy the "Variant code" (📋), and later paste it and press "Load". 🔀 generates a new variant.
+7. For your own preset (Full mode): type a name in "New preset name" and press "+ Add current preset" (or Enter).
+8. Set "Auto-stop" if you listen at bedtime.
+9. Export: "Export as WAV", "AIFF" or "Export compressed" (with "Cancel" to stop).
 
-- Kitul „fără frontiere” (`fff-kit`, modulele `core, label, bundle, qr, tts`) este lipit în `index.html`: nu face cereri de rețea. Dialogul „Transparență” (clic pe versiune) arată rețeaua declarată (0 cereri externe), cheile din `localStorage`, SHA-256 al fișierului și oferă copie de siguranță `.fff.json` (opțional criptată cu parolă, AES-GCM). Codurile QR se generează și se citesc local; citirea se face doar dintr-o imagine aleasă de utilizator, fără cameră.
+## Privacy and network
 
-- **Stocare locală:** doar presetările personalizate, în `localStorage` (cheia `calmWavesCustomPresets`). Nu am găsit în cod alte chei persistente.
-- **Rețea:** codul nu face apeluri `fetch`/XHR și nu încarcă scripturi, fonturi sau resurse externe; audio și grafica sunt generate local. Singurele adrese externe sunt linkuri de navigare deschise la click: trade-free.org, Buy Me a Coffee (butonul ♥).
-- Subsolul aplicației declară: MIT, trade-free, 100% offline, fără telemetrie.
+- The "trade-free" kit (`fff-kit`, modules `core, label, bundle, qr, tts`) is embedded in `index.html`: it makes no network requests. The "Transparency" dialog (click on the version) shows the declared network (0 external requests), the `localStorage` keys, the file's SHA-256 and offers a `.fff.json` backup (optionally encrypted with a password, AES-GCM). QR codes are generated and read locally; reading is done only from an image chosen by the user, with no camera.
 
-## Limitări și disclaimer
+- **Local storage:** only custom presets, in `localStorage` (key `calmWavesCustomPresets`). I found no other persistent keys in the code.
+- **Network:** the code makes no `fetch`/XHR calls and loads no external scripts, fonts or resources; audio and graphics are generated locally. The only external addresses are navigation links opened on click: trade-free.org, Buy Me a Coffee (the ♥ button).
+- The app footer declares: MIT, trade-free, 100% offline, no telemetry.
 
-Conținut informativ și de relaxare; nu este dispozitiv medical și nu înlocuiește sfatul medical sau tratamentul. Secțiunea „Ce spune cercetarea, de fapt” rezumă afirmații despre studii (ex. unde binaurale și anxietate) care nu au fost verificate independent (la 11.10.2026 verificarea prin căutare web a rămas neconcludentă; aplicația afișează acum o notă în acest sens, în toate cele 7 limbi) și nu trebuie luate ca promisiune terapeutică. Cine are epilepsie sau afecțiuni neurologice ar trebui să ceară sfatul unui medic înainte de a folosi unde binaurale. Pagina are acum un Content-Security-Policy strict (`default-src 'none'`, fără conexiuni externe).
+## Limitations and disclaimer
 
-O notă scurtă (RO/EN) este afișată sub subsolul aplicației.
+Informational and relaxation content; it is not a medical device and does not replace medical advice or treatment. The "What the research actually says" section summarises claims about studies (e.g. binaural beats and anxiety) that have not been independently verified (on 11.10.2026 verification by web search remained inconclusive; the app now displays a note to that effect, in all 7 languages) and must not be taken as a therapeutic promise. People with epilepsy or neurological conditions should seek a doctor's advice before using binaural beats. The page now has a strict Content-Security-Policy (`default-src 'none'`, no external connections).
 
-## Rulare locală / offline
+A short note (RO/EN) is displayed below the app footer.
 
-Descarcă `index.html` și deschide-l în browser; nu necesită internet. Unele funcții depind de browser (Wake Lock, MediaRecorder pentru exportul comprimat).
+## Local / offline use
 
-## Licență
+Download `index.html` and open it in a browser; no internet required. Some features depend on the browser (Wake Lock, MediaRecorder for compressed export).
 
-MIT — vezi fișierul LICENSE
+## Licence
+
+MIT — see the LICENSE file.
 
 ## Audit
 
-Audit: 2026-10-10 — afirmațiile „fără rețea / fără telemetrie” corespund codului (fără `fetch`/XHR/CDN).
+Audit: 2026-10-10 — the "no network / no telemetry" claims match the code (no `fetch`/XHR/CDN).
 
-## Autor
+## Author
 
 Alexio — Alexandru-Ionuț Chiuță, contact: alexio@trom.tf.
 
@@ -81,19 +83,19 @@ Alexio — Alexandru-Ionuț Chiuță, contact: alexio@trom.tf.
 
 Calm Waves is a single-file generative ambient music app (Web Audio API) with intent, palette, density, duration, texture and pace controls, binaural tones, synthesized formant voices, shareable variant codes, five visualizations and WAV/AIFF/compressed export. 7 UI languages. Only custom presets are stored in localStorage; no network requests apart from optional outbound links. MIT license.
 
-## Istoric / Changelog
+## History / Changelog
 
-- 1.1.1 — 2026-10-19: **corecție**: parametrul `?v=<cod variantă>` din adresă nu mai este suprascris de varianta implicită la încărcare (mesajul „Variantă încărcată” era fals); link informativ spre SEVA (somn, relaxare, meditație).
-- 1.1.0 — 2026-10-14: cod QR pentru variantă, ghidaj vocal, estompare configurabilă, kit „fără frontiere”. Teste: `tests/fff-r8.test.mjs`.
+- 1.1.1 — 2026-10-19: **fix**: the `?v=<variant code>` parameter in the address is no longer overwritten by the default variant on load (the "Variant loaded" message was false); informational link to SEVA (sleep, relaxation, meditation).
+- 1.1.0 — 2026-10-14: QR code for a variant, voice guidance, configurable fade, "trade-free" kit. Tests: `tests/fff-r8.test.mjs`.
 
-### 12 octombrie 2026 (v1.0.0)
-- 1.0.0 — 2026-10-12: versiunea și data ultimei actualizări sunt afișate în aplicație
+### 12 October 2026 (v1.0.0)
+- 1.0.0 — 2026-10-12: the version and the date of the last update are shown in the app
 
-### 11 octombrie 2026
-- Exportul afișează progresul (procent) în timpul randării; extensia din mesajul final corespunde formatului ales. Dacă audio nu pornește (context suspendat), apare o notă vizibilă (7 limbi) după ~2,5 s.
-- Oprirea automată afișează timpul rămas (7 limbi) și reduce volumul treptat în ultimele 20 s, în loc să se oprească brusc. CSP: `script-src` pe hash SHA-256, fără `'unsafe-inline'` pentru scripturi.
-- Adăugat Content-Security-Policy (meta) restrictiv; exportul WAV/AIFF și redarea verificate sub CSP.
-- Secțiunea „Ce spune cercetarea” are o notă explicită (7 limbi) că rezumatul nu a fost reverificat independent.
-- Verificări axe (1280 și 360 px): 0 violări; fără depășire orizontală.
+### 11 October 2026
+- Export shows progress (percentage) during rendering; the extension in the final message matches the chosen format. If audio does not start (suspended context), a visible note appears (7 languages) after ~2.5 s.
+- Auto-stop shows the remaining time (7 languages) and lowers the volume gradually over the last 20 s, instead of stopping abruptly. CSP: `script-src` on SHA-256 hash, without `'unsafe-inline'` for scripts.
+- Added a restrictive Content-Security-Policy (meta); WAV/AIFF export and playback verified under CSP.
+- The "What the research says" section has an explicit note (7 languages) that the summary has not been independently re-verified.
+- axe checks (1280 and 360 px): 0 violations; no horizontal overflow.
 
-Surse verificate la 11.10.2026: căutarea web pentru meta-analizele despre unde binaurale și pentru repelentele ultrasonice nu a dat confirmări concludente, de aceea afirmațiile rămân marcate ca neverificate
+Sources checked on 11.10.2026: the web search for meta-analyses on binaural beats and for ultrasonic repellents gave no conclusive confirmations, which is why the claims remain marked as unverified
