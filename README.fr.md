@@ -10,7 +10,7 @@ Composition ambiante générative personnalisable pour la détente, le sommeil, 
 
 **Application en ligne :** https://chiuta.github.io/CalmWaves/
 
-![Capture d'écran](screenshot.png)
+![Capture d'écran](screenshot.fr.png)
 
 ## De quoi s'agit-il
 

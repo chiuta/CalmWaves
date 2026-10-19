@@ -10,7 +10,7 @@ Customisable generative ambient composition for relaxation, sleep, focus and med
 
 **Live app:** https://chiuta.github.io/CalmWaves/
 
-![Screenshot](screenshot.png)
+![Screenshot](screenshot.en.png)
 
 ## What it is
 

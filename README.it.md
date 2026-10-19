@@ -10,7 +10,7 @@ Composizione ambient generativa personalizzabile per rilassamento, sonno, concen
 
 **App online:** https://chiuta.github.io/CalmWaves/
 
-![Schermata](screenshot.png)
+![Schermata](screenshot.it.png)
 
 ## Cos'è
 

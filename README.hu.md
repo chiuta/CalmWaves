@@ -10,7 +10,7 @@ Testreszabható generatív ambient kompozíció relaxációhoz, alváshoz, konce
 
 **Online alkalmazás:** https://chiuta.github.io/CalmWaves/
 
-![Képernyőkép](screenshot.png)
+![Képernyőkép](screenshot.hu.png)
 
 ## Mi ez
 

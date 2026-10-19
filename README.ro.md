@@ -10,7 +10,7 @@ Compoziție ambientală generativă, personalizabilă, pentru relaxare, somn, co
 
 **Live:** https://chiuta.github.io/CalmWaves/
 
-![Captura de ecran](screenshot.png)
+![Captura de ecran](screenshot.ro.png)
 
 ## Ce este
 
