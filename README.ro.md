@@ -2,7 +2,9 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 1.1.2 · **Ultima actualizare:** 2026-10-19
+**Versiune:** 1.2.0 · **Ultima actualizare:** 2026-10-19
+
+Limbile interfeței: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
 Compoziție ambientală generativă, personalizabilă, pentru relaxare, somn, concentrare și meditație.
 
@@ -26,7 +28,7 @@ Calm Waves este o aplicație single-file (`index.html`) care generează algoritm
 - Vizualizări: Elegantă, Cartoon, 3D, Undă, Mandala; ecran complet, resetare vizualizare, deplasare/zoom cu mouse sau atingere.
 - Export: WAV, AIFF și „Exportă comprimat” (WebM/Ogg/M4A, în funcție de ce suportă browserul, prin MediaRecorder).
 - Menține ecranul activ în timpul redării, dacă browserul suportă Wake Lock.
-- Interfață în 7 limbi: English, Română, Français, Italiano, Español, Português, Deutsch.
+- Interfață în 8 limbi: English, Română, Français, Italiano, Español, Português, Deutsch, Magyar.
 - Secțiuni explicative: „Cum funcționează, tehnic” și „Ce spune cercetarea, de fapt”.
 
 ## Funcții noi (v1.1.0)
@@ -35,7 +37,7 @@ Calm Waves este o aplicație single-file (`index.html`) care generează algoritm
 - **Ghidaj vocal scurt** (opt-in, oprit implicit, `FFF.tts`): rostește la început intenția aleasă și un mesaj scurt la final; oprirea sesiunii taie vocea; fără voce în limba interfeței sau fără sinteză apare un mesaj clar și nu se rostește nimic.
 - **Estompare configurabilă la oprirea automată** (20 s implicit, 1 min, 5 min): volumul coboară doar în intervalul ales, verificat în timp real în teste.
 - **Kit**: Transparență și copie `.fff.json` (preferința de voce este indexată), `core, label, bundle, qr, tts`.
-- **Limbi și traduceri**: Textele noi sunt în cele 7 limbi ale aplicației (RO, EN, FR, IT, ES, PT, DE); aplicația nu are maghiară în selector. Traducerile FR/IT/ES/PT/DE sunt automate și **neverificate de vorbitori nativi**; dialogul kitului are 8 limbi.
+- **Limbi și traduceri**: Textele noi sunt în cele 8 limbi ale aplicației (RO, EN, FR, IT, ES, PT, DE, HU). Traducerile FR/IT/ES/PT/DE/HU sunt automate și **neverificate de vorbitori nativi**; dialogul kitului are 8 limbi.
 
 ## Manual de utilizare
 
@@ -59,7 +61,7 @@ Calm Waves este o aplicație single-file (`index.html`) care generează algoritm
 
 ## Limitări și disclaimer
 
-Conținut informativ și de relaxare; nu este dispozitiv medical și nu înlocuiește sfatul medical sau tratamentul. Secțiunea „Ce spune cercetarea, de fapt” rezumă afirmații despre studii (ex. unde binaurale și anxietate) care nu au fost verificate independent (la 11.10.2026 verificarea prin căutare web a rămas neconcludentă; aplicația afișează acum o notă în acest sens, în toate cele 7 limbi) și nu trebuie luate ca promisiune terapeutică. Cine are epilepsie sau afecțiuni neurologice ar trebui să ceară sfatul unui medic înainte de a folosi unde binaurale. Pagina are acum un Content-Security-Policy strict (`default-src 'none'`, fără conexiuni externe).
+Conținut informativ și de relaxare; nu este dispozitiv medical și nu înlocuiește sfatul medical sau tratamentul. Secțiunea „Ce spune cercetarea, de fapt” rezumă afirmații despre studii (ex. unde binaurale și anxietate) care nu au fost verificate independent (la 11.10.2026 verificarea prin căutare web a rămas neconcludentă; aplicația afișează acum o notă în acest sens, în toate cele 8 limbi) și nu trebuie luate ca promisiune terapeutică. Cine are epilepsie sau afecțiuni neurologice ar trebui să ceară sfatul unui medic înainte de a folosi unde binaurale. Pagina are acum un Content-Security-Policy strict (`default-src 'none'`, fără conexiuni externe).
 
 O notă scurtă (RO/EN) este afișată sub subsolul aplicației.
 
@@ -81,7 +83,7 @@ Alexio — Alexandru-Ionuț Chiuță, contact: alexio@trom.tf.
 
 ## English summary
 
-Calm Waves is a single-file generative ambient music app (Web Audio API) with intent, palette, density, duration, texture and pace controls, binaural tones, synthesized formant voices, shareable variant codes, five visualizations and WAV/AIFF/compressed export. 7 UI languages. Only custom presets are stored in localStorage; no network requests apart from optional outbound links. MIT license.
+Calm Waves is a single-file generative ambient music app (Web Audio API) with intent, palette, density, duration, texture and pace controls, binaural tones, synthesized formant voices, shareable variant codes, five visualizations and WAV/AIFF/compressed export. 8 UI languages. Only custom presets are stored in localStorage; no network requests apart from optional outbound links. MIT license.
 
 ## Istoric / Changelog
 

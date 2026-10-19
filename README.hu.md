@@ -2,7 +2,9 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · **Magyar**
 
-**Verzió:** 1.1.2 · **Utolsó frissítés:** 2026-10-19
+**Verzió:** 1.2.0 · **Utolsó frissítés:** 2026-10-19
+
+A felület nyelvei: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
 Testreszabható generatív ambient kompozíció relaxációhoz, alváshoz, koncentrációhoz és meditációhoz.
 
@@ -26,7 +28,7 @@ A Calm Waves egy egyfájlos alkalmazás (`index.html`), amely a böngészőben a
 - Vizualizációk: Elegáns, Rajzfilm, 3D, Hullám, Mandala; teljes képernyő, nézet visszaállítása, mozgatás/nagyítás egérrel vagy érintéssel.
 - Exportálás: WAV, AIFF és „Tömörített exportálás” (WebM/Ogg/M4A, a böngésző támogatásától függően, a MediaRecorder segítségével).
 - Lejátszás közben aktívan tartja a képernyőt, ha a böngésző támogatja a Wake Lockot.
-- Felület 7 nyelven: English, Română, Français, Italiano, Español, Português, Deutsch.
+- Felület 8 nyelven: English, Română, Français, Italiano, Español, Português, Deutsch, Magyar.
 - Magyarázó szakaszok: „Hogyan működik, műszakilag” és „Mit mond valójában a kutatás”.
 
 ## Újdonságok (v1.1.0)
@@ -35,7 +37,7 @@ A Calm Waves egy egyfájlos alkalmazás (`index.html`), amely a böngészőben a
 - **Rövid hangos útmutatás** (opcionális, alapértelmezés szerint kikapcsolva, `FFF.tts`): az elején kimondja a kiválasztott szándékot, a végén egy rövid üzenetet; a munkamenet leállítása elvágja a hangot; ha nincs hang a felület nyelvén, vagy nincs beszédszintézis, egyértelmű üzenet jelenik meg, és semmi sem hangzik el.
 - **Beállítható kiolvadás az automatikus leállításkor** (alapértelmezés 20 mp, 1 perc, 5 perc): a hangerő csak a kiválasztott időközben csökken, a tesztekben valós időben ellenőrizve.
 - **Kit**: Átláthatóság és `.fff.json` biztonsági mentés (a hangbeállítás indexelt), `core, label, bundle, qr, tts`.
-- **Nyelvek és fordítások**: az új szövegek az alkalmazás 7 nyelvén vannak (RO, EN, FR, IT, ES, PT, DE); az alkalmazás nyelvválasztójában nincs magyar. Az FR/IT/ES/PT/DE fordítások automatikusak, és **anyanyelvi beszélők nem ellenőrizték őket**; a kit párbeszédablaka 8 nyelvű.
+- **Nyelvek és fordítások**: az új szövegek az alkalmazás 8 nyelvén vannak (RO, EN, FR, IT, ES, PT, DE, HU). Az FR/IT/ES/PT/DE/HU fordítások automatikusak, és **anyanyelvi beszélők nem ellenőrizték őket**; a kit párbeszédablaka 8 nyelvű.
 
 ## Használati útmutató
 
@@ -59,7 +61,7 @@ A Calm Waves egy egyfájlos alkalmazás (`index.html`), amely a böngészőben a
 
 ## Korlátok és jogi nyilatkozat
 
-Tájékoztató és relaxációs tartalom; nem orvosi eszköz, és nem helyettesíti az orvosi tanácsot vagy kezelést. A „Mit mond valójában a kutatás” szakasz olyan, tanulmányokról szóló állításokat foglal össze (pl. binaurális ritmusok és szorongás), amelyeket nem ellenőriztek függetlenül (2026. 10. 11-én a webes kereséssel történő ellenőrzés nem vezetett eredményre; az alkalmazás ezt most jelzi egy megjegyzéssel, mind a 7 nyelven), és nem tekinthetők terápiás ígéretnek. Aki epilepsziában vagy neurológiai betegségben szenved, a binaurális ritmusok használata előtt kérje orvos tanácsát. Az oldalnak most szigorú Content-Security-Policy-ja van (`default-src 'none'`, külső kapcsolatok nélkül).
+Tájékoztató és relaxációs tartalom; nem orvosi eszköz, és nem helyettesíti az orvosi tanácsot vagy kezelést. A „Mit mond valójában a kutatás” szakasz olyan, tanulmányokról szóló állításokat foglal össze (pl. binaurális ritmusok és szorongás), amelyeket nem ellenőriztek függetlenül (2026. 10. 11-én a webes kereséssel történő ellenőrzés nem vezetett eredményre; az alkalmazás ezt most jelzi egy megjegyzéssel, mind a 8 nyelven), és nem tekinthetők terápiás ígéretnek. Aki epilepsziában vagy neurológiai betegségben szenved, a binaurális ritmusok használata előtt kérje orvos tanácsát. Az oldalnak most szigorú Content-Security-Policy-ja van (`default-src 'none'`, külső kapcsolatok nélkül).
 
 Az alkalmazás lábléce alatt egy rövid megjegyzés (RO/EN) látható.
 
@@ -81,7 +83,7 @@ Alexio — Alexandru-Ionuț Chiuță, elérhetőség: alexio@trom.tf.
 
 ## English summary
 
-Calm Waves is a single-file generative ambient music app (Web Audio API) with intent, palette, density, duration, texture and pace controls, binaural tones, synthesized formant voices, shareable variant codes, five visualizations and WAV/AIFF/compressed export. 7 UI languages. Only custom presets are stored in localStorage; no network requests apart from optional outbound links. MIT license.
+Calm Waves is a single-file generative ambient music app (Web Audio API) with intent, palette, density, duration, texture and pace controls, binaural tones, synthesized formant voices, shareable variant codes, five visualizations and WAV/AIFF/compressed export. 8 UI languages. Only custom presets are stored in localStorage; no network requests apart from optional outbound links. MIT license.
 
 ## Előzmények / Changelog
 

@@ -2,7 +2,9 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · **Deutsch** · [Magyar](README.hu.md)
 
-**Version:** 1.1.2 · **Zuletzt aktualisiert:** 2026-10-19
+**Version:** 1.2.0 · **Zuletzt aktualisiert:** 2026-10-19
+
+Oberflächensprachen: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
 Anpassbare generative Ambient-Komposition für Entspannung, Schlaf, Konzentration und Meditation.
 
@@ -26,7 +28,7 @@ Calm Waves ist eine Single-File-Anwendung (`index.html`), die im Browser algorit
 - Visualisierungen: Elegant, Cartoon, 3D, Welle, Mandala; Vollbild, Ansicht zurücksetzen, Verschieben/Zoomen mit Maus oder Touch.
 - Export: WAV, AIFF und „Komprimiert exportieren“ (WebM/Ogg/M4A, je nach Browserunterstützung, über MediaRecorder).
 - Hält den Bildschirm während der Wiedergabe aktiv, sofern der Browser Wake Lock unterstützt.
-- Oberfläche in 7 Sprachen: English, Română, Français, Italiano, Español, Português, Deutsch.
+- Oberfläche in 8 Sprachen: English, Română, Français, Italiano, Español, Português, Deutsch, Magyar.
 - Erläuternde Abschnitte: „Wie es funktioniert, technisch“ und „Was die Forschung tatsächlich sagt“.
 
 ## Neu (v1.1.0)
@@ -35,7 +37,7 @@ Calm Waves ist eine Single-File-Anwendung (`index.html`), die im Browser algorit
 - **Kurze Sprachführung** (Opt-in, standardmäßig aus, `FFF.tts`): spricht zu Beginn die gewählte Absicht und am Ende eine kurze Nachricht; das Beenden der Sitzung schneidet die Stimme ab; ohne Stimme in der Sprache der Oberfläche oder ohne Sprachsynthese erscheint eine klare Meldung, und es wird nichts gesprochen.
 - **Konfigurierbares Ausblenden beim automatischen Beenden** (standardmäßig 20 s, 1 Min., 5 Min.): Die Lautstärke sinkt nur im gewählten Intervall, in den Tests in Echtzeit geprüft.
 - **Kit**: Transparenz und `.fff.json`-Sicherung (die Stimmpräferenz wird indiziert), `core, label, bundle, qr, tts`.
-- **Sprachen und Übersetzungen**: Die neuen Texte liegen in den 7 Sprachen der App vor (RO, EN, FR, IT, ES, PT, DE); die App hat kein Ungarisch in der Auswahl. Die Übersetzungen FR/IT/ES/PT/DE sind automatisch und **nicht von Muttersprachlern geprüft**; der Dialog des Kits hat 8 Sprachen.
+- **Sprachen und Übersetzungen**: Die neuen Texte liegen in den 8 Sprachen der App vor (RO, EN, FR, IT, ES, PT, DE, HU). Die Übersetzungen FR/IT/ES/PT/DE/HU sind automatisch und **nicht von Muttersprachlern geprüft**; der Dialog des Kits hat 8 Sprachen.
 
 ## Anleitung
 
@@ -59,7 +61,7 @@ Calm Waves ist eine Single-File-Anwendung (`index.html`), die im Browser algorit
 
 ## Einschränkungen und Haftungsausschluss
 
-Informations- und Entspannungsinhalt; kein Medizinprodukt und kein Ersatz für ärztlichen Rat oder Behandlung. Der Abschnitt „Was die Forschung tatsächlich sagt“ fasst Aussagen über Studien zusammen (z. B. binaurale Beats und Angst), die nicht unabhängig überprüft wurden (am 11.10.2026 blieb die Überprüfung per Websuche ohne Ergebnis; die App zeigt jetzt in allen 7 Sprachen einen entsprechenden Hinweis) und nicht als therapeutisches Versprechen verstanden werden dürfen. Wer an Epilepsie oder neurologischen Erkrankungen leidet, sollte vor der Nutzung binauraler Beats ärztlichen Rat einholen. Die Seite hat jetzt eine strikte Content-Security-Policy (`default-src 'none'`, keine externen Verbindungen).
+Informations- und Entspannungsinhalt; kein Medizinprodukt und kein Ersatz für ärztlichen Rat oder Behandlung. Der Abschnitt „Was die Forschung tatsächlich sagt“ fasst Aussagen über Studien zusammen (z. B. binaurale Beats und Angst), die nicht unabhängig überprüft wurden (am 11.10.2026 blieb die Überprüfung per Websuche ohne Ergebnis; die App zeigt jetzt in allen 8 Sprachen einen entsprechenden Hinweis) und nicht als therapeutisches Versprechen verstanden werden dürfen. Wer an Epilepsie oder neurologischen Erkrankungen leidet, sollte vor der Nutzung binauraler Beats ärztlichen Rat einholen. Die Seite hat jetzt eine strikte Content-Security-Policy (`default-src 'none'`, keine externen Verbindungen).
 
 Ein kurzer Hinweis (RO/EN) wird unter der Fußzeile der App angezeigt.
 
@@ -81,7 +83,7 @@ Alexio — Alexandru-Ionuț Chiuță, Kontakt: alexio@trom.tf.
 
 ## English summary
 
-Calm Waves is a single-file generative ambient music app (Web Audio API) with intent, palette, density, duration, texture and pace controls, binaural tones, synthesized formant voices, shareable variant codes, five visualizations and WAV/AIFF/compressed export. 7 UI languages. Only custom presets are stored in localStorage; no network requests apart from optional outbound links. MIT license.
+Calm Waves is a single-file generative ambient music app (Web Audio API) with intent, palette, density, duration, texture and pace controls, binaural tones, synthesized formant voices, shareable variant codes, five visualizations and WAV/AIFF/compressed export. 8 UI languages. Only custom presets are stored in localStorage; no network requests apart from optional outbound links. MIT license.
 
 ## Verlauf / Changelog
 
