@@ -81,9 +81,9 @@ Audit: 2026-10-10 — Die Aussagen „kein Netzwerk / keine Telemetrie“ stimme
 
 Alexio — Alexandru-Ionuț Chiuță, Kontakt: alexio@trom.tf.
 
-## English summary
+## Zusammenfassung
 
-Calm Waves is a single-file generative ambient music app (Web Audio API) with intent, palette, density, duration, texture and pace controls, binaural tones, synthesized formant voices, shareable variant codes, five visualizations and WAV/AIFF/compressed export. 8 UI languages. Only custom presets are stored in localStorage; no network requests apart from optional outbound links. MIT license.
+Calm Waves ist eine generative Ambient-Musik-App in einer einzigen Datei (Web Audio API) mit Reglern für Absicht, Palette, Dichte, Dauer, Textur und Tempo, binauralen Tönen, synthetisierten Formantstimmen, teilbaren Variantencodes, fünf Visualisierungen und Export als WAV/AIFF/komprimiert. 8 Oberflächensprachen. Nur eigene Voreinstellungen werden in localStorage gespeichert; keine Netzwerkanfragen außer optionalen ausgehenden Links. MIT-Lizenz.
 
 ## Verlauf / Changelog
 
