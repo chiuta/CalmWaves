@@ -14,8 +14,8 @@
   "storageKeys": [
     "calmWavesCustomPresets"
   ],
-  "sizeBytes": 348961,
-  "sha256": "e286126bb8ba6fe7674dcd8a33ae8681f7523cc0a9698cb5a82cb7177b7e473c",
+  "sizeBytes": 349597,
+  "sha256": "2f7854a527ff65938ff017d1e9acd5b04355dd0657f422eefaa22b809369a60c",
   "csp": {
     "present": true,
     "directives": {
@@ -58,7 +58,7 @@
     ]
   },
   "kit": {
-    "version": "1.1.0",
+    "version": "1.1.1",
     "modules": [
       "core",
       "label",
