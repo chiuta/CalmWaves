@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · **Magyar**
 
-**Verzió:** 1.2.0 · **Utolsó frissítés:** 2026-10-19
+**Verzió:** 1.2.1 · **Utolsó frissítés:** 2026-10-22
 
 A felület nyelvei: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -86,6 +86,7 @@ A Calm Waves egyfájlos generatív ambient zenei alkalmazás (Web Audio API) sz�
 
 ## Előzmények / Changelog
 
+- 1.2.1 — 2026-10-22: **javítás**: a statikus orvosi figyelmeztetés, az ARIA-címkék és a súgószövegek mostantól minden nyelven le vannak fordítva; a magyar felület hiányzó szövegei pótolva (hangos útmutatás, QR, SEVA-hivatkozás).
 - 1.1.1 — 2026-10-19: **javítás**: a címben szereplő `?v=<variánskód>` paramétert betöltéskor már nem írja felül az alapértelmezett variáns (a „Variáns betöltve” üzenet hamis volt); tájékoztató hivatkozás a SEVA-ra (alvás, relaxáció, meditáció).
 - 1.1.0 — 2026-10-14: QR-kód a variánshoz, hangos útmutatás, beállítható kiolvadás, „trade-free” kit. Tesztek: `tests/fff-r8.test.mjs`.
 

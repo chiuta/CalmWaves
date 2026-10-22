@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · **Français** · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version :** 1.2.0 · **Dernière mise à jour :** 2026-10-19
+**Version :** 1.2.1 · **Dernière mise à jour :** 2026-10-22
 
 Langues de l'interface : **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -87,6 +87,7 @@ Calm Waves est une application de musique ambiante générative en un seul fichi
 
 ## Historique / Changelog
 
+- 1.2.1 — 2026-10-22: **correctif** : l’avertissement médical statique, les libellés ARIA et les info-bulles sont désormais traduits dans toutes les langues ; chaînes d’interface hongroises complétées (guidage vocal, QR, lien SEVA).
 - 1.1.1 — 2026-10-19 : **correctif** : le paramètre `?v=<code de variante>` de l'adresse n'est plus écrasé par la variante par défaut au chargement (le message « Variante chargée » était faux) ; lien informatif vers SEVA (sommeil, relaxation, méditation).
 - 1.1.0 — 2026-10-14 : code QR de la variante, guidage vocal, fondu configurable, kit « sans frontières ». Tests : `tests/fff-r8.test.mjs`.
 
