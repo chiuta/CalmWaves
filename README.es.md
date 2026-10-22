@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · **Español** · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versión:** 1.2.4 · **Última actualización:** 2026-10-22
+**Versión:** 1.2.5 · **Última actualización:** 2026-10-22
 
 Idiomas de la interfaz: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -87,6 +87,7 @@ Calm Waves es una aplicación de música ambiental generativa de un único archi
 
 ## Historial / Changelog
 
+- 1.2.5 — 2026-10-22: fff-kit 1.1.4: objetivos táctiles y tamaño mínimo de texto
 - 1.2.4 — 2026-10-22: fff-kit 1.1.2: PBKDF2 600 000 iteraciones, protección anti-clickjacking
 - 1.2.3 — 2026-10-22: mejoras para móvil y accesibilidad: texto de al menos 12 px y áreas táctiles de al menos 24 px.
 - **1.2.2 — 2026-10-22:** la etiqueta de accesibilidad del campo del código de la variante actual ahora está traducida a todos los idiomas (estaba en rumano).
