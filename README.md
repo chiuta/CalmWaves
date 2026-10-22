@@ -2,7 +2,7 @@
 
 **English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version:** 1.2.3 · **Last updated:** 2026-10-22
+**Version:** 1.2.4 · **Last updated:** 2026-10-22
 
 Interface languages: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -87,6 +87,7 @@ Calm Waves is a single-file generative ambient music app (Web Audio API) with in
 
 ## History / Changelog
 
+- 1.2.4 — 2026-10-22: fff-kit 1.1.2: PBKDF2 600,000 iterations, anti-clickjacking protection
 - 1.2.3 — 2026-10-22: mobile and accessibility polish: text at least 12 px and touch targets at least 24 px.
 - **1.2.2 — 2026-10-22:** the accessibility label of the current variant code field is now translated into all languages (it was left in Romanian).
 - 1.2.1 — 2026-10-22: **fix**: the static medical disclaimer, ARIA labels and tooltips are now translated into every language; Hungarian interface strings completed (voice guidance, QR, SEVA link).

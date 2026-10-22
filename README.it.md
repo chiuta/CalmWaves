@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · **Italiano** · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versione:** 1.2.3 · **Ultimo aggiornamento:** 2026-10-22
+**Versione:** 1.2.4 · **Ultimo aggiornamento:** 2026-10-22
 
 Lingue dell'interfaccia: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -33,6 +33,7 @@ Calm Waves è un'applicazione in un unico file (`index.html`) che genera algorit
 
 ## Novità (v1.1.0)
 
+- 1.2.4 — 2026-10-22: fff-kit 1.1.2: PBKDF2 600.000 iterazioni, protezione anti-clickjacking
 - **Codice QR per la variante**: da «Codice variante» viene generato un QR (con indirizzo web e `?v=codice`, oppure solo il codice se non c'è un indirizzo); «Leggi immagine QR» carica la variante; un codice non valido o un'immagine senza QR produce un messaggio, senza modifiche.
 - **Guida vocale breve** (opt-in, disattivata per impostazione predefinita, `FFF.tts`): pronuncia all'inizio l'intenzione scelta e un breve messaggio alla fine; l'interruzione della sessione taglia la voce; senza una voce nella lingua dell'interfaccia o senza sintesi vocale compare un messaggio chiaro e non viene pronunciato nulla.
 - **Dissolvenza configurabile allo spegnimento automatico** (20 s predefiniti, 1 min, 5 min): il volume scende solo nell'intervallo scelto, verificato in tempo reale nei test.
