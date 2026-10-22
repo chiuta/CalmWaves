@@ -1,0 +1,5 @@
+{
+  "exceptions": [
+    {"rule": "i18n-parity", "reason": "Fals pozitiv: cheia sevaLink este definită în FIX_TX doar pentru hu; celelalte 7 limbi o primesc la rulare din SEVA_TX (STRINGS[l].sevaLink = SEVA_TX[l]). Cele 8 limbi au cheia la rulare."}
+  ]
+}

@@ -2,7 +2,7 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 1.2.6 · **Ultima actualizare:** 2026-10-23
+**Versiune:** 1.2.7 · **Ultima actualizare:** 2026-10-23
 
 Limbile interfeței: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -87,6 +87,7 @@ Calm Waves este o aplicație într-un singur fișier de muzică ambientală gene
 
 ## Istoric / Changelog
 
+- 1.2.7 — 2026-10-23: Paritate i18n verificată: cheia `sevaLink` există în toate cele 8 limbi (completată la rulare), documentată ca excepție în `fff.config.json` (verificarea fff-kit 1.2.0)
 - 1.2.5 — 2026-10-22: fff-kit 1.1.4: ținte tactile și text minim
 - 1.2.4 — 2026-10-22: fff-kit 1.1.2: PBKDF2 600 000 iterații, protecție anti-clickjacking
 - 1.2.3 — 2026-10-22: finisaje pentru mobil și accesibilitate: text de cel puțin 12 px și ținte tactile de cel puțin 24 px.

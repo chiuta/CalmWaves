@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · **Magyar**
 
-**Verzió:** 1.2.6 · **Utolsó frissítés:** 2026-10-23
+**Verzió:** 1.2.7 · **Utolsó frissítés:** 2026-10-23
 
 A felület nyelvei: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -86,6 +86,7 @@ A Calm Waves egyfájlos generatív ambient zenei alkalmazás (Web Audio API) sz�
 
 ## Előzmények / Changelog
 
+- 1.2.7 — 2026-10-23: i18n-egyenlőség ellenőrizve: a `sevaLink` kulcs mind a 8 nyelvben megvan (futásidőben egészül ki), kivételként dokumentálva az `fff.config.json`-ban (fff-kit 1.2.0 ellenőrzés)
 - 1.2.5 — 2026-10-22: fff-kit 1.1.4: érintési célpontok és minimális szövegméret
 - 1.2.4 — 2026-10-22: fff-kit 1.1.2: PBKDF2 600 000 iteráció, clickjacking elleni védelem
 - 1.2.3 — 2026-10-22: mobil és kisegítő finomítások: legalább 12 px-es szöveg és legalább 24 px-es érintési felületek.

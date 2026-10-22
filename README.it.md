@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · **Italiano** · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versione:** 1.2.6 · **Ultimo aggiornamento:** 2026-10-23
+**Versione:** 1.2.7 · **Ultimo aggiornamento:** 2026-10-23
 
 Lingue dell'interfaccia: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -88,6 +88,7 @@ Calm Waves è un'app di musica ambient generativa in un unico file (Web Audio AP
 
 ## Cronologia / Changelog
 
+- 1.2.7 — 2026-10-23: Parità i18n verificata: la chiave `sevaLink` esiste in tutte le 8 lingue (completata a runtime), documentata come eccezione in `fff.config.json` (controllo fff-kit 1.2.0)
 - 1.2.5 — 2026-10-22: fff-kit 1.1.4: target touch e dimensione minima del testo
 - 1.2.3 — 2026-10-22: rifiniture per mobile e accessibilità: testo di almeno 12 px e aree tattili di almeno 24 px.
 - **1.2.2 — 2026-10-22:** l'etichetta di accessibilità del campo del codice della variante corrente è ora tradotta in tutte le lingue (era rimasta in rumeno).
