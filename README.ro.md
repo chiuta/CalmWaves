@@ -2,7 +2,7 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 1.2.1 · **Ultima actualizare:** 2026-10-22
+**Versiune:** 1.2.2 · **Ultima actualizare:** 2026-10-22
 
 Limbile interfeței: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -87,6 +87,7 @@ Calm Waves este o aplicație într-un singur fișier de muzică ambientală gene
 
 ## Istoric / Changelog
 
+- **1.2.2 — 2026-10-22:** eticheta de accesibilitate a câmpului „Codul variantei curente” este acum tradusă în toate limbile.
 - 1.2.1 — 2026-10-22: **remediere**: avertismentul medical static, etichetele ARIA și tooltip-urile sunt acum traduse în toate limbile; șirurile interfeței în maghiară completate (ghidaj vocal, QR, legătura SEVA).
 - 1.1.1 — 2026-10-19: **corecție**: parametrul `?v=<cod variantă>` din adresă nu mai este suprascris de varianta implicită la încărcare (mesajul „Variantă încărcată” era fals); link informativ spre SEVA (somn, relaxare, meditație).
 - 1.1.0 — 2026-10-14: cod QR pentru variantă, ghidaj vocal, estompare configurabilă, kit „fără frontiere”. Teste: `tests/fff-r8.test.mjs`.
