@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · **Deutsch** · [Magyar](README.hu.md)
 
-**Version:** 1.2.7 · **Zuletzt aktualisiert:** 2026-10-23
+**Version:** 1.2.8 · **Zuletzt aktualisiert:** 2026-10-23
 
 Oberflächensprachen: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -87,6 +87,7 @@ Calm Waves ist eine generative Ambient-Musik-App in einer einzigen Datei (Web Au
 
 ## Verlauf / Changelog
 
+- 1.2.8 — 2026-10-23: **fix**: a variant code with a prototype key (e.g. `?v=constructor.…`) or a suffix (`300x`, `5abc`) is now rejected instead of being "loaded" with an empty selection; same for imported custom presets; touch targets ≥ 44 px on touch devices
 - 1.2.7 — 2026-10-23: i18n-Parität geprüft: der Schlüssel `sevaLink` existiert in allen 8 Sprachen (zur Laufzeit ergänzt), als Ausnahme in `fff.config.json` dokumentiert (fff-kit-1.2.0-Prüfung)
 - 1.2.5 — 2026-10-22: fff-kit 1.1.4: Touch-Ziele und Mindestschriftgröße
 - 1.2.4 — 2026-10-22: fff-kit 1.1.2: PBKDF2 mit 600.000 Iterationen, Schutz vor Clickjacking
