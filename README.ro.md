@@ -2,7 +2,7 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 1.2.8 · **Ultima actualizare:** 2026-10-26
+**Versiune:** 2.0.0 · **Ultima actualizare:** 2026-10-26
 
 Limbile interfeței: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -30,6 +30,13 @@ Calm Waves este o aplicație single-file (`index.html`) care generează algoritm
 - Menține ecranul activ în timpul redării, dacă browserul suportă Wake Lock.
 - Interfață în 8 limbi: English, Română, Français, Italiano, Español, Português, Deutsch, Magyar.
 - Secțiuni explicative: „Cum funcționează, tehnic” și „Ce spune cercetarea, de fapt”.
+
+## Funcții noi (v2.0.0)
+
+- **Sesiune ghidată de somn**: o curbă de relaxare programată pe durata piesei (formă liniară, rapidă, lentă sau netedă): volumul coboară de la o valoare de început la una de final, muzica se rărește (până la ×3, fără a schimba notele alese de sămânță) și ghidul vizual de respirație încetinește (inspirație/expirație interpolate). Exportul WAV/AIFF include curba de volum. Informativ; nu e dispozitiv medical.
+- **Jurnal personal de somn**: la sfârșitul unei sesiuni de cel puțin un minut se adaugă automat o intrare (data, durata, curba); poți nota starea (1–5) și o scurtă notă, apoi exporta CSV. Rămâne doar în browser (maximum 60 de intrări).
+- **Mod ecran stins**: strat negru peste pagină, cu sunetul în continuare; atingere sau Esc pentru revenire.
+- Neimplementat: alarma blândă cu creștere lentă.
 
 ## Funcții noi (v1.1.0)
 
