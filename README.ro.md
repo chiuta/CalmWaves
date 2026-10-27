@@ -2,7 +2,9 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 2.0.0 · **Ultima actualizare:** 2026-10-26
+**Versiune:** 2.0.1 · **Ultima actualizare:** 2026-10-27
+
+**Stare:** stabil · **Offline:** complet
 
 Limbile interfeței: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -92,7 +94,12 @@ Alexio — Alexandru-Ionuț Chiuță, contact: alexio@trom.tf.
 
 Calm Waves este o aplicație într-un singur fișier de muzică ambientală generativă (Web Audio API), cu controale pentru intenție, paletă, densitate, durată, textură și ritm, tonuri binaurale, voci formantice sintetizate, coduri de variante partajabile, cinci vizualizări și export WAV/AIFF/comprimat. 8 limbi de interfață. În localStorage se stochează doar presetările proprii; fără cereri de rețea în afara linkurilor externe opționale. Licență MIT.
 
+## Vezi și: aplicații apropiate (nefuzionate)
+
+Aceste aplicații se suprapun ca scop (sunet calm pentru relaxare și somn), dar funcționează diferit și **nu au fost fuzionate**. **CalmWaves** este compoziție ambientală generativă (intenție, paletă tonală, densitate) cu cod de variantă, voce sintetizată și vizualizări. Vezi și: [ASMR](https://chiuta.github.io/ASMR/) — mixer de peisaje sonore și declanșatoare tactile (ASMR), cu scene în timp și temporizator de adormire; [BorderlessMelodies](https://chiuta.github.io/BorderlessMelodies/) — compozitor de muzică originală după gen și seed (cu export WAV/FLAC/MIDI și coduri partajabile), cu straturi opționale de relaxare; [Aurora](https://chiuta.github.io/Aurora/) — tonuri ale chakrelor, bătăi binaurale și ghid de respirație pentru meditație. Alege după nevoie: peisaje și declanșatoare = ASMR; piesă ambientală generată = CalmWaves; muzică după gen/seed = BorderlessMelodies; meditație pe chakre = Aurora.
+
 ## Istoric / Changelog
+- **2.0.1 — 2026-10-27:** notă „vezi și” (ASMR, BorderlessMelodies, Aurora) cu diferența dintre aplicații, fără fuziune; linii Stare/Offline; CHANGELOG.md (anterior: v2.0.0).
 
 - 1.2.7 — 2026-10-23: Paritate i18n verificată: cheia `sevaLink` există în toate cele 8 limbi (completată la rulare), documentată ca excepție în `fff.config.json` (verificarea fff-kit 1.2.0)
 - 1.2.5 — 2026-10-22: fff-kit 1.1.4: ținte tactile și text minim

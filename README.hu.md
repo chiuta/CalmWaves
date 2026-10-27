@@ -2,7 +2,9 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · **Magyar**
 
-**Verzió:** 2.0.0 · **Utolsó frissítés:** 2026-10-26
+**Verzió:** 2.0.1 · **Utolsó frissítés:** 2026-10-27
+
+**Állapot:** stabil · **Offline:** teljes
 
 A felület nyelvei: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -84,7 +86,12 @@ Alexio — Alexandru-Ionuț Chiuță, elérhetőség: alexio@trom.tf.
 ## Összefoglaló
 A Calm Waves egyfájlos generatív ambient zenei alkalmazás (Web Audio API) szándék, paletta, sűrűség, időtartam, textúra és tempó vezérlőkkel, binaurális hangokkal, szintetizált formáns hangokkal, megosztható variáns-kódokkal, öt vizualizációval, valamint WAV/AIFF/tömörített exporttal. 8 felületi nyelv. Csak az egyéni előbeállítások kerülnek a localStorage-ba; nincsenek hálózati kérések az opcionális kimenő hivatkozásokon kívül. MIT licenc.
 
+## Lásd még: rokon alkalmazások (nem vontuk össze)
+
+Ezek az alkalmazások céljukban átfedik egymást (nyugtató hang pihenéshez és alváshoz), de másként működnek, és **nem vontuk össze őket**. A(z) **CalmWaves** generatív ambient kompozíció (szándék, hangpaletta, sűrűség) variánskóddal, szintetizált hanggal és vizualizációkkal. Lásd még: [ASMR](https://chiuta.github.io/ASMR/) — hangtájak és érintéses triggerek keverője (ASMR), időzített jelenetekkel és elalvás-időzítővel; [BorderlessMelodies](https://chiuta.github.io/BorderlessMelodies/) — eredeti zene szerzője műfaj és seed alapján (WAV/FLAC/MIDI export, megosztható kódok), opcionális relaxációs rétegekkel; [Aurora](https://chiuta.github.io/Aurora/) — csakrahangok, binaurális ütemek és légzésvezetés meditációhoz. Válassz igény szerint: hangtájak és triggerek = ASMR; generált ambient darab = CalmWaves; zene műfaj/seed szerint = BorderlessMelodies; csakra-meditáció = Aurora.
+
 ## Előzmények / Changelog
+- **2.0.1 — 2026-10-27:** „lásd még” megjegyzés (ASMR, BorderlessMelodies, Aurora) az alkalmazások közti különbségről, összevonás nélkül; Állapot/Offline sorok; CHANGELOG.md (előző: v2.0.0).
 
 - 1.2.7 — 2026-10-23: i18n-egyenlőség ellenőrizve: a `sevaLink` kulcs mind a 8 nyelvben megvan (futásidőben egészül ki), kivételként dokumentálva az `fff.config.json`-ban (fff-kit 1.2.0 ellenőrzés)
 - 1.2.5 — 2026-10-22: fff-kit 1.1.4: érintési célpontok és minimális szövegméret
