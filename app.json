@@ -16,8 +16,8 @@
     "calmwaves_amb_fade",
     "calmwaves_sleep_session"
   ],
-  "sizeBytes": 499114,
-  "sha256": "3547be6dbbd46888d86f4d52e5d2613659ebafcd0cb0ffdc11df553c2b0374f1",
+  "sizeBytes": 526345,
+  "sha256": "e02215d9951eedb48112adb159f7437d973b645844f50631af5b3ca36c5b066a",
   "csp": {
     "present": true,
     "directives": {

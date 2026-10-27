@@ -156,10 +156,12 @@ console.log('Interacțiune cu CalmWaves, limbi, axe');
   for (const l of ['ro', 'en', 'fr', 'it', 'es', 'pt', 'de', 'hu']) {
     await p.selectOption('#langSelect', l); await p.waitForTimeout(100);
     const s = await p.textContent('#ambPanel summary'), warn = await p.textContent('.amb-warn');
-    t('limba ' + l + ': titlu și avertizare nevide' + (l !== 'ro' && l !== 'en' ? ' (text englezesc de rezervă)' : ''), s.length > 8 && warn.length > 40 && (l === 'ro' ? /Ambian/.test(s) : /Ambience/.test(s)), s);
+    const reT = {ro: /Ambian/, en: /Ambience/, fr: /Ambiance/, it: /Ambiente/, es: /Ambiente/, pt: /Ambiente/, de: /Ambiente/, hu: /Hangulat/}[l];
+    t('limba ' + l + ': titlu și avertizare nevide, traduse' + (l !== 'ro' && l !== 'en' ? ' (traducere automată)' : ''), s.length > 8 && warn.length > 40 && reT.test(s) && (l === 'en' || !/Hearing protection/.test(warn)), s);
   }
   await p.selectOption('#langSelect', 'en');
-  t('rezervă: etichetele de strat în engleză', /Rain/.test(await p.textContent('label:has(#ambL_rain)')));
+  t('etichetele de strat în engleză', /Rain/.test(await p.textContent('label:has(#ambL_rain)')));
+  for (const [l, re] of [['fr', /Pluie/], ['it', /Pioggia/], ['es', /Lluvia/], ['pt', /Chuva/], ['de', /Regen/], ['hu', /Eső/]]) { await p.selectOption('#langSelect', l); await p.waitForTimeout(100); t('etichetele de strat traduse: ' + l, re.test(await p.textContent('label:has(#ambL_rain)'))); }
   await ctx.close();
   if (AXE) {
     const c3 = await b.newContext({viewport: {width: 390, height: 800}, bypassCSP: true}); await c3.route(/^https?:/, (r) => r.abort());

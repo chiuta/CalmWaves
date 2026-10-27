@@ -97,7 +97,7 @@ A new “Ambience” panel brings into CalmWaves, by **copying the needed logic*
 
 The panel has its own limiter (compressor + hard clip + dB ceiling, default −6 dB, remembered) and asks for a hearing-protection confirmation before the first sound. ASMR, Aurora, BorderlessMelodies and generator-frecvente remain available, unchanged, at their own addresses.
 
-**Limits.** The delayed start works only while the page stays open and the device does not suspend or block audio: it is not a reliable alarm clock (use the device’s alarm too). The tone names/effects of “solfeggio”/chakra frequencies have no scientific validation. New texts exist in Romanian and English; the other languages show the English text (no machine translation yet).
+**Limits.** The delayed start works only while the page stays open and the device does not suspend or block audio: it is not a reliable alarm clock (use the device’s alarm too). The tone names/effects of “solfeggio”/chakra frequencies have no scientific validation. New texts were written in Romanian and English; the FR/IT/ES/PT/DE/HU translations are machine translations, not validated by native speakers.
 
 ## History / Changelog
 - **2.1.0 — 2026-10-27:** “Ambience” mode (layers, shareable mix, timer + fade-out, delayed gentle start, frequency tone, binaural beats, seeded melody with scale and key) with its own limiter and hearing-protection confirmation; new test file; CHANGELOG.md (previous: v2.0.1).

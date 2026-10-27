@@ -104,7 +104,7 @@ Un panou nou „Ambianță” aduce în CalmWaves, **prin copierea logicii neces
 
 Panoul are limitator propriu (compresor + tăiere + plafon în dB, implicit −6 dB, reținut) și cere o confirmare pentru protecția auzului înaintea primului sunet. ASMR, Aurora, BorderlessMelodies și generator-frecvente rămân disponibile, neschimbate, la adresele lor.
 
-**Limite.** Pornirea întârziată funcționează doar cât pagina rămâne deschisă, iar dispozitivul nu suspendă sau blochează sunetul: nu este un ceas deșteptător de încredere (folosește și alarma dispozitivului). Numele și efectele atribuite frecvențelor „solfeggio”/ale chakrelor nu au validare științifică. Textele noi există în română și engleză; celelalte limbi afișează textul în engleză (încă fără traducere automată).
+**Limite.** Pornirea întârziată funcționează doar cât pagina rămâne deschisă, iar dispozitivul nu suspendă sau blochează sunetul: nu este un ceas deșteptător de încredere (folosește și alarma dispozitivului). Numele și efectele atribuite frecvențelor „solfeggio”/ale chakrelor nu au validare științifică. Textele noi au fost scrise în română și engleză; traducerile FR/IT/ES/PT/DE/HU sunt automate, nevalidate de vorbitori nativi.
 
 ## Istoric / Changelog
 - **2.1.0 — 2026-10-27:** modul „Ambianță” (straturi, mix partajabil, temporizator + estompare, pornire întârziată blândă, ton de frecvență, bătăi binaurale, melodie din seed cu gamă și tonalitate) cu limitator propriu și confirmare pentru protecția auzului; fișier nou de teste; CHANGELOG.md (anterior: v2.0.1).

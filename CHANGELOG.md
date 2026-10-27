@@ -16,7 +16,7 @@ Aplicat în tura 2 a recenziei din 2026-10-27 (funcții noi → versiune minoră
   - **Trezire blândă** (era „Neimplementat” în README): pornire întârziată (15 min–8 h) cu creștere lentă a volumului (1–15 min), programată pe axa de timp a contextului audio.
 - **Protecția auzului** în Ambianță: limitator propriu (compresor + tăiere la ±1 + plafon în dB, −30…0, implicit −6 dB, păstrat în `calmwaves_amb_cap`) și bifă de confirmare înainte de primul sunet (sesiune: `calmwaves_amb_ack`). Vârful măsurat cu AnalyserNode rămâne sub plafon (test).
 - Pornirea Ambianței pune CalmWaves în pauză, iar pornirea CalmWaves oprește Ambianța (sunetele nu se suprapun).
-- Texte noi în română și engleză; celelalte 6 limbi afișează textul englezesc (fără traducere automată în această versiune).
+- Texte noi scrise în română și engleză; traduceri fr/it/es/pt/de/hu adăugate ulterior — traducere automată, nevalidată de vorbitori nativi.
 - Test nou `tests/ambience-v21.test.mjs` (52 de verificări: determinism și transpunere, cod de mix, plafon, protecția auzului, temporizator/estompare, trezire blândă, 8 limbi, axe, fără rețea).
 - README (8 limbi): secțiune „Modul Ambianță”, istoric, versiune.
 
@@ -25,7 +25,6 @@ Aplicat în tura 2 a recenziei din 2026-10-27 (funcții noi → versiune minoră
 - Melodia nu reproduce motorul complet BorderlessMelodies (genuri, instrumente, voce, export audio/MIDI).
 - Din Aurora nu s-au copiat chakrele, respirația ghidată, jurnalul și sesiunile (doar partea de frecvență/ambianță).
 - Pornirea întârziată nu poate trezi dispozitivul și nu e un ceas deșteptător de încredere (pagina trebuie să rămână deschisă; browserul poate suspenda sunetul).
-- Traduceri automate ale textelor noi în fr/it/es/pt/de/hu: nu există încă.
 
 ## 2.0.1 — 2026-10-27 (anterior: v2.0.0)
 
