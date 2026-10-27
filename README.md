@@ -2,7 +2,9 @@
 
 **English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version:** 2.0.0 · **Last updated:** 2026-10-26
+**Version:** 2.0.1 · **Last updated:** 2026-10-27
+
+**Status:** stable · **Offline:** complete
 
 Interface languages: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -85,7 +87,12 @@ Alexio — Alexandru-Ionuț Chiuță, contact: alexio@trom.tf.
 
 Calm Waves is a single-file generative ambient music app (Web Audio API) with intent, palette, density, duration, texture and pace controls, binaural tones, synthesized formant voices, shareable variant codes, five visualizations and WAV/AIFF/compressed export. 8 UI languages. Only custom presets are stored in localStorage; no network requests apart from optional outbound links. MIT license.
 
+## See also: related apps (not merged)
+
+These apps overlap in purpose (calm sound for relaxation and sleep) but work differently and have **not been merged**. **CalmWaves** is a generative ambient composition (intent, tonal palette, density) with a variant code, synthesised voice and visualisations. See also: [ASMR](https://chiuta.github.io/ASMR/) — a mixer of soundscapes and touch triggers (ASMR), with timed scenes and a sleep timer; [BorderlessMelodies](https://chiuta.github.io/BorderlessMelodies/) — a composer of original music by genre and seed (with WAV/FLAC/MIDI export and shareable codes), with optional relaxation layers; [Aurora](https://chiuta.github.io/Aurora/) — chakra tones, binaural beats and a breathing guide for meditation. Pick by need: soundscapes and triggers = ASMR; a generated ambient piece = CalmWaves; music by genre/seed = BorderlessMelodies; chakra meditation = Aurora.
+
 ## History / Changelog
+- **2.0.1 — 2026-10-27:** “see also” note (ASMR, BorderlessMelodies, Aurora) explaining how the apps differ, no merge; Status/Offline lines; CHANGELOG.md (previous: v2.0.0).
 
 - 1.2.7 — 2026-10-23: i18n parity audited: the `sevaLink` key is present in all 8 languages (filled at runtime), documented as an exception in `fff.config.json` (fff-kit 1.2.0 check)
 - 1.2.5 — 2026-10-22: fff-kit 1.1.4: touch targets and minimum text size

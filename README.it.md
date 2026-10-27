@@ -2,7 +2,9 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · **Italiano** · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versione:** 2.0.0 · **Ultimo aggiornamento:** 2026-10-26
+**Versione:** 2.0.1 · **Ultimo aggiornamento:** 2026-10-27
+
+**Stato:** stabile · **Offline:** completo
 
 Lingue dell'interfaccia: **Română, English, Français, Italiano, Español, Português (PT), Deutsch, Magyar**
 
@@ -86,7 +88,12 @@ Alexio — Alexandru-Ionuț Chiuță, contatto: alexio@trom.tf.
 
 Calm Waves è un'app di musica ambient generativa in un unico file (Web Audio API) con controlli di intenzione, tavolozza, densità, durata, texture e ritmo, toni binaurali, voci a formanti sintetizzate, codici di variante condivisibili, cinque visualizzazioni ed esportazione in WAV/AIFF/formato compresso. 8 lingue dell'interfaccia. Solo i preset personalizzati sono salvati in localStorage; nessuna richiesta di rete oltre ai link in uscita facoltativi. Licenza MIT.
 
+## Vedi anche: app affini (non unite)
+
+Queste app si sovrappongono per scopo (suono calmo per relax e sonno) ma funzionano in modo diverso e **non sono state unite**. **CalmWaves** è una composizione ambient generativa (intenzione, tavolozza tonale, densità) con codice di variante, voce sintetizzata e visualizzazioni. Vedi anche: [ASMR](https://chiuta.github.io/ASMR/) — un mixer di paesaggi sonori e trigger tattili (ASMR), con scene temporali e timer di spegnimento; [BorderlessMelodies](https://chiuta.github.io/BorderlessMelodies/) — un compositore di musica originale per genere e seed (esportazione WAV/FLAC/MIDI, codici condivisibili), con strati di rilassamento opzionali; [Aurora](https://chiuta.github.io/Aurora/) — toni dei chakra, battiti binaurali e guida al respiro per la meditazione. Scegli in base all’esigenza: paesaggi e trigger = ASMR; brano ambient generato = CalmWaves; musica per genere/seed = BorderlessMelodies; meditazione sui chakra = Aurora.
+
 ## Cronologia / Changelog
+- **2.0.1 — 2026-10-27:** nota «vedi anche» (ASMR, BorderlessMelodies, Aurora) con la differenza tra le app, senza fusione; righe Stato/Offline; CHANGELOG.md (precedente: v2.0.0).
 
 - 1.2.7 — 2026-10-23: Parità i18n verificata: la chiave `sevaLink` esiste in tutte le 8 lingue (completata a runtime), documentata come eccezione in `fff.config.json` (controllo fff-kit 1.2.0)
 - 1.2.5 — 2026-10-22: fff-kit 1.1.4: target touch e dimensione minima del testo

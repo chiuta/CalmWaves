@@ -1,4 +1,4 @@
-// Teste v2.0.0 pentru Calm Waves: sesiuni ghidate de somn (curbă de relaxare, ghid de respirație, jurnal). Logică, nu sunet.
+// Teste v2.0.1 pentru Calm Waves: sesiuni ghidate de somn (curbă de relaxare, ghid de respirație, jurnal). Logică, nu sunet.
 // Rulare: node tests/sleep-session-v2.test.mjs   (Playwright din /opt/node-tools, rețea blocată)
 import {createRequire} from 'module';
 import path from 'path';
