@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · **Deutsch** · [Magyar](README.hu.md)
 
-**Version:** 2.0.1 · **Zuletzt aktualisiert:** 2026-10-27
+**Version:** 2.1.0 · **Zuletzt aktualisiert:** 2026-10-27
 
 **Status:** stabil · **Offline:** vollständig
 
@@ -91,7 +91,12 @@ Calm Waves ist eine generative Ambient-Musik-App in einer einzigen Datei (Web Au
 
 Diese Apps überschneiden sich im Zweck (beruhigender Klang zum Entspannen und Schlafen), arbeiten aber unterschiedlich und wurden **nicht zusammengeführt**. **CalmWaves** ist eine generative Ambient-Komposition (Absicht, Tonpalette, Dichte) mit Variantencode, synthetisierter Stimme und Visualisierungen. Siehe auch: [ASMR](https://chiuta.github.io/ASMR/) — ein Mixer für Klanglandschaften und Berührungs-Trigger (ASMR) mit zeitlichen Szenen und Einschlaf-Timer; [BorderlessMelodies](https://chiuta.github.io/BorderlessMelodies/) — ein Komponist originaler Musik nach Genre und Seed (WAV/FLAC/MIDI-Export, teilbare Codes) mit optionalen Entspannungsschichten; [Aurora](https://chiuta.github.io/Aurora/) — Chakra-Töne, binaurale Beats und Atemführung für die Meditation. Wähle nach Bedarf: Klanglandschaften und Trigger = ASMR; erzeugtes Ambient-Stück = CalmWaves; Musik nach Genre/Seed = BorderlessMelodies; Chakra-Meditation = Aurora.
 
+## Ambiente-Modus (v2.1.0)
+
+Ein neues Feld „Ambiente“ bringt in CalmWaves, **durch Kopieren der nötigen Logik** (die Apps sind nicht verknüpft): aus ASMR 11 Klangebenen, einen teilbaren Mix-Link (`#amb=…`, startet nie von selbst), einen Stopp-Timer mit einstellbarem Ausblenden und einen verzögerten Start („sanftes Wecken“); aus Aurora einen Frequenzton und binaurale Schwebungen; aus BorderlessMelodies eine seedgesteuerte Melodie mit Tonleiter- und Tonartwahl. Die Melodie ist ein **vereinfachter Generator** (nicht dasselbe Stück wie in BorderlessMelodies). Das Feld hat einen eigenen Limiter (dB-Obergrenze, standardmäßig −6 dB) und verlangt vor dem ersten Ton eine Gehörschutz-Bestätigung. Grenzen: Der verzögerte Start funktioniert nur, solange die Seite offen bleibt und das Gerät den Ton nicht unterbricht; kein zuverlässiger Wecker. Die neuen Texte wurden auf Rumänisch und Englisch geschrieben; die Übersetzungen FR/IT/ES/PT/DE/HU sind automatisch (maschinelle Übersetzung, nicht von Muttersprachlern geprüft).
+
 ## Verlauf / Changelog
+- **2.1.0 — 2026-10-27:** Modus „Ambiente“ (Ebenen, teilbarer Mix, Timer + Ausblenden, verzögerter Start, Frequenzton, binaurale Schwebungen, Seed-Melodie) mit eigenem Limiter und Gehörschutz-Bestätigung; neue Testdatei; CHANGELOG.md (vorher: v2.0.1).
 - **2.0.1 — 2026-10-27:** Hinweis „Siehe auch“ (ASMR, BorderlessMelodies, Aurora) zum Unterschied der Apps, ohne Zusammenführung; Zeilen Status/Offline; CHANGELOG.md (vorher: v2.0.0).
 
 - 1.2.7 — 2026-10-23: i18n-Parität geprüft: der Schlüssel `sevaLink` existiert in allen 8 Sprachen (zur Laufzeit ergänzt), als Ausnahme in `fff.config.json` dokumentiert (fff-kit-1.2.0-Prüfung)

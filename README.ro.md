@@ -2,7 +2,7 @@
 
 [English](README.md) · **Română** · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Versiune:** 2.0.1 · **Ultima actualizare:** 2026-10-27
+**Versiune:** 2.1.0 · **Ultima actualizare:** 2026-10-27
 
 **Stare:** stabil · **Offline:** complet
 
@@ -38,7 +38,7 @@ Calm Waves este o aplicație single-file (`index.html`) care generează algoritm
 - **Sesiune ghidată de somn**: o curbă de relaxare programată pe durata piesei (formă liniară, rapidă, lentă sau netedă): volumul coboară de la o valoare de început la una de final, muzica se rărește (până la ×3, fără a schimba notele alese de sămânță) și ghidul vizual de respirație încetinește (inspirație/expirație interpolate). Exportul WAV/AIFF include curba de volum. Informativ; nu e dispozitiv medical.
 - **Jurnal personal de somn**: la sfârșitul unei sesiuni de cel puțin un minut se adaugă automat o intrare (data, durata, curba); poți nota starea (1–5) și o scurtă notă, apoi exporta CSV. Rămâne doar în browser (maximum 60 de intrări).
 - **Mod ecran stins**: strat negru peste pagină, cu sunetul în continuare; atingere sau Esc pentru revenire.
-- Neimplementat: alarma blândă cu creștere lentă.
+- Alarma blândă cu creștere lentă: implementată în 2.1.0, în modul „Ambianță” (pornire întârziată + creștere lentă a volumului), cu limita că funcționează doar cât pagina rămâne deschisă și dispozitivul nu suspendă sunetul.
 
 ## Funcții noi (v1.1.0)
 
@@ -98,7 +98,16 @@ Calm Waves este o aplicație într-un singur fișier de muzică ambientală gene
 
 Aceste aplicații se suprapun ca scop (sunet calm pentru relaxare și somn), dar funcționează diferit și **nu au fost fuzionate**. **CalmWaves** este compoziție ambientală generativă (intenție, paletă tonală, densitate) cu cod de variantă, voce sintetizată și vizualizări. Vezi și: [ASMR](https://chiuta.github.io/ASMR/) — mixer de peisaje sonore și declanșatoare tactile (ASMR), cu scene în timp și temporizator de adormire; [BorderlessMelodies](https://chiuta.github.io/BorderlessMelodies/) — compozitor de muzică originală după gen și seed (cu export WAV/FLAC/MIDI și coduri partajabile), cu straturi opționale de relaxare; [Aurora](https://chiuta.github.io/Aurora/) — tonuri ale chakrelor, bătăi binaurale și ghid de respirație pentru meditație. Alege după nevoie: peisaje și declanșatoare = ASMR; piesă ambientală generată = CalmWaves; muzică după gen/seed = BorderlessMelodies; meditație pe chakre = Aurora.
 
+## Modul Ambianță (v2.1.0)
+
+Un panou nou „Ambianță” aduce în CalmWaves, **prin copierea logicii necesare** (aplicațiile nu sunt legate între ele): din ASMR, 11 straturi sonore (ploaie, ocean, foc, vânt, noapte, zgomot alb/roz/brun, pârâu, ventilator, tunet îndepărtat), un link de mix partajabil (`#amb=…`; nu pornește singur), un temporizator de oprire cu estompare configurabilă (10 s / 30 s / 2 min / 5 min) și o pornire întârziată de „trezire blândă”, cu creștere lentă a volumului; din Aurora, un ton de frecvență și bătăi binaurale; din BorderlessMelodies, o melodie condusă de un seed, cu alegerea gamei și a tonalității (tonicii). Melodia este un **generator simplificat**: nu produce aceeași piesă ca BorderlessMelodies.
+
+Panoul are limitator propriu (compresor + tăiere + plafon în dB, implicit −6 dB, reținut) și cere o confirmare pentru protecția auzului înaintea primului sunet. ASMR, Aurora, BorderlessMelodies și generator-frecvente rămân disponibile, neschimbate, la adresele lor.
+
+**Limite.** Pornirea întârziată funcționează doar cât pagina rămâne deschisă, iar dispozitivul nu suspendă sau blochează sunetul: nu este un ceas deșteptător de încredere (folosește și alarma dispozitivului). Numele și efectele atribuite frecvențelor „solfeggio”/ale chakrelor nu au validare științifică. Textele noi au fost scrise în română și engleză; traducerile FR/IT/ES/PT/DE/HU sunt automate, nevalidate de vorbitori nativi.
+
 ## Istoric / Changelog
+- **2.1.0 — 2026-10-27:** modul „Ambianță” (straturi, mix partajabil, temporizator + estompare, pornire întârziată blândă, ton de frecvență, bătăi binaurale, melodie din seed cu gamă și tonalitate) cu limitator propriu și confirmare pentru protecția auzului; fișier nou de teste; CHANGELOG.md (anterior: v2.0.1).
 - **2.0.1 — 2026-10-27:** notă „vezi și” (ASMR, BorderlessMelodies, Aurora) cu diferența dintre aplicații, fără fuziune; linii Stare/Offline; CHANGELOG.md (anterior: v2.0.0).
 
 - 1.2.7 — 2026-10-23: Paritate i18n verificată: cheia `sevaLink` există în toate cele 8 limbi (completată la rulare), documentată ca excepție în `fff.config.json` (verificarea fff-kit 1.2.0)

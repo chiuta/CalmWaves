@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · **Magyar**
 
-**Verzió:** 2.0.1 · **Utolsó frissítés:** 2026-10-27
+**Verzió:** 2.1.0 · **Utolsó frissítés:** 2026-10-27
 
 **Állapot:** stabil · **Offline:** teljes
 
@@ -90,7 +90,12 @@ A Calm Waves egyfájlos generatív ambient zenei alkalmazás (Web Audio API) sz�
 
 Ezek az alkalmazások céljukban átfedik egymást (nyugtató hang pihenéshez és alváshoz), de másként működnek, és **nem vontuk össze őket**. A(z) **CalmWaves** generatív ambient kompozíció (szándék, hangpaletta, sűrűség) variánskóddal, szintetizált hanggal és vizualizációkkal. Lásd még: [ASMR](https://chiuta.github.io/ASMR/) — hangtájak és érintéses triggerek keverője (ASMR), időzített jelenetekkel és elalvás-időzítővel; [BorderlessMelodies](https://chiuta.github.io/BorderlessMelodies/) — eredeti zene szerzője műfaj és seed alapján (WAV/FLAC/MIDI export, megosztható kódok), opcionális relaxációs rétegekkel; [Aurora](https://chiuta.github.io/Aurora/) — csakrahangok, binaurális ütemek és légzésvezetés meditációhoz. Válassz igény szerint: hangtájak és triggerek = ASMR; generált ambient darab = CalmWaves; zene műfaj/seed szerint = BorderlessMelodies; csakra-meditáció = Aurora.
 
+## Ambiens mód (v2.1.0)
+
+Egy új „Ambiens” panel a szükséges logika **másolásával** (az alkalmazások nincsenek összekötve) a CalmWavesbe hozza: az ASMR-ből 11 hangréteget, megosztható keverék-linket (`#amb=…`, soha nem indul magától), állítható elhalkulású leállító időzítőt és késleltetett „szelíd ébresztés” indítást; az Aurorából frekvenciahangot és binaurális ütemeket; a BorderlessMelodiesből seed-vezérelt dallamot hangnem- és skálaválasztással. A dallam **egyszerűsített generátor** (nem ugyanazt a darabot adja, mint a BorderlessMelodies). A panelnek saját korlátozója van (dB-plafon, alapértelmezetten −6 dB), és az első hang előtt hallásvédelmi megerősítést kér. Korlátok: a késleltetett indítás csak addig működik, amíg az oldal nyitva marad és az eszköz nem függeszti fel a hangot; nem megbízható ébresztőóra. Az új szövegek románul és angolul készültek; az FR/IT/ES/PT/DE/HU fordítások automatikusak (gépi fordítás, anyanyelvi beszélők nem ellenőrizték).
+
 ## Előzmények / Changelog
+- **2.1.0 — 2026-10-27:** „Ambiens” mód (rétegek, megosztható keverék, időzítő + elhalkulás, késleltetett indítás, frekvenciahang, binaurális ütemek, seed-dallam) saját korlátozóval és hallásvédelmi megerősítéssel; új tesztfájl; CHANGELOG.md (előző: v2.0.1).
 - **2.0.1 — 2026-10-27:** „lásd még” megjegyzés (ASMR, BorderlessMelodies, Aurora) az alkalmazások közti különbségről, összevonás nélkül; Állapot/Offline sorok; CHANGELOG.md (előző: v2.0.0).
 
 - 1.2.7 — 2026-10-23: i18n-egyenlőség ellenőrizve: a `sevaLink` kulcs mind a 8 nyelvben megvan (futásidőben egészül ki), kivételként dokumentálva az `fff.config.json`-ban (fff-kit 1.2.0 ellenőrzés)
