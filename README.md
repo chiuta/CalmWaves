@@ -2,7 +2,7 @@
 
 **English** · [Română](README.ro.md) · [Français](README.fr.md) · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version:** 2.0.1 · **Last updated:** 2026-10-27
+**Version:** 2.1.0 · **Last updated:** 2026-10-27
 
 **Status:** stable · **Offline:** complete
 
@@ -91,7 +91,16 @@ Calm Waves is a single-file generative ambient music app (Web Audio API) with in
 
 These apps overlap in purpose (calm sound for relaxation and sleep) but work differently and have **not been merged**. **CalmWaves** is a generative ambient composition (intent, tonal palette, density) with a variant code, synthesised voice and visualisations. See also: [ASMR](https://chiuta.github.io/ASMR/) — a mixer of soundscapes and touch triggers (ASMR), with timed scenes and a sleep timer; [BorderlessMelodies](https://chiuta.github.io/BorderlessMelodies/) — a composer of original music by genre and seed (with WAV/FLAC/MIDI export and shareable codes), with optional relaxation layers; [Aurora](https://chiuta.github.io/Aurora/) — chakra tones, binaural beats and a breathing guide for meditation. Pick by need: soundscapes and triggers = ASMR; a generated ambient piece = CalmWaves; music by genre/seed = BorderlessMelodies; chakra meditation = Aurora.
 
+## Ambience mode (v2.1.0)
+
+A new “Ambience” panel brings into CalmWaves, by **copying the needed logic** (the apps are not linked): from ASMR, 11 sound layers (rain, ocean, fire, wind, night, white/pink/brown noise, stream, fan, distant thunder), a shareable mix link (`#amb=…`; it never plays by itself), a stop timer with configurable fade-out (10 s / 30 s / 2 min / 5 min) and a delayed “gentle wake-up” start with a slow volume rise; from Aurora, a frequency tone and binaural beats; from BorderlessMelodies, a melody driven by a seed, with scale and key (tonic) choice. The melody is a **simplified generator**: it does not produce the same piece as BorderlessMelodies.
+
+The panel has its own limiter (compressor + hard clip + dB ceiling, default −6 dB, remembered) and asks for a hearing-protection confirmation before the first sound. ASMR, Aurora, BorderlessMelodies and generator-frecvente remain available, unchanged, at their own addresses.
+
+**Limits.** The delayed start works only while the page stays open and the device does not suspend or block audio: it is not a reliable alarm clock (use the device’s alarm too). The tone names/effects of “solfeggio”/chakra frequencies have no scientific validation. New texts exist in Romanian and English; the other languages show the English text (no machine translation yet).
+
 ## History / Changelog
+- **2.1.0 — 2026-10-27:** “Ambience” mode (layers, shareable mix, timer + fade-out, delayed gentle start, frequency tone, binaural beats, seeded melody with scale and key) with its own limiter and hearing-protection confirmation; new test file; CHANGELOG.md (previous: v2.0.1).
 - **2.0.1 — 2026-10-27:** “see also” note (ASMR, BorderlessMelodies, Aurora) explaining how the apps differ, no merge; Status/Offline lines; CHANGELOG.md (previous: v2.0.0).
 
 - 1.2.7 — 2026-10-23: i18n parity audited: the `sevaLink` key is present in all 8 languages (filled at runtime), documented as an exception in `fff.config.json` (fff-kit 1.2.0 check)

@@ -2,7 +2,7 @@
 
 [English](README.md) · [Română](README.ro.md) · **Français** · [Italiano](README.it.md) · [Español](README.es.md) · [Português](README.pt.md) · [Deutsch](README.de.md) · [Magyar](README.hu.md)
 
-**Version :** 2.0.1 · **Dernière mise à jour :** 2026-10-27
+**Version :** 2.1.0 · **Dernière mise à jour :** 2026-10-27
 
 **État:** stable · **Hors ligne:** complet
 
@@ -91,7 +91,12 @@ Calm Waves est une application de musique ambiante générative en un seul fichi
 
 Ces applications se recoupent par leur but (son apaisant pour la détente et le sommeil) mais fonctionnent différemment et n’ont **pas été fusionnées**. **CalmWaves** est une composition ambiante générative (intention, palette tonale, densité) avec code de variante, voix synthétisée et visualisations. Voir aussi : [ASMR](https://chiuta.github.io/ASMR/) — un mixeur de paysages sonores et de déclencheurs tactiles (ASMR), avec scènes temporelles et minuterie d’endormissement; [BorderlessMelodies](https://chiuta.github.io/BorderlessMelodies/) — un compositeur de musique originale par genre et graine (export WAV/FLAC/MIDI, codes partageables), avec couches de relaxation optionnelles; [Aurora](https://chiuta.github.io/Aurora/) — tons des chakras, battements binauraux et guide de respiration pour la méditation. Choisissez selon le besoin : paysages et déclencheurs = ASMR ; pièce ambiante générée = CalmWaves ; musique par genre/graine = BorderlessMelodies ; méditation sur les chakras = Aurora.
 
+## Mode Ambiance (v2.1.0)
+
+Un nouveau panneau « Ambiance » intègre à CalmWaves, **en copiant la logique nécessaire** (les applications ne sont pas liées) : d’ASMR, 11 couches sonores, un lien de mélange partageable (`#amb=…`, qui ne démarre jamais seul), une minuterie d’arrêt avec fondu réglable et un démarrage différé « réveil en douceur » ; d’Aurora, une tonalité de fréquence et des battements binauraux ; de BorderlessMelodies, une mélodie pilotée par une graine, avec choix de gamme et de tonalité. La mélodie est un **générateur simplifié** (pas la même pièce que BorderlessMelodies). Le panneau a son propre limiteur (plafond en dB, −6 dB par défaut) et demande une confirmation de protection de l’audition avant le premier son. Limites : le démarrage différé ne fonctionne que si la page reste ouverte et que l’appareil ne coupe pas le son ; ce n’est pas un réveil fiable. Les nouveaux textes existent en roumain et en anglais ; les autres langues affichent l’anglais.
+
 ## Historique / Changelog
+- **2.1.0 — 2026-10-27 :** mode « Ambiance » (couches, mélange partageable, minuterie + fondu, démarrage différé, tonalité, battements binauraux, mélodie à graine) avec limiteur propre et confirmation de protection de l’audition ; nouveau fichier de tests ; CHANGELOG.md (précédente : v2.0.1).
 - **2.0.1 — 2026-10-27 :** note « voir aussi » (ASMR, BorderlessMelodies, Aurora) expliquant la différence entre les applications, sans fusion ; lignes État/Hors ligne ; CHANGELOG.md (précédente : v2.0.0).
 
 - 1.2.7 — 2026-10-23 : Parité i18n vérifiée : la clé `sevaLink` existe dans les 8 langues (complétée à l'exécution), documentée comme exception dans `fff.config.json` (contrôle fff-kit 1.2.0)
