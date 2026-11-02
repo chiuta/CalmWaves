@@ -16,8 +16,8 @@
     "calmwaves_amb_fade",
     "calmwaves_sleep_session"
   ],
-  "sizeBytes": 526417,
-  "sha256": "8109aea71c522b27c4c5c82ef1837077d31daf0b9be0f3e4244cf9e266c503c2",
+  "sizeBytes": 623065,
+  "sha256": "823342e225c260612d1dd3dfea0f34461cd7bd79b68c103f8cfcc0c6735e5a6a",
   "csp": {
     "present": true,
     "directives": {
@@ -59,6 +59,9 @@
       "label",
       "bundle",
       "qr",
+      "p2p",
+      "sync",
+      "history",
       "tts"
     ]
   },
@@ -71,6 +74,9 @@
       "label",
       "bundle",
       "qr",
+      "p2p",
+      "sync",
+      "history",
       "tts"
     ]
   },
