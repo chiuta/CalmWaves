@@ -53,10 +53,33 @@ console.log('Pornire și versiune');
   const {ctx, p, errs, net} = await open(1280, 800);
   t('0 pageerror/CSP', errs.length === 0, errs.join('|'));
   t('0 cereri de rețea', net() === 0);
+<<<<<<< ours
   t(`versiune ${__FFF_APP.version}`, await p.evaluate((__FFF_APP)=> document.querySelector('meta[name=application-version]').content === __FFF_APP.version && new RegExp(String.raw`v ${__FFF_APP.versionRe} · ${__FFF_APP.updatedRe}`).test(document.getElementById('app-version').textContent), {...__FFF_APP, versionRe: __fffRe(__FFF_APP.version), updatedRe: __fffRe(__FFF_APP.updated)}));
+=======
+  t('versiune 1.2.8', await p.evaluate(() => document.querySelector('meta[name=application-version]').content === '1.2.8' && /v 1\.2\.8 · 2026-10-23/.test(document.getElementById('app-version').textContent)));
+>>>>>>> theirs
   t('kit prezent', await p.evaluate(() => !!(window.FFF && FFF.label && FFF.bundle && FFF.qr && FFF.tts)));
   t('estompare implicită 20 s', await p.evaluate(() => document.getElementById('sleepFadeSelect').value) === '20');
   await ctx.close();
+}
+
+console.log('Cod de variantă: intrări ostile (1.2.8)');
+{
+  const base = 'relaxare.calda.minimal.neutru.lent.300.';
+  for (const [name, v] of [['cheie de prototip', 'constructor.calda.minimal.neutru.lent.300.5'], ['toString', 'relaxare.toString.minimal.neutru.lent.300.5'], ['sufix la durată', 'relaxare.calda.minimal.neutru.lent.300x.5'], ['sufix la seed', base + '5abc'], ['spațiu în seed', base + ' 7']]) {
+    const {ctx, p, errs} = await open(1280, 800, null, FILE + '?v=' + encodeURIComponent(v));
+    const st = await p.evaluate(() => ({s: document.getElementById('codeStatus').textContent, c: document.getElementById('variantCodeDisplay').value, p: document.getElementById('purposeSelect').value}));
+    t('respins: ' + name, st.s === 'Invalid code.' && st.p !== '' && !/constructor|toString/.test(st.c), JSON.stringify(st));
+    t('0 erori: ' + name, errs.length === 0, errs.join('|'));
+    await ctx.close();
+  }
+  const {ctx, p} = await open(1280, 800, null, FILE + '?v=' + base + '-5');
+  t('cod canonic acceptat și păstrat', await p.inputValue('#variantCodeDisplay') === base + '-5');
+  await ctx.close();
+  const c2 = await open(1280, 800, () => localStorage.setItem('calmWavesCustomPresets', JSON.stringify([{id: 'x', name: 'Rău', purpose: 'constructor', scale: 'calda', density: 'minimal', texture: 'neutru', tempo: 'lent', duration: '300'}, {id: 'y', name: 'Bun', purpose: 'somn', scale: 'calda', density: 'minimal', texture: 'neutru', tempo: 'lent', duration: '300'}])));
+  const names = await c2.p.evaluate(() => Array.from(document.querySelectorAll('#presetsButtonsContainer .preset-btn')).map((b) => b.textContent));
+  t('presetare cu cheie de prototip ignorată', names.indexOf('Rău') === -1 && names.indexOf('Bun') !== -1, names.join('|'));
+  await c2.ctx.close();
 }
 
 console.log('Cod QR pentru variantă');
