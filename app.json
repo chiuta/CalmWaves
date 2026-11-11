@@ -2,8 +2,8 @@
   "schema": 1,
   "slug": "calmwaves",
   "name": "Calm Waves — a personalizable generative ambient composition",
-  "version": "2.1.6",
-  "updated": "2026-11-10",
+  "version": "2.1.7",
+  "updated": "2026-11-11",
   "description": "A personalizable generative ambient composition for relaxation, sleep, focus and meditation. A single HTML file that works offline.",
   "egress": [],
   "permissions": [
@@ -18,8 +18,8 @@
     "calmwaves_amb_fade",
     "calmwaves_sleep_session"
   ],
-  "sizeBytes": 727144,
-  "sha256": "51eeec64048b904e1f7c80d34ebed5e3ca848f829f4d37429242ef3fd4e066be",
+  "sizeBytes": 728371,
+  "sha256": "29ed4c6c8d0efa8bf013fead8023aa9195167028f73c6bbe42723bed9f635d98",
   "csp": {
     "present": true,
     "directives": {
