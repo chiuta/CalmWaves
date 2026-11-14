@@ -11,6 +11,7 @@
     "serviceWorker",
     "localStorage",
     "Web Crypto",
+    "WebGL",
     "BroadcastChannel"
   ],
   "storageKeys": [
@@ -18,13 +19,13 @@
     "calmwaves_amb_fade",
     "calmwaves_sleep_session"
   ],
-  "sizeBytes": 744831,
-  "sha256": "95a7854e56dbdf3d19ca52d56333ea6ae8dd467d6b4c9a5842e8f5eef60b4172",
+  "sizeBytes": 796471,
+  "sha256": "253dac3f966e160edc3ea45ab605c533a1f1b335efc60566f5f81a78e7d4dde4",
   "csp": {
     "present": true,
     "directives": {
       "default-src": "'none'",
-      "script-src": "sha256×6",
+      "script-src": "sha256×7",
       "style-src": "'unsafe-inline'",
       "img-src": "'self' data: blob:",
       "media-src": "'self' data: blob:",
